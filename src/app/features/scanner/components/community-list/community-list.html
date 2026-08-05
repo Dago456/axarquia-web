@@ -1,0 +1,37 @@
+<div class="result-card">
+
+    <h4>Resultados</h4>
+
+    @if(communities.length === 0){
+
+        <div class="empty">
+
+            <i class="fa-solid fa-building-circle-xmark"></i>
+
+            <p>No hay comunidades para mostrar.</p>
+
+        </div>
+
+    } @else {
+
+        @for(c of communities; track c.id){
+
+            <div class="community">
+
+                <div>
+
+                    <strong>{{c.nombre}}</strong>
+
+                    <small>{{c.direccion}}</small>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right"></i>
+
+            </div>
+
+        }
+
+    }
+
+</div>

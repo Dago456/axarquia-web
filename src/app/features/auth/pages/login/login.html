@@ -1,0 +1,94 @@
+<div class="login-container">
+
+    <div class="login-card">
+
+        <div class="logo">
+
+            <img src="/images/logo.png" alt="Logo Axarquia">
+
+        </div>
+
+        <h2>Bienvenido</h2>
+
+        <p class="subtitulo">
+            Sistema de Gestión Axarquia
+        </p>
+
+        <div class="mb-3">
+
+            <label>Usuario</label>
+
+            <div class="input-group">
+
+                <span class="input-group-text">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </span>
+
+                <input
+                    class="form-control"
+                    [(ngModel)]="usuario"
+                    placeholder="Ingrese su usuario">
+
+            </div>
+
+        </div>
+
+        <div class="mb-4">
+
+            <label>Contraseña</label>
+
+            <div class="input-group">
+
+                <span class="input-group-text">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                </span>
+
+                <input
+                    class="form-control"
+                    [type]="ocultarPassword ? 'password':'text'"
+                    [(ngModel)]="password"
+                    placeholder="Ingrese su contraseña">
+
+                <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    (click)="ocultarPassword=!ocultarPassword">
+
+                    <i
+                    class="fa-solid"
+                    [class.fa-eye]="ocultarPassword"
+                    [class.fa-eye-slash]="!ocultarPassword"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <button
+            class="btn btn-primary btn-login"
+            (click)="ingresar()">
+
+            <i class="fa-solid fa-right-to-bracket"></i>
+
+            Ingresar
+
+        </button>
+
+        <button
+            class="btn btn-outline-primary btn-historial"
+            (click)="buscarHistorial()">
+
+            <i class="fa-solid fa-clock-rotate-left"></i>
+
+            Buscar historial
+
+        </button>
+
+    </div>
+
+</div>

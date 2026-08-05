@@ -1,0 +1,73 @@
+.result-card{
+
+    margin-top:20px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    min-height:320px;
+
+    box-shadow:0 8px 30px rgba(0,0,0,.08);
+
+}
+
+.community{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    margin-top:10px;
+
+}
+
+.community:hover{
+
+    background:#f3f8fc;
+
+}
+
+.community small{
+
+    display:block;
+
+    color:#777;
+
+}
+
+.empty{
+
+    height:250px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-direction:column;
+
+    color:#999;
+
+    gap:15px;
+
+}
+
+.empty i{
+
+    font-size:45px;
+
+}

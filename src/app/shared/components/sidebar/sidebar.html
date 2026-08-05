@@ -1,0 +1,48 @@
+<div class="sidebar">
+
+    <div class="logo-section">
+
+        <img src="/images/logo.png" alt="Axarquia">
+
+        <h3>AXARQUIA</h3>
+
+        <span>Sistema de Gestión</span>
+
+    </div>
+
+    <nav>
+
+        @for(item of menu; track item.ruta){
+
+            <a
+                [routerLink]="item.ruta"
+                routerLinkActive="active">
+
+                <i [class]="item.icono"></i>
+
+                <span>{{item.titulo}}</span>
+
+            </a>
+
+        }
+
+    </nav>
+
+    <div class="bottom">
+
+        <a>
+
+            <i class="fa-solid fa-gear"></i>
+
+            Configuración
+
+        </a>
+
+        <a (click)="cerrarSesion()">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Cerrar sesión
+        </a>
+
+    </div>
+
+</div>
