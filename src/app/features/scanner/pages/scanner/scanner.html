@@ -33,7 +33,9 @@
 
         @if(communities.length > 0){
 
-        <app-community-list [communities]="communities">
+            <app-community-list
+            [communities]="communities"
+            (seleccionar)="seleccionarComunidad($event)">
         </app-community-list>
 
         }
@@ -81,6 +83,38 @@
                 <app-qr-reader
                     (codigoLeido)="codigoDetectado($event)">
                 </app-qr-reader>
+        
+            </app-modal>
+        
+        }
+        @if(mostrarModalComunidad){
+
+            <app-modal
+                [visible]="true"
+                titulo="Comunidad seleccionada"
+                (cerrar)="cerrarModalComunidad()">
+        
+                <div class="community-preview">
+        
+                    <h4>{{selectedCommunity?.nom_comu}}</h4>
+        
+                    <p>
+        
+                        <i class="fa-solid fa-location-dot"></i>
+        
+                        {{selectedCommunity?.ubi_comu}}
+        
+                    </p>
+        
+                    <button
+                        class="btn btn-primary w-100 mt-4"
+                        (click)="crearParte()">
+        
+                        Crear Parte
+        
+                    </button>
+        
+                </div>
         
             </app-modal>
         

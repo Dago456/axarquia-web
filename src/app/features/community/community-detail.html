@@ -1,0 +1,29 @@
+<div class="community-page">
+
+    <div class="community-card">
+
+        <div class="icon">
+
+            <i class="fa-solid fa-building"></i>
+
+        </div>
+
+        <h2>{{community.nom_comu}}</h2>
+
+        <p>
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            {{community.ubi_comu}}
+
+        </p>
+
+        <button class="btn btn-primary" [routerLink]="['/report', community.id_comunidades]">
+
+            Crear Parte
+
+        </button>
+
+    </div>
+
+</div>

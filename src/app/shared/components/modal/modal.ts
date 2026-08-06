@@ -4,7 +4,6 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [NgIf],
   templateUrl: './modal.html',
   styleUrl: './modal.scss'
 })

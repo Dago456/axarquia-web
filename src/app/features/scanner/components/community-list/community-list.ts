@@ -19,9 +19,7 @@ export class CommunityListComponent {
   seleccionar = new EventEmitter<Community>();
 
   seleccionarComunidad(comunidad: Community){
-
     this.seleccionar.emit(comunidad);
-
   }
 
 }

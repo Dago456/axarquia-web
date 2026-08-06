@@ -1,0 +1,89 @@
+.community-page{
+
+    display:flex;
+
+    justify-content:center;
+
+    padding:40px 20px;
+
+}
+
+.community-card{
+
+    width:100%;
+    max-width:430px;
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+
+}
+
+.icon{
+
+    width:90px;
+    height:90px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    background:#EEF5FD;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#10376A;
+
+    font-size:38px;
+
+    margin-bottom:25px;
+
+}
+
+h2{
+
+    color:#10376A;
+
+    font-weight:700;
+
+}
+
+p{
+
+    color:#666;
+
+    margin-bottom:35px;
+
+}
+
+.btn-create{
+
+    width:100%;
+
+    background:#10376A;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:15px;
+
+    font-weight:600;
+
+    font-size:18px;
+
+}
+
+.btn-create:hover{
+
+    background:#0b2f58;
+
+}

@@ -12,3 +12,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
   ]
 };
+export const APP_CONFIG = {
+
+  REPORT_MODE: 'classic'
+
+  // 'classic'
+  // 'wizard'
+
+};
