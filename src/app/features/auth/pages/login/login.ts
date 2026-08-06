@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
     FormsModule
   ],
   templateUrl: './login.html',
-  styleUrl: './login.scss'
+  styleUrl: './logind.scss'
 })
 
 export class LoginComponent {
