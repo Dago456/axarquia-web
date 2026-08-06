@@ -25,3 +25,30 @@ input{
     border-radius:12px;
 
 }
+
+.btn-primary{
+
+    background:#10376A;
+
+    border-color:#10376A;
+
+}
+.btn-primary:hover{
+
+    background:#0B2D56;
+
+    border-color:#0B2D56;
+
+}
+.btn-primary:active{
+
+    background:#082344 !important;
+
+}
+.form-control:focus{
+
+    border-color:#10376A;
+
+    box-shadow:0 0 0 .15rem rgba(16,55,106,.15);
+
+}

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MenuItem } from '../../interfaces/menu-item';
+import { SidebarService } from '../../../core/services/sidebar.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,7 +16,10 @@ import { MenuItem } from '../../interfaces/menu-item';
   styleUrl: './sidebar.scss'
 })
 export class SidebarComponent {
-  constructor(private router: Router) {}
+  
+  sidebar = inject(SidebarService); 
+
+  constructor(private router: Router) {} 
 
   menu:MenuItem[]=[
 

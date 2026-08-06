@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { Community } from '../../models/community.model';
 
 @Component({
@@ -13,5 +14,14 @@ export class CommunityListComponent {
 
   @Input()
   communities: Community[] = [];
+
+  @Output()
+  seleccionar = new EventEmitter<Community>();
+
+  seleccionarComunidad(comunidad: Community){
+
+    this.seleccionar.emit(comunidad);
+
+  }
 
 }

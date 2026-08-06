@@ -22,17 +22,18 @@ export const routes: Routes = [
       {
         path: '',
         component: DashboardComponent
-      }
+      },
+      {
+        path: 'scanner',
+        loadComponent: () =>
+          import('./features/scanner/pages/scanner/scanner')
+            .then(c => c.ScannerComponent)
+      },
 
     ]
 
   },
-  {
-    path: 'scanner',
-    loadComponent: () =>
-      import('./features/scanner/pages/scanner/scanner')
-        .then(c => c.ScannerComponent)
-  },
+ 
   // Ruta no encontrada
   {
     path: '**',

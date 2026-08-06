@@ -1,0 +1,79 @@
+.overlay{
+
+    position: fixed;
+
+    inset:0;
+
+    background: rgba(0,0,0,.55);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:3000;
+
+    padding:20px;
+
+}
+
+.modal-card{
+
+    width:100%;
+
+    max-width:430px;
+
+    background:white;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    animation: abrir .25s ease;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.30);
+
+}
+
+.modal-header{
+
+    background:#10376A;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 22px;
+
+}
+
+.modal-body{
+
+    padding:20px;
+
+}
+
+@keyframes abrir{
+
+    from{
+
+        transform:scale(.9);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}

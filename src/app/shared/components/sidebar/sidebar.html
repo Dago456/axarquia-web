@@ -1,8 +1,11 @@
-<div class="sidebar">
+<div class="overlay" *ngIf="sidebar.abierto()" (click)="sidebar.cerrar()">
+</div>
+
+<div class="sidebar" [class.open]="sidebar.abierto()">
 
     <div class="logo-section">
 
-        <img src="/images/logo.png" alt="Axarquia">
+        <img src="/images/logoredondo.png" alt="Axarquia">
 
         <h3>AXARQUIA</h3>
 
@@ -14,15 +17,14 @@
 
         @for(item of menu; track item.ruta){
 
-            <a
-                [routerLink]="item.ruta"
-                routerLinkActive="active">
+        <a [routerLink]="item.ruta" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: item.ruta === '/' }"
+            (click)="sidebar.cerrar()">
 
-                <i [class]="item.icono"></i>
+            <i [class]="item.icono"></i>
 
-                <span>{{item.titulo}}</span>
+            <span>{{item.titulo}}</span>
 
-            </a>
+        </a>
 
         }
 

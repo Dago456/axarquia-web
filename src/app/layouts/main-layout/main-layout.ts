@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar';
 import { Footer } from '../../shared/components/footer/footer';
 import { Header } from '../../shared/components/header/header';
+import { SidebarService } from '../../core/services/sidebar.service';
 imports: [
   RouterOutlet,
   Header,
@@ -24,5 +25,5 @@ imports: [
   styleUrl: './main-layout.scss'
 })
 export class MainLayoutComponent {
-
+  sidebar = inject(SidebarService);
 }

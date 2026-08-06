@@ -8,11 +8,22 @@
 
     </h4>
 
-    <input
-        class="form-control mt-3"
-        type="text"
-        placeholder="Nombre o ID..."
+    <div class="input-group">
+
+        <span class="input-group-text">
+            <i class="fa-solid fa-search"></i>
+        </span>
+    
+        <input
+        class="form-control"
         [(ngModel)]="texto"
-        (input)="onInput()">
+        (input)="buscarAutomaticamente()"
+        placeholder="Buscar por ID o nombre">
+    
+    <button class="btn btn-primary">
+        Buscar
+    </button>
+    
+    </div>
 
 </div>

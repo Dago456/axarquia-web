@@ -1,37 +1,27 @@
-<div class="result-card">
+<div class="community-card mt-4" *ngFor="let community of communities" (click)="seleccionarComunidad(community)">
 
-    <h4>Resultados</h4>
+    <div class="title">
 
-    @if(communities.length === 0){
+        {{ community.nom_comu }}
 
-        <div class="empty">
+    </div>
 
-            <i class="fa-solid fa-building-circle-xmark"></i>
+    <div class="subtitle">
 
-            <p>No hay comunidades para mostrar.</p>
+        {{ community.ubi_comu }}
 
-        </div>
+    </div>
 
-    } @else {
+    <div class="id">
 
-        @for(c of communities; track c.id){
+        ID {{ community.id_comunidades }}
 
-            <div class="community">
+    </div>
 
-                <div>
+</div>
 
-                    <strong>{{c.nombre}}</strong>
+<div class="empty" *ngIf="communities.length == 0">
 
-                    <small>{{c.direccion}}</small>
-
-                </div>
-
-                <i class="fa-solid fa-chevron-right"></i>
-
-            </div>
-
-        }
-
-    }
+    No se encontraron comunidades
 
 </div>

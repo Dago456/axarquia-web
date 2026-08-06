@@ -27,3 +27,49 @@ main{
     overflow:auto;
 
 }
+.mobile-header{
+
+    display:none;
+
+}
+@media(max-width:768px){
+
+    .mobile-header{
+    
+        display:flex;
+    
+        align-items:center;
+    
+        gap:15px;
+    
+        height:65px;
+    
+        padding:0 20px;
+    
+        background:#10376A;
+    
+        color:white;
+    
+        box-shadow:0 5px 15px rgba(0,0,0,.15);
+    
+    }
+    
+    .mobile-header img{
+    
+        width:35px;
+    
+    }
+    
+    .menu-btn{
+    
+        border:none;
+    
+        background:none;
+    
+        color:white;
+    
+        font-size:25px;
+    
+    }
+    
+    }

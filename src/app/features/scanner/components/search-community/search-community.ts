@@ -10,12 +10,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class SearchCommunityComponent {
 
+  texto = '';
+
   @Output()
   buscar = new EventEmitter<string>();
 
-  texto = '';
-
-  onInput(): void {
+  buscarAutomaticamente() {
     this.buscar.emit(this.texto);
   }
 

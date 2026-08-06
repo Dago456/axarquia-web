@@ -1,36 +1,90 @@
 <div class="scanner-page">
 
-    <div class="page-header">
+    <div class="scanner-card">
 
-        <div>
+        <div class="titulo">
 
-            <h2>Escáner QR</h2>
+            <h2>Escanear comunidad</h2>
 
-            <p>Escanee un código QR o busque una comunidad.</p>
+            <p>
+                Busque la comunidad por nombre, ID o utilice el código QR.
+            </p>
+
+        </div>
+
+        <!-- BUSCADOR -->
+
+        <app-search-community (buscar)="buscar($event)">
+        </app-search-community>
+
+        <!-- LOADING -->
+
+        @if(cargando){
+
+        <div class="text-center mt-4">
+
+            <div class="spinner-border text-primary"></div>
 
         </div>
 
-        <span class="status">
+        }
 
-            <i class="fa-solid fa-circle-check"></i>
+        <!-- RESULTADOS -->
 
-            Sistema listo
+        @if(communities.length > 0){
 
-        </span>
+        <app-community-list [communities]="communities">
+        </app-community-list>
 
-    </div>
+        }
 
-    <div class="scanner-grid">
+        <!-- SIN RESULTADOS -->
 
-        <app-qr-reader></app-qr-reader>
+        @if(!cargando && communities.length===0){
 
-        <div class="right-panel">
+        <div class="empty">
 
-            <app-search-community></app-search-community>
+            <i class="fa-solid fa-building-circle-xmark"></i>
 
-            <app-community-list></app-community-list>
+            <h5>No encontramos comunidades</h5>
+
+            <p>
+
+                Escriba el nombre o el ID de la comunidad.
+
+            </p>
 
         </div>
+
+        }
+
+        <div class="separador">
+
+            <span>o</span>
+
+        </div>
+
+        <button class="btn btn-primary btn-scan" (click)="abrirScanner()">
+
+            <i class="fa-solid fa-qrcode"></i>
+
+            Escanear código QR
+
+        </button>
+        @if(mostrarScanner){
+
+            <app-modal
+                [visible]="true"
+                titulo="Escanear código QR"
+                (cerrar)="cerrarScanner()">
+        
+                <app-qr-reader
+                    (codigoLeido)="codigoDetectado($event)">
+                </app-qr-reader>
+        
+            </app-modal>
+        
+        }
 
     </div>
 

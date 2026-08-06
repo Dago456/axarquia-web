@@ -1,25 +1,9 @@
-<div class="camera-card">
+<div class="qr-container">
 
-    <div class="camera-preview">
+    <div id="reader" #reader class="reader"></div>
 
-        <i class="fa-solid fa-camera"></i>
-
-        <h3>Cámara QR</h3>
-
-        <p>
-
-            La cámara aparecerá aquí cuando sea activada.
-
-        </p>
-
-    </div>
-
-    <button class="btn btn-primary">
-
-        <i class="fa-solid fa-qrcode"></i>
-
-        Activar cámara
-
-    </button>
+    <p class="estado">
+        {{ estado }}
+    </p>
 
 </div>

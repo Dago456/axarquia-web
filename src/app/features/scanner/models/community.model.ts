@@ -1,13 +1,7 @@
 export interface Community {
 
-    id: number;
-  
-    nombre: string;
-  
-    direccion: string;
-  
-    ciudad: string;
-  
-    codigoQr: string;
-  
-  }
+  id_comunidades: number;
+  nom_comu: string;
+  ubi_comu: string;
+
+}

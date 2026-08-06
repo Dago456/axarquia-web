@@ -1,49 +1,22 @@
-.camera-card{
-
-    background:white;
-
-    border-radius:20px;
-
-    padding:30px;
-
-    box-shadow:0 8px 30px rgba(0,0,0,.08);
-
-}
-
-.camera-preview{
-
-    height:420px;
-
-    border:3px dashed #d5dce5;
-
-    border-radius:20px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:15px;
-
-}
-
-.camera-preview i{
-
-    font-size:70px;
-
-    color:#1695D2;
-
-}
-
-button{
+.qr-container{
 
     width:100%;
+    text-align:center;
 
-    margin-top:20px;
+}
 
-    height:50px;
+.reader{
+
+    width:100%;
+    max-width:350px;
+    margin:auto;
+
+}
+
+.estado{
+
+    margin-top:15px;
+    font-weight:600;
+    color:#10376A;
 
 }
