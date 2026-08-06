@@ -30,8 +30,8 @@ export class LoginComponent {
 
   ingresar() {
 
-    this.router.navigate(['/']);
-
+    this.router.navigate(['/dashboard']);
+  
   }
 
   buscarHistorial() {
