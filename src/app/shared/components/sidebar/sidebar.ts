@@ -24,7 +24,7 @@ export class SidebarComponent {
   menu:MenuItem[]=[
 
     {
-      titulo: 'Dashboard',
+      titulo: 'Inicio',
       icono: 'fa-solid fa-house',
       ruta: '/dashboard'
     },

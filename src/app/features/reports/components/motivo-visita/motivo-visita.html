@@ -1,0 +1,31 @@
+<div class="campo-motivo">
+
+    <label for="motivo">
+        Motivo de visita
+    </label>
+
+    <select
+    id="motivo"
+    class="form-select"
+    [(ngModel)]="motivo"
+    (ngModelChange)="cambiarMotivo()">
+
+    <option
+        value=""
+        disabled>
+
+        Selecciona una opción
+
+    </option>
+
+    <option
+        *ngFor="let opcion of opciones"
+        [value]="opcion">
+
+        {{ opcion }}
+
+    </option>
+
+</select>
+
+</div>

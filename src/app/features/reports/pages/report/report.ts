@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { ReportService } from '../../services/report.service';
+import { MaterialesComponent } from '../../components/materiales/materiales';
+import { MotivoVisitaComponent } from '../../components/motivo-visita/motivo-visita';
 
 @Component({
     selector: 'app-report',
@@ -10,7 +12,9 @@ import { ReportService } from '../../services/report.service';
 
     imports: [
         CommonModule,
-        FormsModule
+        FormsModule,
+        MaterialesComponent,
+        MotivoVisitaComponent,
     ],
 
     templateUrl: './report.html',

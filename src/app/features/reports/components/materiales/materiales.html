@@ -1,0 +1,61 @@
+<div class="materiales-container">
+
+    <h2>Materiales</h2>
+
+    <div class="material-input">
+
+        <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="material"
+            placeholder="Ingrese un material"
+            (keyup.enter)="agregarMaterial()"
+        >
+
+        <button
+            type="button"
+            class="btn btn-primary"
+            (click)="agregarMaterial()">
+
+            Agregar
+
+        </button>
+
+    </div>
+
+
+    <div
+        class="lista-materiales"
+        *ngIf="materiales.length > 0">
+
+        <div
+            class="material-item"
+            *ngFor="let item of materiales; let i = index">
+
+            <span>
+                {{ item }}
+            </span>
+
+            <button
+                type="button"
+                class="btn btn-sm btn-danger"
+                (click)="eliminarMaterial(i)">
+
+                <i class="fa-solid fa-trash"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <p
+        class="sin-materiales"
+        *ngIf="materiales.length === 0">
+
+        No hay materiales agregados.
+
+    </p>
+
+</div>

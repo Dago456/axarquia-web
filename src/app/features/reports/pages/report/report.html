@@ -10,68 +10,57 @@
 
     <div class="form-group">
 
-        <label>
-
-            Motivo de la visita
-
-        </label>
-
-        <input
-            class="form-control"
-            placeholder="Ej: Mantenimiento preventivo"
-            [(ngModel)]="reportService.report.motivoVisita">
+        <app-motivo-visita [(motivo)]="reportService.report.motivoVisita">
+        </app-motivo-visita>
 
     </div>
 
     <div class="form-group mt-3">
 
         <label>
-    
+
             Concepto del trabajo
-    
+
         </label>
-    
-        <textarea
-            rows="5"
-            class="form-control"
-            placeholder="Describa el trabajo realizado..."
+
+        <textarea rows="5" class="form-control" placeholder="Describa el trabajo realizado..."
             [(ngModel)]="reportService.report.conceptoTrabajo">
-    
+
         </textarea>
-    
+
     </div>
 
     <div class="form-group mt-3">
 
         <label>
-    
+
             Observaciones
-    
+
         </label>
-    
-        <textarea
-            rows="4"
-            class="form-control"
-            placeholder="Observaciones adicionales..."
+
+        <textarea rows="4" class="form-control" placeholder="Observaciones adicionales..."
             [(ngModel)]="reportService.report.observaciones">
-    
+
         </textarea>
-    
+
+    </div>
+    <div class="form-group mt-3">
+
+        <app-materiales [materiales]="reportService.report.materiales">
+        </app-materiales>
+
     </div>
 
     <div class="form-group mt-3">
 
         <label>
-    
+
             Hora de entrada
-    
+
         </label>
-    
-        <input
-            type="time"
-            class="form-control"
-            [(ngModel)]="reportService.report.horaEntrada">
-    
+
+        <input type="time" class="form-control" [(ngModel)]="reportService.report.horaEntrada">
+
     </div>
 
 </div>

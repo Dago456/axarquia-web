@@ -1,0 +1,51 @@
+.materiales-container {
+    margin-top: 30px;
+}
+
+.materiales-container h2 {
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.material-input {
+    display: flex;
+    gap: 10px;
+}
+
+.material-input input {
+    flex: 1;
+}
+
+.material-input button {
+    min-width: 100px;
+}
+
+.lista-materiales {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.material-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 12px 15px;
+
+    background: #f5f5f5;
+
+    border-radius: 10px;
+
+    border: 1px solid #ddd;
+}
+
+.material-item span {
+    font-weight: 500;
+}
+
+.sin-materiales {
+    margin-top: 20px;
+    color: #888;
+}
