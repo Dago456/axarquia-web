@@ -7,7 +7,7 @@ export interface Report {
     conceptoTrabajo:string;
     observaciones:string;
     horaEntrada:string;
-    operario:number|null;
+    operario: number[];
     contacto:string;
     materiales:string[];
     conceptoCobro:string;

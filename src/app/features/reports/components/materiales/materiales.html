@@ -2,20 +2,21 @@
 
     <h2>Materiales</h2>
 
+    <!-- AGREGAR MATERIAL -->
     <div class="material-input">
 
         <input
             type="text"
-            class="form-control"
-            [(ngModel)]="material"
+            [(ngModel)]="nuevoMaterial"
             placeholder="Ingrese un material"
             (keyup.enter)="agregarMaterial()"
         >
 
         <button
             type="button"
-            class="btn btn-primary"
             (click)="agregarMaterial()">
+
+            <i class="fa-solid fa-plus"></i>
 
             Agregar
 
@@ -24,22 +25,50 @@
     </div>
 
 
+    <!-- MATERIALES AGREGADOS -->
     <div
-        class="lista-materiales"
+        class="items-container"
         *ngIf="materiales.length > 0">
 
-        <div
-            class="material-item"
-            *ngFor="let item of materiales; let i = index">
+        <div class="items-header">
 
             <span>
-                {{ item }}
+                Materiales agregados
             </span>
+
+            <span class="contador">
+                {{ materiales.length }}
+            </span>
+
+        </div>
+
+
+        <!-- MATERIAL -->
+        <div
+            class="item-card"
+            *ngFor="let material of materiales; let i = index">
+
+            <div class="item-icon">
+
+                <i class="fa-solid fa-box"></i>
+
+            </div>
+
+
+            <div class="item-info">
+
+                <strong>
+                    {{ material }}
+                </strong>
+
+            </div>
+
 
             <button
                 type="button"
-                class="btn btn-sm btn-danger"
-                (click)="eliminarMaterial(i)">
+                class="btn-eliminar"
+                (click)="eliminarMaterial(i)"
+                title="Eliminar material">
 
                 <i class="fa-solid fa-trash"></i>
 
@@ -48,14 +77,5 @@
         </div>
 
     </div>
-
-
-    <p
-        class="sin-materiales"
-        *ngIf="materiales.length === 0">
-
-        No hay materiales agregados.
-
-    </p>
 
 </div>

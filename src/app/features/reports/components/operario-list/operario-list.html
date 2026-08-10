@@ -1,23 +1,160 @@
-<div
-    class="operario-card"
-    *ngFor="let operario of operarios"
-    (click)="seleccionarOperario(operario)">
+<div class="operario-container">
 
-    <h5>{{ operario.nom_ope }}</h5>
+    <label class="titulo-operario">
+        Operario
+    </label>
 
-    <small>
-        ID: {{ operario.id_Operario }}
-    </small>
 
-    <br>
+    <!-- BUSCADOR -->
 
-    <span
-        class="badge"
-        [class.bg-success]="operario.estado_ope === 'Activo'"
-        [class.bg-danger]="operario.estado_ope !== 'Activo'">
+    <div class="operario-input">
 
-        {{ operario.estado_ope }}
+        <input
+            type="text"
+            [(ngModel)]="textoBusqueda"
+            placeholder="Buscar por nombre o ID"
+            (keyup.enter)="buscar()"
+        >
 
-    </span>
+        <button
+            type="button"
+            (click)="buscar()">
 
-</div>
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            Buscar
+
+        </button>
+
+    </div>
+
+
+    <!-- CARGANDO -->
+
+    <div
+        class="buscando"
+        *ngIf="buscando">
+
+        Buscando operarios...
+
+    </div>
+
+
+    <!-- RESULTADOS DE BÚSQUEDA -->
+
+    <div
+        class="resultados"
+        *ngIf="!buscando && operarios.length > 0">
+
+        <div
+            class="resultado-card"
+            *ngFor="let operario of operarios"
+            (click)="seleccionarOperario(operario)">
+
+            <div class="resultado-icon">
+
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+
+            <div class="resultado-info">
+
+                <strong>
+                    {{ operario.nom_ope }}
+                </strong>
+
+                <span>
+                    ID {{ operario.id_Operario }}
+                </span>
+
+            </div>
+
+            <div class="resultado-estado">
+
+                {{ operario.estado_ope }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- OPERARIOS SELECCIONADOS -->
+
+    <div
+        class="seleccionados-container"
+        *ngIf="operariosSeleccionados.length > 0">
+
+        <div class="seleccionados-header">
+
+            <span>
+                Operarios seleccionados
+            </span>
+
+            <span class="contador">
+                {{ operariosSeleccionados.length }}
+            </span>
+
+        </div>
+
+
+        <!-- OPERARIO -->
+
+        <div
+            class="operario-card"
+            *ngFor="
+                let operario of operariosSeleccionados;
+                let i = index
+            ">
+
+            <div class="operario-icon">
+
+                <i class="fa-solid fa-user-check"></i>
+
+            </div>
+
+
+            <div class="operario-info">
+
+                <strong>
+                    {{ operario.nom_ope }}
+                </strong>
+
+                <span>
+                    ID {{ operario.id_Operario }}
+                </span>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn-eliminar"
+                (click)="eliminarOperario(i)"
+                title="Eliminar operario">
+
+                <i class="fa-solid fa-trash"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- SIN RESULTADOS -->
+
+    <div
+        class="sin-resultados"
+        *ngIf="
+            !buscando &&
+            textoBusqueda.trim() &&
+            operarios.length === 0
+        ">
+
+        No se encontraron operarios.
+
+    </div>
+
+</div>  

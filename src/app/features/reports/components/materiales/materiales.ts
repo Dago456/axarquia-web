@@ -17,20 +17,19 @@ export class MaterialesComponent {
   @Input()
   materiales: string[] = [];
 
-  material = '';
+  nuevoMaterial = '';
 
   agregarMaterial(): void {
 
-    const nuevoMaterial = this.material.trim();
+    const material = this.nuevoMaterial.trim();
 
-    if (!nuevoMaterial) {
+    if (!material) {
       return;
     }
 
-    this.materiales.push(nuevoMaterial);
+    this.materiales.push(material);
 
-    this.material = '';
-
+    this.nuevoMaterial = '';
   }
 
   eliminarMaterial(index: number): void {

@@ -17,7 +17,7 @@ export class ReportService {
     observaciones:'',
     horaEntrada:'',
 
-    operario:null,
+    operario: [],
     contacto:'',
 
     materiales:[],
@@ -56,7 +56,7 @@ export class ReportService {
       observaciones:'',
       horaEntrada:'',
 
-      operario:null,
+      operario:[],
       contacto:'',
 
       materiales:[],

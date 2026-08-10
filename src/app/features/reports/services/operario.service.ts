@@ -15,9 +15,9 @@ export class OperarioService {
     private env: EnvService
   ) { }
 
-  searchOperario(texto: string) {
+  buscarOperarios(texto: string) {
     return this.http.get<Operario[]>(
-      `${this.env.ENDPOINT_PRIMARY}/operarios/search/${texto}`
+      `${this.env.ENDPOINT_PRIMARY}/operario/search/${texto}`
     );
   }
 
