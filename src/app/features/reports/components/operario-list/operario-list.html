@@ -1,0 +1,23 @@
+<div
+    class="operario-card"
+    *ngFor="let operario of operarios"
+    (click)="seleccionarOperario(operario)">
+
+    <h5>{{ operario.nom_ope }}</h5>
+
+    <small>
+        ID: {{ operario.id_Operario }}
+    </small>
+
+    <br>
+
+    <span
+        class="badge"
+        [class.bg-success]="operario.estado_ope === 'Activo'"
+        [class.bg-danger]="operario.estado_ope !== 'Activo'">
+
+        {{ operario.estado_ope }}
+
+    </span>
+
+</div>

@@ -1,45 +1,75 @@
 import { Injectable } from '@angular/core';
 import { Report } from '../models/report.models';
 
-
 @Injectable({
-
-    providedIn:'root'
-
+  providedIn: 'root'
 })
+export class ReportService {
 
-export class ReportService{
+  report: Report = {
 
-    report:Report={
+    idComunidad:0,
+    nombreComunidad:'',
+    ubicacionComunidad:'',
 
-        idComunidad:0,
+    motivoVisita:'',
+    conceptoTrabajo:'',
+    observaciones:'',
+    horaEntrada:'',
 
-        nombreComunidad:'',
+    operario:null,
+    contacto:'',
 
-        ubicacionComunidad:'',
+    materiales:[],
 
-        motivoVisita:'',
+    conceptoCobro:'',
+    valorCobro:null,
 
-        conceptoTrabajo:'',
+    fotos:[],
 
-        observaciones:'',
+    firma:null
 
-        horaEntrada:'',
+  };
 
-        operario:null,
+  getReport(){
 
-        contacto:'',
+    return this.report;
 
-        materiales:[],
+  }
 
-        conceptoCobro:'',
+  setReport(report:Report){
 
-        valorCobro:null,
+    this.report = report;
 
-        fotos:[],
+  }
 
-        firma:null
+  limpiar(){
+
+    this.report = {
+
+      idComunidad:0,
+      nombreComunidad:'',
+      ubicacionComunidad:'',
+
+      motivoVisita:'',
+      conceptoTrabajo:'',
+      observaciones:'',
+      horaEntrada:'',
+
+      operario:null,
+      contacto:'',
+
+      materiales:[],
+
+      conceptoCobro:'',
+      valorCobro:null,
+
+      fotos:[],
+
+      firma:null
 
     };
+
+  }
 
 }

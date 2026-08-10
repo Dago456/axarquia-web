@@ -10,6 +10,7 @@ import { CommunityService } from '../../../../core/services/comunidadservice/com
 import { NgIf } from '@angular/common';
 import { ModalComponent } from "../../../../shared/components/modal/modal";
 import { Router } from '@angular/router';
+import { ReportService } from '../../../reports/services/report.service';
 
 @Component({
   selector: 'app-scanner',
@@ -31,48 +32,42 @@ export class ScannerComponent {
 
   constructor(
     private communityService: CommunityService,
-    private router: Router
+    private router: Router,
+    private reportService: ReportService
   ) { }
 
   mostrarScanner = false;
 
 
   seleccionarComunidad(community: Community) {
-
-    this.selectedCommunity = community;
-
-    this.mostrarModalComunidad = true;
-
+    this.reportService.report.idComunidad =
+      community.id_comunidades;
+    this.reportService.report.nombreComunidad =
+      community.nom_comu;
+    this.reportService.report.ubicacionComunidad =
+      community.ubi_comu;
+    this.router.navigate(['/report']);
   }
+
   cerrarModalComunidad() {
-
     this.mostrarModalComunidad = false;
-
   }
 
   abrirScanner() {
-
     this.mostrarScanner = true;
-
   }
 
   cerrarScanner() {
-
     this.mostrarScanner = false;
-
   }
 
   codigoDetectado(codigo: string) {
-
     this.cerrarScanner();
-
     this.buscar(codigo);
-
   }
 
   buscar(texto: string): void {
     console.log("Buscar:", texto);
-
     if (!texto.trim()) {
       this.communities = [];
       return;

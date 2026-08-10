@@ -1,5 +1,77 @@
-<h2>
+<div class="report-card">
 
-    Crear Parte
+    <div class="community-info">
+
+        <h3>{{ reportService.report.nombreComunidad }}</h3>
+
+        <p>{{ reportService.report.ubicacionComunidad }}</p>
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+
+            Motivo de la visita
+
+        </label>
+
+        <input
+            class="form-control"
+            placeholder="Ej: Mantenimiento preventivo"
+            [(ngModel)]="reportService.report.motivoVisita">
+
+    </div>
+
+    <div class="form-group mt-3">
+
+        <label>
     
-    </h2>
+            Concepto del trabajo
+    
+        </label>
+    
+        <textarea
+            rows="5"
+            class="form-control"
+            placeholder="Describa el trabajo realizado..."
+            [(ngModel)]="reportService.report.conceptoTrabajo">
+    
+        </textarea>
+    
+    </div>
+
+    <div class="form-group mt-3">
+
+        <label>
+    
+            Observaciones
+    
+        </label>
+    
+        <textarea
+            rows="4"
+            class="form-control"
+            placeholder="Observaciones adicionales..."
+            [(ngModel)]="reportService.report.observaciones">
+    
+        </textarea>
+    
+    </div>
+
+    <div class="form-group mt-3">
+
+        <label>
+    
+            Hora de entrada
+    
+        </label>
+    
+        <input
+            type="time"
+            class="form-control"
+            [(ngModel)]="reportService.report.horaEntrada">
+    
+    </div>
+
+</div>

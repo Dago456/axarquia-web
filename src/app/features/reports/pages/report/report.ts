@@ -1,28 +1,26 @@
 import { Component } from '@angular/core';
-import { Community } from '../../../scanner/models/community.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { ReportService } from '../../services/report.service';
 
 @Component({
+    selector: 'app-report',
+    standalone: true,
 
-    selector:'app-report',
+    imports: [
+        CommonModule,
+        FormsModule
+    ],
 
-    standalone:true,
-
-    templateUrl:'./report.html',
-
-    styleUrl:'./report.scss'
-
+    templateUrl: './report.html',
+    styleUrl: './report.scss'
 })
 
-export class ReportComponent{
+export class ReportComponent {
 
-    community!: Community;
-
-    ngOnInit(){
-
-        this.community = history.state.community;
-
-        console.log(this.community);
-
-    }
+    constructor(
+        public reportService: ReportService
+    ) { }
 
 }
