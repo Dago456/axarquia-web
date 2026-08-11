@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { ReportPdfService } from '../../services/report-pdf.service';
 import { ModalComponent } from '../../../../shared/components/modal/modal';
 import { ReportEmailService } from '../../services/report-email.service';
+import { EmailService } from '../../../../core/services/reporteservice/email.service';
 
 @Component({
     selector: 'app-report',
@@ -52,7 +53,8 @@ export class ReportComponent implements OnInit {
         public reportService: ReportService,
         private router: Router,
         private reportPdfService: ReportPdfService,
-        private reportEmailService: ReportEmailService
+        private reportEmailService: ReportEmailService,
+        private EmailService: EmailService
 
     ) { }
 
@@ -204,77 +206,54 @@ export class ReportComponent implements OnInit {
         // ------------------------------------------------
     
         try {
-    
-            this.estadoEnvio = 'enviando';
-    
-            this.mensajeEnvio =
-                'Generando el PDF y preparando el envío...';
-    
-            this.mostrarModalEnvio = true;
-    
+
             console.log(
                 '🌐 Conexión disponible.'
             );
-    
-            // ------------------------------------------------
-            // 4. Guardar localmente como pendiente
-            // ------------------------------------------------
-    
+        
             await this.reportService.marcarPendienteEnvio();
-    
+        
             console.log(
                 '📦 Parte marcado como PENDIENTE_ENVIO.'
             );
-    
-            // ------------------------------------------------
-            // 5. Generar PDF
-            // ------------------------------------------------
-    
+        
+            // Generar PDF
             console.log(
                 '📄 Generando PDF...'
             );
-    
+        
             const pdf =
-                await this.reportPdfService.generarPdf(report);
-    
+                await this.reportPdfService.generarPdf(
+                    report
+                );
+        
             console.log(
                 '✅ PDF generado correctamente.'
             );
-    
-            // ------------------------------------------------
-            // 6. FUTURO ENVÍO AL BACKEND
-            // ------------------------------------------------
-    
-            /*
-             * Aquí posteriormente tendremos:
-             *
-             * await this.enviarCorreo(pdf, report);
-             */
-    
+        
+            // Enviar correo
             console.log(
-                '⏳ PDF listo para el futuro envío por correo.'
+                '📧 Preparando envío de correo...'
             );
-    
-            // TEMPORAL
-            // Simulamos que todo salió correctamente.
-    
-            this.estadoEnvio = 'exitoso';
-    
-            this.mensajeEnvio =
-                'El parte fue preparado correctamente. El envío automático por correo estará disponible próximamente.';
-    
+        
+            // const respuesta =
+            //     await this.reportEmailService.enviarParte(
+            //         report,
+            //         pdf
+            //     );
+        
+            // console.log(
+            //     '✅ Correo enviado correctamente:',
+            //     respuesta
+            // );
+        
         } catch (error) {
-    
+        
             console.error(
                 '❌ Error durante el proceso de envío:',
                 error
             );
-    
-            this.estadoEnvio = 'error';
-    
-            this.mensajeEnvio =
-                'No fue posible preparar el parte para su envío. El documento permanece guardado en el dispositivo.';
-    
+        
         }
     }
 
