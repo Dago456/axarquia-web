@@ -61,22 +61,16 @@ export class ReportService {
 
   async marcarPendienteEnvio(): Promise<void> {
 
-    if (!this.idBorrador) {
+    this.idBorrador =
+      await this.indexedDbService.guardarParte(
+        this.report,
+        this.idBorrador ?? undefined,
+        'PENDIENTE_ENVIO'
+      );
 
-      this.idBorrador =
-        await this.indexedDbService.guardarParte(
-          this.report,
-          undefined,
-          'PENDIENTE_ENVIO'
-        );
-
-      return;
-    }
-
-    await this.indexedDbService.guardarParte(
-      this.report,
-      this.idBorrador,
-      'PENDIENTE_ENVIO'
+    console.log(
+      '📦 Parte marcado como pendiente de envío:',
+      this.idBorrador
     );
   }
 
@@ -162,15 +156,15 @@ export class ReportService {
   async cargarBorrador(id: string): Promise<boolean> {
 
     const borrador =
-        await this.indexedDbService.obtenerParte(id);
+      await this.indexedDbService.obtenerParte(id);
 
     if (!borrador) {
-        return false;
+      return false;
     }
 
     this.report = borrador.report;
     this.idBorrador = borrador.id;
 
     return true;
-}
+  }
 }
