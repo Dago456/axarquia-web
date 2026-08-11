@@ -11,8 +11,7 @@
 
     <div class="form-group">
 
-        <app-motivo-visita
-            [(motivo)]="reportService.report.motivoVisita">
+        <app-motivo-visita [(motivo)]="reportService.report.motivoVisita" (motivoChange)="guardarBorrador()">
         </app-motivo-visita>
 
     </div>
@@ -24,15 +23,86 @@
             Concepto del trabajo
         </label>
 
-        <textarea
-            rows="4"
-            class="form-control"
-            placeholder="Describa el trabajo realizado..."
-            [(ngModel)]="reportService.report.conceptoTrabajo">
+        <textarea rows="4" class="form-control" placeholder="Describa el trabajo realizado..."
+            [(ngModel)]="reportService.report.conceptoTrabajo" (ngModelChange)="guardarBorrador()">
         </textarea>
 
     </div>
 
+    <div class="form-group">
+
+        <label>
+            Contacto
+        </label>
+
+        <input type="text" class="form-control" placeholder="Nombre o información de contacto"
+            [(ngModel)]="reportService.report.contacto" (ngModelChange)="guardarBorrador()">
+
+    </div>
+
+    <!-- <div class="form-group">
+
+        <label>
+            Duración del trabajo
+        </label>
+    
+        <input
+            type="time"
+            class="form-control"
+            [(ngModel)]="reportService.report.duracion">
+    
+    </div> -->
+    <div class="form-group">
+
+        <label>
+            Duración del trabajo
+        </label>
+
+        <select class="form-control" [(ngModel)]="reportService.report.duracion" (ngModelChange)="guardarBorrador()">
+
+            <option value="">
+                Seleccione la duración
+            </option>
+
+            <option value="30 minutos">
+                30 minutos
+            </option>
+
+            <option value="1 hora">
+                1 hora
+            </option>
+
+            <option value="1 hora 30 minutos">
+                1 hora 30 minutos
+            </option>
+
+            <option value="2 horas">
+                2 horas
+            </option>
+
+            <option value="2 horas 30 minutos">
+                2 horas 30 minutos
+            </option>
+
+            <option value="3 horas">
+                3 horas
+            </option>
+
+            <option value="3 horas 30 minutos">
+                3 horas 30 minutos
+            </option>
+
+            <option value="4 horas">
+                4 horas
+            </option>
+
+            <option value="Más de 4 horas">
+                Más de 4 horas
+            </option>
+
+        </select>
+
+    </div>
 
     <div class="form-group">
 
@@ -40,11 +110,8 @@
             Observaciones
         </label>
 
-        <textarea
-            rows="3"
-            class="form-control"
-            placeholder="Observaciones adicionales..."
-            [(ngModel)]="reportService.report.observaciones">
+        <textarea rows="3" class="form-control" placeholder="Observaciones adicionales..."
+            [(ngModel)]="reportService.report.observaciones" (ngModelChange)="guardarBorrador()">
         </textarea>
 
     </div>
@@ -54,17 +121,20 @@
     <div class="form-group">
 
         <app-materiales
-            [materiales]="reportService.report.materiales">
+            [materiales]="reportService.report.materiales"
+            (materialesChange)="
+                reportService.report.materiales = $event;
+                guardarBorrador()
+            ">
         </app-materiales>
-
+    
     </div>
 
 
     <!-- OPERARIO -->
     <div class="form-group">
 
-        <app-operario-list
-            (operariosChange)="actualizarOperarios($event)">
+        <app-operario-list (operariosChange)="actualizarOperarios($event)">
         </app-operario-list>
 
     </div>
@@ -77,14 +147,12 @@
             Hora de entrada
         </label>
 
-        <input
-            type="time"
-            class="form-control"
-            [(ngModel)]="reportService.report.horaEntrada">
+        <input type="time" class="form-control" [(ngModel)]="reportService.report.horaEntrada"
+            (ngModelChange)="guardarBorrador()">
 
     </div>
 
-    <div class="form-group mt-3">
+    <!-- <div class="form-group mt-3">
 
         <label>
             Concepto de cobro
@@ -112,6 +180,33 @@
             [(ngModel)]="reportService.report.valorCobro"
         >
     
+    </div> -->
+    <div class="form-group mt-3">
+
+        <app-fotos [fotos]="reportService.report.fotos" (fotosChange)="
+            reportService.report.fotos = $event;
+            guardarBorrador()
+        ">
+        </app-fotos>
+
+    </div>
+
+    <div class="form-group mt-4">
+
+        <app-firma [(firma)]="reportService.report.firma" (firmaChange)="guardarBorrador()">
+        </app-firma>
+
+    </div>
+    <div class="form-group mt-4">
+
+        <button type="button" class="btn btn-primary w-100" (click)="enviarParte()">
+
+            <i class="fa-solid fa-paper-plane"></i>
+
+            Enviar parte
+
+        </button>
+
     </div>
 
 </div>

@@ -123,3 +123,60 @@
     </div>
 
 </div>
+
+@if (mostrarModalParte && parteEnProceso) {
+
+    <app-modal
+        [visible]="true"
+        titulo="Parte en proceso"
+        (cerrar)="cerrarModalParte()">
+
+        <div class="parte-modal">
+
+            <p>
+                Tienes un parte que aún no ha sido enviado.
+            </p>
+
+            <div class="parte-info">
+
+                <strong>
+                    {{ parteEnProceso.report.nombreComunidad }}
+                </strong>
+
+                <span>
+                    {{ parteEnProceso.report.ubicacionComunidad }}
+                </span>
+
+            </div>
+
+            <div class="parte-modal-actions">
+
+                <button
+                    type="button"
+                    class="btn btn-primary w-100"
+                    (click)="continuarParte()">
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                    Continuar parte
+
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-outline-danger w-100 mt-2"
+                    (click)="descartarParte()">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                    Descartar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </app-modal>
+
+}

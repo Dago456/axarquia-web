@@ -1,0 +1,76 @@
+<div class="fotos-container">
+
+    <div class="section-title">
+        <h2>Fotos</h2>
+    </div>
+
+
+    <label class="btn-seleccionar">
+
+        <i class="fa-solid fa-camera"></i>
+
+        Seleccionar fotos
+
+        <input
+            type="file"
+            accept="image/*"
+            multiple
+            (change)="seleccionarFotos($event)"
+        >
+
+    </label>
+
+
+    <div
+        class="fotos-agregadas"
+        *ngIf="fotos.length > 0">
+
+        <div class="fotos-header">
+
+            <h3>
+                Fotos agregadas
+            </h3>
+
+            <span class="contador">
+                {{ fotos.length }}
+            </span>
+
+        </div>
+
+
+        <div class="fotos-grid">
+
+            <div
+                class="foto-card"
+                *ngFor="let foto of fotos; let i = index">
+
+                <img
+                    [src]="obtenerPreview(foto)"
+                    [alt]="'Foto ' + (i + 1)"
+                >
+
+
+                <div class="foto-footer">
+
+                    <span>
+                        Foto {{ i + 1 }}
+                    </span>
+
+                    <button
+                        type="button"
+                        class="btn-eliminar"
+                        (click)="eliminarFoto(i)">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

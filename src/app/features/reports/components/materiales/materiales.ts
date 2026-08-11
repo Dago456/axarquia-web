@@ -1,4 +1,10 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -17,6 +23,9 @@ export class MaterialesComponent {
   @Input()
   materiales: string[] = [];
 
+  @Output()
+  materialesChange = new EventEmitter<string[]>();
+
   nuevoMaterial = '';
 
   agregarMaterial(): void {
@@ -30,12 +39,15 @@ export class MaterialesComponent {
     this.materiales.push(material);
 
     this.nuevoMaterial = '';
+
+    this.materialesChange.emit(this.materiales);
   }
 
   eliminarMaterial(index: number): void {
 
     this.materiales.splice(index, 1);
 
+    this.materialesChange.emit(this.materiales);
   }
 
 }

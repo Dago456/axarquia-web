@@ -1,0 +1,38 @@
+<div class="firma-container">
+
+    <label class="titulo">
+        Firma
+    </label>
+
+    <p class="descripcion">
+        Firme dentro del recuadro.
+    </p>
+
+    <div class="canvas-container">
+
+        <canvas
+            #canvas
+            width="700"
+            height="180"
+
+            (pointerdown)="empezar($event)"
+            (pointermove)="dibujar($event)"
+            (pointerup)="terminar($event)"
+            (pointercancel)="terminar($event)"
+            (pointerleave)="terminar($event)">
+        </canvas>
+
+    </div>
+
+    <button
+        type="button"
+        class="btn btn-outline-secondary btn-limpiar"
+        (click)="limpiarFirma()">
+
+        <i class="fa-solid fa-eraser"></i>
+
+        Limpiar firma
+
+    </button>
+
+</div>
