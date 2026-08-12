@@ -235,17 +235,15 @@ export class ReportComponent implements OnInit {
             console.log(
                 '📧 Preparando envío de correo...'
             );
-        
-            // const respuesta =
-            //     await this.reportEmailService.enviarParte(
-            //         report,
-            //         pdf
-            //     );
-        
-            // console.log(
-            //     '✅ Correo enviado correctamente:',
-            //     respuesta
-            // );
+            
+            await this.reportEmailService.prepararEnvio(
+                report,
+                pdf
+            );
+            
+            console.log(
+                '✅ Proceso de correo completado correctamente.'
+            );
         
         } catch (error) {
         

@@ -19,16 +19,20 @@
 
         <div class="avatar">
 
-            CG
-
+            {{ iniciales }}
+        
         </div>
-
+        
         <div>
-
-            <strong>Christian Gomez</strong>
-
-            <small>Administrador</small>
-
+        
+            <strong>
+                {{ operario?.nom_ope || 'Operario' }}
+            </strong>
+        
+            <small>
+                {{ operario?.estado_ope || 'Operario' }}
+            </small>
+        
         </div>
 
     </div>
