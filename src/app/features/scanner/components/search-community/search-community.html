@@ -1,29 +1,38 @@
 <div class="search-card">
 
     <h4>
-
         <i class="fa-solid fa-magnifying-glass"></i>
-
         Buscar comunidad
-
     </h4>
 
-    <div class="input-group">
+    <div class="search-container">
 
-        <span class="input-group-text">
+        <div class="search-input">
+
+            <span class="input-icon">
+                <i class="fa-solid fa-search"></i>
+            </span>
+
+            <input
+                type="text"
+                [(ngModel)]="texto"
+                (input)="buscarAutomaticamente()"
+                placeholder="Buscar por ID o nombre"
+            >
+
+        </div>
+
+        <button
+            type="button"
+            class="btn-search"
+            (click)="buscarAutomaticamente()">
+
             <i class="fa-solid fa-search"></i>
-        </span>
-    
-        <input
-        class="form-control"
-        [(ngModel)]="texto"
-        (input)="buscarAutomaticamente()"
-        placeholder="Buscar por ID o nombre">
-    
-    <button class="btn btn-primary">
-        Buscar
-    </button>
-    
+
+            <span>Buscar</span>
+
+        </button>
+
     </div>
 
 </div>

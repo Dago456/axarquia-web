@@ -1,77 +1,197 @@
-header{
+header {
 
-    height:85px;
+    min-height: 85px;
 
-    background:white;
+    background: white;
 
-    display:flex;
+    display: flex;
 
-    justify-content:space-between;
+    justify-content: space-between;
 
-    align-items:center;
+    align-items: center;
 
-    padding:0 35px;
+    gap: 20px;
 
-    box-shadow:0 3px 12px rgba(0,0,0,.06);
+    padding: 0 35px;
 
-}
+    box-sizing: border-box;
 
-header h2{
-
-    margin:0;
-
-    color:#0B4A6E;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, .06);
 
 }
 
-header span{
 
-    color:#999;
+header h2 {
 
-}
+    margin: 0;
 
-.user{
+    color: #0B4A6E;
 
-    display:flex;
-
-    align-items:center;
-
-    gap:18px;
+    font-size: 24px;
 
 }
 
-.user button{
 
-    width:45px;
+header span {
 
-    height:45px;
+    color: #999;
 
-    border:none;
-
-    border-radius:50%;
-
-    background:#f4f6f9;
+    font-size: 14px;
 
 }
 
-.avatar{
 
-    width:48px;
+.user {
 
-    height:48px;
+    display: flex;
 
-    border-radius:50%;
+    align-items: center;
 
-    background:#1695D2;
+    gap: 14px;
 
-    color:white;
+    flex-shrink: 0;
 
-    display:flex;
+}
 
-    justify-content:center;
 
-    align-items:center;
+.user button {
 
-    font-weight:bold;
+    width: 45px;
+
+    height: 45px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #f4f6f9;
+
+}
+
+
+.avatar {
+
+    width: 48px;
+
+    height: 48px;
+
+    border-radius: 50%;
+
+    background: #1695D2;
+
+    color: white;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-weight: bold;
+
+    flex-shrink: 0;
+
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+    header {
+
+        padding: 0 24px;
+
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    header {
+
+        min-height: 82px;
+
+        padding: 12px 15px;
+
+        align-items: center;
+
+    }
+
+    header h2 {
+
+        font-size: 20px;
+
+        line-height: 1.15;
+
+    }
+
+    header span {
+
+        font-size: 13px;
+
+    }
+
+    .user {
+
+        gap: 8px;
+
+    }
+
+    .user > div:last-child {
+
+        display: none;
+
+    }
+
+    .user button {
+
+        width: 42px;
+
+        height: 42px;
+
+    }
+
+    .avatar {
+
+        width: 42px;
+
+        height: 42px;
+
+    }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+    header {
+
+        min-height: 78px;
+
+    }
+
+    header h2 {
+
+        font-size: 18px;
+
+    }
+
+    header span {
+
+        font-size: 12px;
+
+    }
 
 }

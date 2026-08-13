@@ -25,5 +25,6 @@ imports: [
   styleUrl: './main-layout.scss'
 })
 export class MainLayoutComponent {
-  sidebar = inject(SidebarService);
+  sidebar = inject
+  (SidebarService);
 }

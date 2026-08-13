@@ -1,38 +1,38 @@
 <header>
 
-    <div>
+    <div class="header-info">
 
-        <h2>Sistema de gestion interna
+        <h2>
+            Sistema de gestión interna
         </h2>
 
-        <span>Bienvenido nuevamente</span>
+        <span>
+            Bienvenido nuevamente
+        </span>
 
     </div>
+
 
     <div class="user">
 
         <button>
-
             <i class="fa-solid fa-bell"></i>
-
         </button>
 
         <div class="avatar">
-
             {{ iniciales }}
-        
         </div>
-        
-        <div>
-        
+
+        <div class="user-info">
+
             <strong>
                 {{ operario?.nom_ope || 'Operario' }}
             </strong>
-        
+
             <small>
                 {{ operario?.estado_ope || 'Operario' }}
             </small>
-        
+
         </div>
 
     </div>

@@ -237,135 +237,131 @@
 }
 @if (modalEditar && usuarioEditando) {
 
-<div class="modal-overlay" (click)="cerrarModalEditar()">
-
-    <div class="modal" (click)="$event.stopPropagation()">
-
-        <div class="modal-header">
-
-            <div>
-
-                <h2>Editar usuario</h2>
-
-                <p>
-                    Modifica la información del usuario.
-                </p>
-
-            </div>
-
-            <button class="modal-close" (click)="cerrarModalEditar()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-        </div>
-
-
-        <div class="modal-body">
-
+    <app-modal
+        [visible]="modalEditar"
+        titulo="Editar usuario"
+        (cerrar)="cerrarModalEditar()">
+    
+        <div class="modal-content">
+    
+            <p class="modal-description">
+                Modifica la información del usuario.
+            </p>
+    
             @if (errorEdicion) {
-
+    
             <div class="form-error">
-
                 <i class="fa-solid fa-circle-exclamation"></i>
-
                 {{ errorEdicion }}
-
             </div>
-
+    
             }
-
-
+    
             <div class="form-group">
-
+    
                 <label for="editId">
                     ID
                 </label>
-
-                <input id="editId" name="editId" type="text" [value]="usuarioEditando.id_Operario" disabled>
-
+    
+                <input
+                    id="editId"
+                    name="editId"
+                    type="text"
+                    [value]="usuarioEditando.id_Operario"
+                    disabled>
+    
             </div>
-
-
+    
             <div class="form-group">
-
+    
                 <label for="editNombre">
                     Usuario
                 </label>
-
-                <input id="editNombre" name="editNombre" type="text" [(ngModel)]="datosEdicion.nom_ope"
+    
+                <input
+                    id="editNombre"
+                    name="editNombre"
+                    type="text"
+                    [(ngModel)]="datosEdicion.nom_ope"
                     [disabled]="actualizando">
-
+    
             </div>
-
-
+    
             <div class="form-group">
-
+    
                 <label for="editPassword">
                     Nueva contraseña
                 </label>
-
-                <input id="editPassword" name="editPassword" type="password" [(ngModel)]="datosEdicion.password"
-                    placeholder="Dejar vacío para conservar la actual" [disabled]="actualizando">
-
+    
+                <input
+                    id="editPassword"
+                    name="editPassword"
+                    type="password"
+                    [(ngModel)]="datosEdicion.password"
+                    placeholder="Dejar vacío para conservar la actual"
+                    [disabled]="actualizando">
+    
                 <small>
                     Si no deseas cambiar la contraseña, déjala vacía.
                 </small>
-
+    
             </div>
-
-
+    
             <div class="form-group">
-
+    
                 <label for="editEstado">
                     Estado
                 </label>
-
-                <select id="editEstado" name="editEstado" [(ngModel)]="datosEdicion.estado_ope"
+    
+                <select
+                    id="editEstado"
+                    name="editEstado"
+                    [(ngModel)]="datosEdicion.estado_ope"
                     [disabled]="actualizando">
-
-                    <option [ngValue]="1">
-                        Activo
-                    </option>
-
-                    <option [ngValue]="0">
-                        Inactivo
-                    </option>
-
+    
+                    <option [ngValue]="1">Activo</option>
+                    <option [ngValue]="0">Inactivo</option>
+    
                 </select>
-
+    
             </div>
-
+    
+            <div class="modal-actions">
+    
+                <button
+                    type="button"
+                    class="btn-secondary"
+                    (click)="cerrarModalEditar()"
+                    [disabled]="actualizando">
+    
+                    Cancelar
+    
+                </button>
+    
+                <button
+                    type="button"
+                    class="btn-primary"
+                    (click)="guardarEdicion()"
+                    [disabled]="actualizando">
+    
+                    @if (actualizando) {
+    
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        Guardando...
+    
+                    } @else {
+    
+                        <i class="fa-solid fa-check"></i>
+                        Guardar cambios
+    
+                    }
+    
+                </button>
+    
+            </div>
+    
         </div>
-
-
-        <div class="modal-footer">
-
-            <button class="btn-secondary" (click)="cerrarModalEditar()" [disabled]="actualizando">
-                Cancelar
-            </button>
-
-            <button class="btn-primary" (click)="guardarEdicion()" [disabled]="actualizando">
-
-                @if (actualizando) {
-
-                <i class="fa-solid fa-spinner fa-spin"></i>
-
-                Guardando...
-
-                } @else {
-
-                <i class="fa-solid fa-check"></i>
-
-                Guardar cambios
-
-                }
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-}
+    
+    </app-modal>
+    
+    }

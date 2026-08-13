@@ -1,54 +1,202 @@
-.search-card{
+.search-card {
 
-    background:white;
+    width: 100%;
+    box-sizing: border-box;
 
-    border-radius:20px;
+    background: white;
 
-    padding:25px;
+    border-radius: 20px;
 
-    box-shadow:0 8px 30px rgba(0,0,0,.08);
+    padding: 25px;
 
-}
-
-h4{
-
-    color:#0B4A6E;
-
-    margin-bottom:20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, .08);
 
 }
 
-input{
+h4 {
 
-    height:48px;
+    color: #0B4A6E;
 
-    border-radius:12px;
+    margin: 0 0 20px;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+}
+
+.search-container {
+
+    display: flex;
+
+    gap: 10px;
+
+    width: 100%;
 
 }
 
-.btn-primary{
+.search-input {
 
-    background:#10376A;
+    position: relative;
 
-    border-color:#10376A;
+    flex: 1;
 
-}
-.btn-primary:hover{
-
-    background:#0B2D56;
-
-    border-color:#0B2D56;
+    min-width: 0;
 
 }
-.btn-primary:active{
 
-    background:#082344 !important;
+.search-input input {
+
+    width: 100%;
+
+    height: 48px;
+
+    box-sizing: border-box;
+
+    padding: 0 15px 0 45px;
+
+    border: 1px solid #dee2e6;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    outline: none;
 
 }
-.form-control:focus{
 
-    border-color:#10376A;
+.search-input input:focus {
 
-    box-shadow:0 0 0 .15rem rgba(16,55,106,.15);
+    border-color: #10376A;
+
+    box-shadow: 0 0 0 .15rem rgba(16, 55, 106, .15);
+
+}
+
+.input-icon {
+
+    position: absolute;
+
+    left: 15px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #8d98a6;
+
+    z-index: 1;
+
+}
+
+.btn-search {
+
+    height: 48px;
+
+    padding: 0 22px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #10376A;
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    white-space: nowrap;
+
+}
+
+.btn-search:hover {
+
+    background: #0B2D56;
+
+}
+
+.btn-search:active {
+
+    background: #082344;
+
+}
+
+
+/* =========================
+   TABLETS
+========================= */
+
+@media (max-width: 768px) {
+
+    .search-card {
+
+        padding: 20px;
+
+        border-radius: 16px;
+
+    }
+
+}
+
+
+/* =========================
+   CELULARES
+========================= */
+
+@media (max-width: 480px) {
+
+    .search-card {
+
+        padding: 16px;
+
+    }
+
+    h4 {
+
+        font-size: 16px;
+
+        margin-bottom: 15px;
+
+    }
+
+    .search-container {
+
+        flex-direction: column;
+
+        gap: 10px;
+
+    }
+
+    .search-input {
+
+        width: 100%;
+
+    }
+
+    .search-input input {
+
+        height: 46px;
+
+        font-size: 14px;
+
+    }
+
+    .btn-search {
+
+        width: 100%;
+
+        height: 46px;
+
+    }
 
 }

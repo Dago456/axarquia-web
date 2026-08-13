@@ -140,119 +140,162 @@ export class ReportComponent implements OnInit {
     async enviarParte(): Promise<void> {
 
         const report = this.reportService.report;
-    
+
         console.log('📤 Iniciando envío del parte...');
-    
-        // ------------------------------------------------
+
+        // -----------------------------------------
         // 1. Verificar comunidad
-        // ------------------------------------------------
-    
+        // -----------------------------------------
+
         if (!report.idComunidad) {
-    
-            console.warn(
-                '❌ No existe una comunidad asociada al parte.'
-            );
-    
+
+            console.warn('❌ No existe una comunidad asociada al parte.');
+
             await this.router.navigate(['/scanner']);
-    
+
             return;
         }
-    
-        // ------------------------------------------------
-        // 2. Verificar conexión
-        // ------------------------------------------------
-    
+
+
+        // -----------------------------------------
+        // 2. Mostrar modal de envío
+        // -----------------------------------------
+
+        this.estadoEnvio = 'enviando';
+
+        this.mensajeEnvio =
+            'Estamos preparando el PDF y enviando el parte.';
+
+        this.mostrarModalEnvio = true;
+
+
+        // -----------------------------------------
+        // 3. Verificar conexión
+        // -----------------------------------------
+
         if (!navigator.onLine) {
-    
-            console.warn(
-                '📴 Sin conexión a internet.'
-            );
-    
+
+            console.warn('📴 Sin conexión a internet.');
+
             try {
-    
+
                 await this.reportService.marcarPendienteEnvio();
-    
+
                 console.log(
                     '📦 Parte guardado como pendiente de envío.'
                 );
-    
+
                 this.estadoEnvio = 'sin-conexion';
-    
+
                 this.mensajeEnvio =
-                    'El parte ha sido guardado en el dispositivo. Se enviará automáticamente cuando vuelva la conexión.';
-    
-                this.mostrarModalEnvio = true;
-    
+                    'El parte ha sido guardado en el dispositivo. Regrese cuando tenga conexión para enviarlo.';
+
             } catch (error) {
-    
+
                 console.error(
                     '❌ Error guardando parte pendiente:',
                     error
                 );
-    
+
                 this.estadoEnvio = 'error';
-    
+
                 this.mensajeEnvio =
                     'No fue posible guardar el parte en el dispositivo.';
-    
-                this.mostrarModalEnvio = true;
+
             }
-    
+
             return;
         }
-    
-        // ------------------------------------------------
-        // 3. Tenemos conexión
-        // ------------------------------------------------
-    
+
+
+        // -----------------------------------------
+        // 4. Tenemos conexión
+        // -----------------------------------------
+
         try {
 
-            console.log(
-                '🌐 Conexión disponible.'
-            );
-        
+            console.log('🌐 Conexión disponible.');
+
+
+            // Guardamos primero el parte localmente
+            // por seguridad
+
             await this.reportService.marcarPendienteEnvio();
-        
+
             console.log(
                 '📦 Parte marcado como PENDIENTE_ENVIO.'
             );
-        
-            // Generar PDF
-            console.log(
-                '📄 Generando PDF...'
-            );
-        
+
+
+            // -----------------------------------------
+            // 5. Generar PDF
+            // -----------------------------------------
+
+            this.mensajeEnvio =
+                'Generando el PDF del parte...';
+
+            console.log('📄 Generando PDF...');
+
             const pdf =
-                await this.reportPdfService.generarPdf(
-                    report
-                );
-        
+                await this.reportPdfService.generarPdf(report);
+
             console.log(
                 '✅ PDF generado correctamente.'
             );
-        
-            // Enviar correo
+
+
+            // -----------------------------------------
+            // 6. Preparar / enviar correo
+            // -----------------------------------------
+
+            this.mensajeEnvio =
+                'Enviando el parte por correo electrónico...';
+
             console.log(
                 '📧 Preparando envío de correo...'
             );
-            
+
             await this.reportEmailService.prepararEnvio(
                 report,
                 pdf
             );
-            
+
             console.log(
                 '✅ Proceso de correo completado correctamente.'
             );
-        
+
+
+            // -----------------------------------------
+            // 7. ÉXITO
+            // -----------------------------------------
+
+            await this.reportService.eliminarBorrador();
+
+            this.estadoEnvio = 'exitoso';
+
+            this.mensajeEnvio =
+                'El parte fue enviado correctamente.';
+
+
         } catch (error) {
-        
+
             console.error(
                 '❌ Error durante el proceso de envío:',
                 error
             );
-        
+
+
+            // -----------------------------------------
+            // 8. ERROR
+            // -----------------------------------------
+
+            this.estadoEnvio = 'error';
+
+            this.mensajeEnvio =
+                'No fue posible enviar el parte. El parte permanece guardado en el dispositivo para evitar perder la información.';
+
         }
+
     }
 
 }
