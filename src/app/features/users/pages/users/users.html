@@ -1,0 +1,371 @@
+<div class="users-page">
+
+    <div class="page-header">
+
+        <div>
+            <h1>Usuarios</h1>
+            <p>Gestiona los usuarios y operarios de Axarquia.</p>
+        </div>
+
+        <button class="btn-primary" (click)="abrirModalCrear()">
+            <i class="fa-solid fa-plus"></i>
+            Nuevo usuario
+        </button>
+
+    </div>
+
+
+    @if (cargando) {
+
+    <div class="loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Cargando usuarios...
+    </div>
+
+    }
+
+
+    @if (error) {
+
+    <div class="error-message">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        {{ error }}
+    </div>
+
+    }
+
+
+    @if (!cargando && usuarios.length > 0) {
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @for (usuario of usuarios; track $index) {
+
+                <tr>
+
+                    <td>
+                        {{ usuario.id_Operario }}
+                    </td>
+
+                    <td>
+                        <div class="user-name">
+                            <div class="user-avatar">
+                                {{ usuario.nom_ope.charAt(0).toUpperCase() }}
+                            </div>
+
+                            <span>
+                                {{ usuario.nom_ope }}
+                            </span>
+                        </div>
+                    </td>
+
+                    <td>
+
+                        <span class="status" [class.active]="usuario.estado_ope === 1"
+                            [class.inactive]="usuario.estado_ope !== 1">
+
+                            <span class="status-dot"></span>
+
+                            {{ usuario.estado_ope === 1 ? 'Activo' : 'Inactivo' }}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button class="btn-edit" title="Editar usuario" (click)="abrirModalEditar(usuario)">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+
+                            <button class="btn-status" [class.activate]="usuario.estado_ope !== 1"
+                                [class.deactivate]="usuario.estado_ope === 1" [title]="usuario.estado_ope === 1
+                                ? 'Desactivar usuario'
+                                : 'Activar usuario'" (click)="activarDesactivar(usuario)">
+
+                                <i class="fa-solid" [class.fa-toggle-on]="usuario.estado_ope === 1"
+                                    [class.fa-toggle-off]="usuario.estado_ope !== 1">
+                                </i>
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    }
+
+
+    @if (!cargando && usuarios.length === 0 && !error) {
+
+    <div class="empty-state">
+
+        <i class="fa-solid fa-users"></i>
+
+        <h2>No hay usuarios</h2>
+
+        <p>
+            Todavía no existen usuarios registrados.
+        </p>
+
+    </div>
+
+    }
+
+</div>
+
+@if (modalCrear) {
+
+<app-modal [visible]="modalCrear" titulo="Nuevo usuario" (cerrar)="cerrarModalCrear()">
+
+    <div class="modal-content">
+
+        <p class="modal-description">
+            Registra un nuevo usuario en Axarquia.
+        </p>
+
+        @if (errorFormulario) {
+
+        <div class="form-error">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            {{ errorFormulario }}
+        </div>
+
+        }
+
+        <div class="form-group">
+
+            <label for="nomOpe">
+                Usuario
+            </label>
+
+            <input id="nomOpe" name="nomOpe" type="text" [(ngModel)]="nuevoUsuario.nom_ope"
+                placeholder="Ingrese el nombre del usuario" [disabled]="guardando">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="password">
+                Contraseña
+            </label>
+
+            <input id="password" name="password" type="password" [(ngModel)]="nuevoUsuario.password"
+                placeholder="Ingrese la contraseña" [disabled]="guardando">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="estado">
+                Estado
+            </label>
+
+            <select id="estado" name="estado" [(ngModel)]="nuevoUsuario.estado_ope" [disabled]="guardando">
+
+                <option [ngValue]="1">
+                    Activo
+                </option>
+
+                <option [ngValue]="0">
+                    Inactivo
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button type="button" class="btn-secondary" (click)="cerrarModalCrear()" [disabled]="guardando">
+
+                Cancelar
+
+            </button>
+
+
+            <button type="button" class="btn-primary" (click)="crearUsuario()" [disabled]="guardando">
+
+                @if (guardando) {
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Guardando...
+
+                } @else {
+
+                <i class="fa-solid fa-check"></i>
+                Crear usuario
+
+                }
+
+            </button>
+
+        </div>
+
+    </div>
+
+</app-modal>
+
+}
+@if (modalEditar && usuarioEditando) {
+
+<div class="modal-overlay" (click)="cerrarModalEditar()">
+
+    <div class="modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2>Editar usuario</h2>
+
+                <p>
+                    Modifica la información del usuario.
+                </p>
+
+            </div>
+
+            <button class="modal-close" (click)="cerrarModalEditar()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            @if (errorEdicion) {
+
+            <div class="form-error">
+
+                <i class="fa-solid fa-circle-exclamation"></i>
+
+                {{ errorEdicion }}
+
+            </div>
+
+            }
+
+
+            <div class="form-group">
+
+                <label for="editId">
+                    ID
+                </label>
+
+                <input id="editId" name="editId" type="text" [value]="usuarioEditando.id_Operario" disabled>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="editNombre">
+                    Usuario
+                </label>
+
+                <input id="editNombre" name="editNombre" type="text" [(ngModel)]="datosEdicion.nom_ope"
+                    [disabled]="actualizando">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="editPassword">
+                    Nueva contraseña
+                </label>
+
+                <input id="editPassword" name="editPassword" type="password" [(ngModel)]="datosEdicion.password"
+                    placeholder="Dejar vacío para conservar la actual" [disabled]="actualizando">
+
+                <small>
+                    Si no deseas cambiar la contraseña, déjala vacía.
+                </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="editEstado">
+                    Estado
+                </label>
+
+                <select id="editEstado" name="editEstado" [(ngModel)]="datosEdicion.estado_ope"
+                    [disabled]="actualizando">
+
+                    <option [ngValue]="1">
+                        Activo
+                    </option>
+
+                    <option [ngValue]="0">
+                        Inactivo
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button class="btn-secondary" (click)="cerrarModalEditar()" [disabled]="actualizando">
+                Cancelar
+            </button>
+
+            <button class="btn-primary" (click)="guardarEdicion()" [disabled]="actualizando">
+
+                @if (actualizando) {
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                Guardando...
+
+                } @else {
+
+                <i class="fa-solid fa-check"></i>
+
+                Guardar cambios
+
+                }
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+}

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 export interface OperarioSesion {
   id_Operario: number;
   nom_ope: string;
-  estado_ope: string;
+  estado_ope: number;
 }
 
 @Injectable({

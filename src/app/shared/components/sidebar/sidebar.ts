@@ -66,9 +66,9 @@ export class SidebarComponent {
     },
 
     {
-      titulo:'Usuarios',
-      icono:'fa-solid fa-users',
-      ruta:'/usuarios'
+      titulo: 'Usuarios',
+      ruta: '/usuarios',
+      icono: 'fa-solid fa-users'
     }
 
   ];

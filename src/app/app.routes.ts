@@ -49,7 +49,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/reports/pages/create-report/create-report')
             .then(c => c.CreateReportComponent)
-      }
+      },
+      {
+        path: 'usuarios',
+        loadComponent: () =>
+          import('./features/users/pages/users/users')
+            .then(c => c.UsersComponent)
+      },
 
     ]
   },

@@ -11,7 +11,7 @@ export interface LoginResponse {
   operario?: {
     id_Operario: number;
     nom_ope: string;
-    estado_ope: string;
+    estado_ope: number;
   };
 }
 
