@@ -1,9 +1,85 @@
 <div class="qr-container">
 
-    <div id="reader" #reader class="reader"></div>
+    <!-- CONTROLES -->
+
+    <div class="camera-controls">
+
+        <div class="camera-selector">
+
+            <label for="camera">
+
+                <i class="fa-solid fa-camera"></i>
+
+                Cámara
+
+            </label>
+
+            <select
+                id="camera"
+                [value]="cameraSeleccionada"
+                (change)="cambiarCamara($event)"
+                [disabled]="!escaneando">
+
+                @for (camera of cameras; track camera.id) {
+
+                    <option [value]="camera.id">
+
+                        {{ camera.label }}
+
+                    </option>
+
+                }
+
+            </select>
+
+        </div>
+
+
+        @if (flashDisponible) {
+
+            <button
+                type="button"
+                class="flash-btn"
+                [class.active]="flashActivo"
+                (click)="alternarFlash()">
+
+                <i
+                    class="fa-solid"
+                    [class.fa-bolt]="!flashActivo"
+                    [class.fa-bolt-lightning]="flashActivo">
+                </i>
+
+                {{ flashActivo ? 'Apagar flash' : 'Flash' }}
+
+            </button>
+
+        }
+
+    </div>
+
+
+    <!-- LECTOR -->
+
+    <div
+        id="reader"
+        #reader
+        class="reader">
+    </div>
+
+
+    <!-- ESTADO -->
 
     <p class="estado">
+
+        <i
+            class="fa-solid"
+            [class.fa-camera]="escaneando"
+            [class.fa-spinner]="!escaneando"
+            [class.fa-spin]="!escaneando">
+        </i>
+
         {{ estado }}
+
     </p>
 
 </div>
