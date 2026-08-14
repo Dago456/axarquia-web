@@ -1,0 +1,447 @@
+<div class="report-container">
+
+    <!-- =====================================================
+             ENCABEZADO
+        ====================================================== -->
+
+    <div class="report-header">
+
+        <div class="report-header-icon">
+
+            <i class="fa-solid fa-file-circle-plus"></i>
+
+        </div>
+
+        <div>
+
+            <h2>Nuevo reporte</h2>
+
+            <p>
+                Registre un trabajo sin comunidad registrada.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+             INFORMACIÓN DE LA COMUNIDAD
+        ====================================================== -->
+
+    <div class="section-card">
+
+        <div class="section-title">
+
+            <div class="section-icon">
+                <i class="fa-solid fa-list-check"></i>
+            </div>
+
+            <div>
+
+                <h3>Información del trabajo</h3>
+
+                <p>
+                    Detalle el trabajo realizado.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <app-motivo-visita [(motivo)]="reportService.report.motivoVisita" (motivoChange)="guardarBorrador()">
+            </app-motivo-visita>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Concepto del trabajo
+            </label>
+
+            <textarea rows="4" class="form-control" placeholder="Describa el trabajo realizado..."
+                [(ngModel)]="reportService.report.conceptoTrabajo" (ngModelChange)="guardarBorrador()">
+                </textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Contacto
+            </label>
+
+            <input type="text" class="form-control" placeholder="Nombre o información de contacto"
+                [(ngModel)]="reportService.report.contacto" (ngModelChange)="guardarBorrador()">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Observaciones
+            </label>
+
+            <textarea rows="3" class="form-control" placeholder="Observaciones adicionales..."
+                [(ngModel)]="reportService.report.observaciones" (ngModelChange)="guardarBorrador()">
+                </textarea>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         MOTIVO
+    ========================================================== -->
+
+    <div class="section-card">
+
+        <app-motivo-visita [(motivo)]="reportService.report.motivoVisita" (motivoChange)="guardarBorrador()">
+        </app-motivo-visita>
+
+    </div>
+
+
+    <!-- =========================================================
+         INFORMACIÓN DEL TRABAJO
+    ========================================================== -->
+
+    <div class="section-card">
+
+        <div class="section-header">
+
+            <div class="section-icon">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+            </div>
+
+            <div>
+
+                <h3>
+                    Información del trabajo
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Concepto del trabajo
+            </label>
+
+            <textarea rows="4" class="form-control" placeholder="Describa el trabajo realizado..."
+                [(ngModel)]="reportService.report.conceptoTrabajo" (ngModelChange)="guardarBorrador()">
+            </textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Contacto
+            </label>
+
+            <div class="input-wrapper">
+
+                <i class="fa-solid fa-user"></i>
+
+                <input type="text" placeholder="Nombre o información de contacto"
+                    [(ngModel)]="reportService.report.contacto" (ngModelChange)="guardarBorrador()">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         HORARIOS
+    ========================================================== -->
+
+    <div class="section-card">
+
+        <div class="section-header">
+
+            <div class="section-icon">
+                <i class="fa-solid fa-clock"></i>
+            </div>
+
+            <div>
+
+                <h3>
+                    Horario del trabajo
+                </h3>
+
+                <p>
+                    La duración se calculará automáticamente.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="horario-grid">
+
+            <!-- ENTRADA -->
+
+            <div class="hora-field">
+
+                <label>
+                    Hora de entrada
+                </label>
+
+                <div class="hora-input-wrapper">
+
+                    <div class="hora-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+
+                    <input type="time" [(ngModel)]="reportService.report.horaEntrada" (change)="calcularDuracion()">
+
+                </div>
+
+            </div>
+
+
+            <!-- FINALIZACIÓN -->
+
+            <div class="hora-field">
+
+                <label>
+                    Hora de finalización
+                </label>
+
+                <div class="hora-input-wrapper">
+
+                    <div class="hora-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+
+                    <input type="time" [(ngModel)]="reportService.report.horaFinalizacion"
+                        (change)="calcularDuracion()">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        @if (reportService.report.duracion) {
+
+        <div class="duracion-card">
+
+            <div class="duracion-icon">
+                <i class="fa-solid fa-stopwatch"></i>
+            </div>
+
+            <div class="duracion-info">
+
+                <span>
+                    Duración calculada
+                </span>
+
+                <strong>
+                    {{ reportService.report.duracion }}
+                </strong>
+
+            </div>
+
+            <span class="duracion-badge">
+                Automático
+            </span>
+
+        </div>
+
+        }
+
+    </div>
+
+
+    <!-- =========================================================
+         OBSERVACIONES
+    ========================================================== -->
+
+    <div class="section-card">
+
+        <div class="form-group">
+
+            <label>
+                Observaciones
+            </label>
+
+            <textarea rows="4" class="form-control" placeholder="Observaciones adicionales..."
+                [(ngModel)]="reportService.report.observaciones" (ngModelChange)="guardarBorrador()">
+            </textarea>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         MATERIALES
+    ========================================================== -->
+
+    <div class="section-card">
+
+        <app-materiales [materiales]="reportService.report.materiales" (materialesChange)="
+                reportService.report.materiales = $event;
+                guardarBorrador()
+            ">
+        </app-materiales>
+
+    </div>
+
+
+    <!-- =========================================================
+         OPERARIOS
+    ========================================================== -->
+
+    <div class="section-card">
+
+        <app-operario-list (operariosChange)="actualizarOperarios($event)">
+        </app-operario-list>
+
+    </div>
+
+
+    <!-- =========================================================
+         FOTOS
+    ========================================================== -->
+
+    <div class="section-card">
+
+        <app-fotos [fotos]="reportService.report.fotos" (fotosChange)="
+                reportService.report.fotos = $event;
+                guardarBorrador()
+            ">
+        </app-fotos>
+
+    </div>
+
+
+    <!-- =========================================================
+         FIRMA CLIENTE
+    ========================================================== -->
+
+    <div class="section-card">
+
+        <app-firma [(firma)]="reportService.report.firma" (firmaChange)="guardarBorrador()">
+        </app-firma>
+
+    </div>
+
+
+    <!-- =========================================================
+         FIRMA OPERARIO
+    ========================================================== -->
+
+    <div class="section-card">
+
+        <div class="section-header">
+
+            <div class="section-icon">
+                <i class="fa-solid fa-signature"></i>
+            </div>
+
+            <div>
+
+                <h3>
+                    Firma del operario
+                </h3>
+
+                <p>
+                    Registre la firma del operario responsable.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <app-firma [(firma)]="reportService.report.firmaOperario" (firmaChange)="guardarBorrador()">
+        </app-firma>
+
+    </div>
+
+
+    <!-- =========================================================
+         BOTONES
+    ========================================================== -->
+
+    <div class="actions">
+
+        <button type="button" class="btn-primary" (click)="guardarBorrador()">
+
+            <i class="fa-solid fa-floppy-disk"></i>
+
+            Guardar reporte
+
+        </button>
+
+
+        <div class="report-actions">
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                (click)="generarPdf()">
+        
+                <i class="fa-solid fa-file-pdf"></i>
+        
+                Generar PDF
+        
+            </button>
+        
+        </div>
+
+        <button type="button" class="btn-secondary" (click)="volverDashboard()">
+
+            Cancelar
+
+        </button>
+
+    </div>
+
+</div>
+@if (mostrarModalFirmaOperario) {
+
+    <app-modal
+        [visible]="true"
+        titulo="Firma del operario"
+        (cerrar)="cerrarFirmaOperario()">
+
+        <div class="firma-operario-modal">
+
+            <p class="firma-operario-instruccion">
+                Solicite al operario que firme en el espacio indicado.
+            </p>
+    
+            <app-firma [(firma)]="reportService.report.firmaOperario" (firmaChange)="guardarBorrador()">
+            </app-firma>
+    
+            <button type="button" class="btn btn-primary w-100 mt-4" (click)="cerrarFirmaOperario()">
+    
+                Guardar firma
+    
+            </button>
+    
+        </div>
+
+    </app-modal>
+
+}

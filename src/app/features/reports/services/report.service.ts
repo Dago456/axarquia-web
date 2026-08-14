@@ -21,13 +21,19 @@ export class ReportService {
     observaciones: '',
 
     horaEntrada: '',
+    horaFinalizacion: '',
     duracion: '',
 
     operario: [],
     materiales: [],
 
     fotos: [],
-    firma: null
+
+    // Firma del cliente
+    firma: null,
+
+    // Firma del operario
+    firmaOperario: null
   };
 
   private idBorrador: string | null = null;
@@ -36,13 +42,24 @@ export class ReportService {
     private indexedDbService: IndexedDbService
   ) { }
 
+
   getReport(): Report {
     return this.report;
   }
 
+
   setReport(report: Report): void {
-    this.report = report;
+
+    this.report = {
+      ...report,
+
+      // Compatibilidad con borradores antiguos
+      firma: report.firma ?? null,
+      firmaOperario: report.firmaOperario ?? null
+    };
+
   }
+
 
   async guardarBorrador(): Promise<void> {
 
@@ -54,10 +71,11 @@ export class ReportService {
       );
 
     console.log(
-      'Borrador guardado localmente:',
+      '✓ Borrador guardado localmente:',
       this.idBorrador
     );
   }
+
 
   async marcarPendienteEnvio(): Promise<void> {
 
@@ -74,6 +92,7 @@ export class ReportService {
     );
   }
 
+
   async recuperarBorrador(
     id: string
   ): Promise<boolean> {
@@ -85,11 +104,65 @@ export class ReportService {
       return false;
     }
 
-    this.report = borrador.report;
+    this.report = {
+      ...borrador.report,
+
+      // Importante:
+      // permite recuperar firmas de borradores nuevos
+      // y evita undefined en borradores antiguos.
+      firma: borrador.report.firma ?? null,
+      firmaOperario: borrador.report.firmaOperario ?? null
+    };
+
     this.idBorrador = borrador.id;
+
+    console.log(
+      '📄 Borrador recuperado:',
+      this.report
+    );
+
+    console.log(
+      '✍️ Firma operario recuperada:',
+      !!this.report.firmaOperario
+    );
 
     return true;
   }
+
+
+  async cargarBorrador(
+    id: string
+  ): Promise<boolean> {
+
+    const borrador =
+      await this.indexedDbService.obtenerParte(id);
+
+    if (!borrador) {
+      return false;
+    }
+
+    this.report = {
+      ...borrador.report,
+
+      firma: borrador.report.firma ?? null,
+      firmaOperario: borrador.report.firmaOperario ?? null
+    };
+
+    this.idBorrador = borrador.id;
+
+    console.log(
+      '📄 Borrador cargado:',
+      this.report
+    );
+
+    console.log(
+      '✍️ Firma operario:',
+      !!this.report.firmaOperario
+    );
+
+    return true;
+  }
+
 
   async eliminarBorrador(): Promise<void> {
 
@@ -106,6 +179,7 @@ export class ReportService {
     this.limpiar();
   }
 
+
   limpiar(): void {
 
     this.report = {
@@ -121,50 +195,115 @@ export class ReportService {
       observaciones: '',
 
       horaEntrada: '',
+      horaFinalizacion: '',
       duracion: '',
 
       operario: [],
       materiales: [],
 
       fotos: [],
-      firma: null
-    };
-  }
-  async obtenerPartesEnProceso() {
-    return await this.indexedDbService.obtenerPartesEnProceso();
-  }
-  nuevoParte(): void {
 
-    this.report = {
-      idComunidad: 0,
-      nombreComunidad: '',
-      ubicacionComunidad: '',
-      motivoVisita: '',
-      contacto: '',
-      conceptoTrabajo: '',
-      observaciones: '',
-      horaEntrada: '',
-      duracion: '',
-      operario: [],
-      materiales: [],
-      fotos: [],
-      firma: null
+      firma: null,
+      firmaOperario: null
     };
 
     this.idBorrador = null;
   }
-  async cargarBorrador(id: string): Promise<boolean> {
 
-    const borrador =
-      await this.indexedDbService.obtenerParte(id);
 
-    if (!borrador) {
-      return false;
-    }
+  async obtenerPartesEnProceso() {
+    const partes =
+      await this.indexedDbService.obtenerPartesEnProceso();
 
-    this.report = borrador.report;
-    this.idBorrador = borrador.id;
-
-    return true;
+    return partes.filter(
+      parte => parte.report.idComunidad !== 0
+    );
   }
+  
+  async obtenerPartesSinComunidad() {
+
+    const partes =
+      await this.indexedDbService.obtenerPartesEnProceso();
+
+    return partes.filter(
+      parte => parte.report.idComunidad === 0
+    );
+  }
+
+  async obtenerBorradorSinComunidad() {
+
+    const partes =
+        await this.indexedDbService.obtenerPartesEnProceso();
+
+    return partes.find(
+        parte => parte.report.idComunidad === 0
+    );
+}
+
+  nuevoParte(): void {
+
+    this.report = {
+
+      idComunidad: 0,
+      nombreComunidad: '',
+      ubicacionComunidad: '',
+
+      motivoVisita: '',
+      contacto: '',
+
+      conceptoTrabajo: '',
+      observaciones: '',
+
+      horaEntrada: '',
+      horaFinalizacion: '',
+      duracion: '',
+
+      operario: [],
+      materiales: [],
+
+      fotos: [],
+
+      firma: null,
+
+      // IMPORTANTE
+      firmaOperario: null
+    };
+
+    this.idBorrador = null;
+  }
+
+  nuevoParteSinComunidad(): void {
+
+    this.report = {
+
+      // IMPORTANTE:
+      // 0 identifica un reporte sin comunidad
+      idComunidad: 0,
+
+      nombreComunidad: '',
+      ubicacionComunidad: '',
+
+      motivoVisita: '',
+      contacto: '',
+
+      conceptoTrabajo: '',
+      observaciones: '',
+
+      horaEntrada: '',
+      horaFinalizacion: '',
+      duracion: '',
+
+      operario: [],
+      materiales: [],
+
+      fotos: [],
+
+      firma: null,
+      firmaOperario: null
+    };
+
+    this.idBorrador = null;
+
+  }
+
 }

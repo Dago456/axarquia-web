@@ -36,10 +36,10 @@ export class SidebarComponent {
     },
 
     {
-      titulo:'Cobros',
-      icono:'fa-solid fa-money-bill-wave',
-      ruta:'/cobros'
-    },
+      titulo:'Crear Reporte',
+      icono:'fa-solid fa-file-lines',
+      ruta:'/reportwithout'
+  },
 
     {
       titulo:'Listas QR',

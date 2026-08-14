@@ -17,7 +17,6 @@ export interface Reportold {
 }
 
 export interface Report {
-
     idComunidad: number;
     nombreComunidad: string;
     ubicacionComunidad: string;
@@ -29,12 +28,15 @@ export interface Report {
     observaciones: string;
 
     horaEntrada: string;
+    horaFinalizacion: string;
     duracion: string;
 
     operario: string[];
     materiales: string[];
 
     fotos: File[];
+
     firma: string | null;
 
+    firmaOperario: string | null;
 }

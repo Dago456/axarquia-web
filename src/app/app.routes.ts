@@ -36,7 +36,12 @@ export const routes: Routes = [
           import('./features/scanner/pages/scanner/scanner')
             .then(c => c.ScannerComponent)
       },
-
+      {
+        path: 'reportwithout',
+        loadComponent: () =>
+          import('./features/reports/pages/reportwithout/reportwithout')
+            .then(c => c.ReportWithoutComponent)
+      },
       {
         path: 'report',
         loadComponent: () =>

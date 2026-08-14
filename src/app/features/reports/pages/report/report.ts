@@ -39,7 +39,7 @@ import { EmailService } from '../../../../core/services/reporteservice/email.ser
 export class ReportComponent implements OnInit {
     private guardadoTimeout: ReturnType<typeof setTimeout> | null = null;
     mostrarModalEnvio = false;
-
+    mostrarModalFirmaOperario = false;
     estadoEnvio:
         'inactivo' |
         'enviando' |
@@ -66,6 +66,184 @@ export class ReportComponent implements OnInit {
         this.mostrarModalEnvio = false;
 
         this.router.navigate(['/scanner']);
+    }
+
+    abrirFirmaOperario(): void {
+
+        this.mostrarModalFirmaOperario = true;
+    
+    }
+    
+    
+    async cerrarFirmaOperario(): Promise<void> {
+    
+        // Guardamos inmediatamente antes de cerrar.
+        // Así no dependemos del timeout de guardarBorrador().
+        try {
+    
+            await this.reportService.guardarBorrador();
+    
+            console.log(
+                '✓ Firma del operario guardada correctamente'
+            );
+    
+        } catch (error) {
+    
+            console.error(
+                '❌ Error guardando firma del operario:',
+                error
+            );
+    
+        }
+    
+        this.mostrarModalFirmaOperario = false;
+    }
+
+    calcularDuracion(): void {
+
+        const horaEntrada =
+            this.reportService.report.horaEntrada;
+
+        const horaFinalizacion =
+            this.reportService.report.horaFinalizacion;
+
+
+        // ---------------------------------------------------------
+        // Si falta alguna de las dos horas
+        // ---------------------------------------------------------
+
+        if (!horaEntrada || !horaFinalizacion) {
+
+            this.reportService.report.duracion = '';
+
+            this.guardarBorrador();
+
+            return;
+        }
+
+
+        // ---------------------------------------------------------
+        // Convertir HH:mm a minutos
+        // ---------------------------------------------------------
+
+        const [horaEntradaNumero, minutoEntrada] =
+            horaEntrada.split(':').map(Number);
+
+        const [horaFinalNumero, minutoFinal] =
+            horaFinalizacion.split(':').map(Number);
+
+
+        const minutosEntrada =
+            horaEntradaNumero * 60 +
+            minutoEntrada;
+
+
+        const minutosFinalizacion =
+            horaFinalNumero * 60 +
+            minutoFinal;
+
+
+        // ---------------------------------------------------------
+        // Calcular diferencia
+        // ---------------------------------------------------------
+
+        let diferencia =
+            minutosFinalizacion -
+            minutosEntrada;
+
+
+        /*
+         * Si la hora de finalización es menor que la entrada,
+         * asumimos que el trabajo terminó después de medianoche.
+         *
+         * Ejemplo:
+         *
+         * Entrada:       22:00
+         * Finalización:  01:30
+         *
+         * Resultado:
+         * 3 h 30 min
+         */
+
+        if (diferencia < 0) {
+
+            diferencia += 24 * 60;
+
+        }
+
+
+        // ---------------------------------------------------------
+        // Convertir a horas y minutos
+        // ---------------------------------------------------------
+
+        const horas =
+            Math.floor(diferencia / 60);
+
+        const minutos =
+            diferencia % 60;
+
+
+        // ---------------------------------------------------------
+        // Construir texto
+        // ---------------------------------------------------------
+
+        let duracion = '';
+
+
+        if (horas > 0) {
+
+            duracion +=
+                `${horas} h`;
+
+        }
+
+
+        if (minutos > 0) {
+
+            if (duracion) {
+
+                duracion += ' ';
+
+            }
+
+            duracion +=
+                `${minutos} min`;
+
+        }
+
+
+        /*
+         * Por seguridad, si las dos horas son iguales,
+         * mostramos 0 min.
+         */
+
+        if (!duracion) {
+
+            duracion = '0 min';
+
+        }
+
+
+        // ---------------------------------------------------------
+        // Guardar duración calculada
+        // ---------------------------------------------------------
+
+        this.reportService.report.duracion =
+            duracion;
+
+
+        console.log(
+            '⏱️ Duración calculada:',
+            duracion
+        );
+
+
+        // ---------------------------------------------------------
+        // Guardar automáticamente el borrador
+        // ---------------------------------------------------------
+
+        this.guardarBorrador();
+
     }
 
     async ngOnInit(): Promise<void> {

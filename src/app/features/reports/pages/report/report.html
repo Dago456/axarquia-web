@@ -52,57 +52,112 @@
             [(ngModel)]="reportService.report.duracion">
     
     </div> -->
-    <div class="form-group">
+    <!-- =========================================================
+     HORARIO DEL PARTE
+========================================================= -->
 
-        <label>
-            Duración del trabajo
-        </label>
+    <div class="horario-section">
 
-        <select class="form-control" [(ngModel)]="reportService.report.duracion" (ngModelChange)="guardarBorrador()">
+        <div class="horario-grid">
 
-            <option value="">
-                Seleccione la duración
-            </option>
+            <!-- HORA DE ENTRADA -->
 
-            <option value="30 minutos">
-                30 minutos
-            </option>
+            <div class="hora-field">
 
-            <option value="1 hora">
-                1 hora
-            </option>
+                <label for="horaEntrada">
+                    Hora de entrada
+                </label>
 
-            <option value="1 hora 30 minutos">
-                1 hora 30 minutos
-            </option>
+                <div class="hora-input-wrapper">
 
-            <option value="2 horas">
-                2 horas
-            </option>
+                    <div class="hora-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
 
-            <option value="2 horas 30 minutos">
-                2 horas 30 minutos
-            </option>
+                    <input id="horaEntrada" type="time" [(ngModel)]="reportService.report.horaEntrada"
+                        (change)="calcularDuracion()">
 
-            <option value="3 horas">
-                3 horas
-            </option>
+                </div>
 
-            <option value="3 horas 30 minutos">
-                3 horas 30 minutos
-            </option>
+            </div>
 
-            <option value="4 horas">
-                4 horas
-            </option>
 
-            <option value="Más de 4 horas">
-                Más de 4 horas
-            </option>
+            <!-- HORA DE FINALIZACIÓN -->
 
-        </select>
+            <div class="hora-field">
+
+                <label for="horaFinalizacion">
+                    Hora de finalización
+                </label>
+
+                <div class="hora-input-wrapper">
+
+                    <div class="hora-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+
+                    <input id="horaFinalizacion" type="time" [(ngModel)]="reportService.report.horaFinalizacion"
+                        (change)="calcularDuracion()">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+         DURACIÓN CALCULADA
+    ====================================================== -->
+
+        @if (reportService.report.duracion) {
+
+        <div class="duracion-card">
+
+            <div class="duracion-icon">
+
+                <i class="fa-solid fa-stopwatch"></i>
+
+            </div>
+
+            <div class="duracion-info">
+
+                <span class="duracion-label">
+                    Duración calculada
+                </span>
+
+                <strong class="duracion-value">
+                    {{ reportService.report.duracion }}
+                </strong>
+
+            </div>
+
+            <span class="duracion-badge">
+                Automático
+            </span>
+
+        </div>
+
+        }
 
     </div>
+
+    @if (reportService.report.duracion) {
+
+    <div class="duracion-calculada">
+
+        <i class="fa-solid fa-clock"></i>
+
+        <span>
+            Duración:
+            <strong>
+                {{ reportService.report.duracion }}
+            </strong>
+        </span>
+
+    </div>
+
+    }
 
     <div class="form-group">
 
@@ -189,12 +244,140 @@
 
     </div>
 
+    <!-- =========================================================
+     FIRMA DEL CLIENTE
+========================================================= -->
+
     <div class="form-group mt-4">
 
         <app-firma [(firma)]="reportService.report.firma" (firmaChange)="guardarBorrador()">
         </app-firma>
 
     </div>
+
+
+    <!-- =========================================================
+     FIRMA DEL OPERARIO
+========================================================= -->
+
+    <!-- =========================================================
+     FIRMA DEL OPERARIO
+========================================================= -->
+
+    <div class="firma-operario-card">
+
+        <div class="firma-operario-header">
+
+            <div class="firma-operario-icon">
+
+                <i class="fa-solid fa-signature"></i>
+
+            </div>
+
+            <div class="firma-operario-title">
+
+                <h4>
+                    Firma del operario
+                </h4>
+
+                <p>
+                    Firma del operario responsable del trabajo.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        @if (!reportService.report.firmaOperario) {
+
+        <!-- SIN FIRMA -->
+
+        <div class="firma-operario-empty">
+
+            <div class="firma-empty-icon">
+
+                <i class="fa-solid fa-pen-nib"></i>
+
+            </div>
+
+            <div class="firma-empty-content">
+
+                <strong>
+                    Firma pendiente
+                </strong>
+
+                <span>
+                    El operario debe firmar antes de enviar el parte.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button type="button" class="btn-firma-operario" (click)="abrirFirmaOperario()">
+
+            <i class="fa-solid fa-pen"></i>
+
+            Agregar firma del operario
+
+        </button>
+
+        }
+
+        @else {
+
+        <!-- CON FIRMA -->
+
+        <div class="firma-operario-guardada">
+
+            <div class="firma-operario-status">
+
+                <div class="firma-check">
+
+                    <i class="fa-solid fa-check"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Firma registrada
+                    </strong>
+
+                    <span>
+                        La firma del operario está guardada.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREVISUALIZACIÓN REAL DE LA FIRMA -->
+
+            <div class="firma-preview">
+
+                <img [src]="reportService.report.firmaOperario" alt="Firma del operario">
+
+            </div>
+
+
+            <button type="button" class="btn-firma-secundario" (click)="abrirFirmaOperario()">
+
+                <i class="fa-solid fa-pen"></i>
+
+                Cambiar firma
+
+            </button>
+
+        </div>
+
+        }
+
+    </div>
+
     <div class="form-group mt-4">
 
         <button type="button" class="btn btn-primary w-100" (click)="enviarParte()">
@@ -218,112 +401,124 @@
 
 @if (mostrarModalEnvio) {
 
-    <app-modal
-        [visible]="true"
-        titulo="Estado del parte"
-        (cerrar)="cerrarModalEnvio()">
+<app-modal [visible]="true" titulo="Estado del parte" (cerrar)="cerrarModalEnvio()">
 
-        <div class="estado-envio">
+    <div class="estado-envio">
 
-            @if (estadoEnvio === 'enviando') {
+        @if (estadoEnvio === 'enviando') {
 
-                <div class="estado-icono enviando">
-                    <i class="fa-solid fa-paper-plane"></i>
-                </div>
+        <div class="estado-icono enviando">
+            <i class="fa-solid fa-paper-plane"></i>
+        </div>
 
-                <h3>
-                    Preparando parte
-                </h3>
+        <h3>
+            Preparando parte
+        </h3>
 
-                <p>
-                    {{ mensajeEnvio }}
-                </p>
+        <p>
+            {{ mensajeEnvio }}
+        </p>
 
-                <div class="spinner-container">
+        <div class="spinner-container">
 
-                    <div class="spinner"></div>
-
-                </div>
-
-            }
-
-            @else if (estadoEnvio === 'sin-conexion') {
-
-                <div class="estado-icono sin-conexion">
-                    <i class="fa-solid fa-wifi"></i>
-                </div>
-
-                <h3>
-                    Sin conexión
-                </h3>
-
-                <p>
-                    {{ mensajeEnvio }}
-                </p>
-
-                <button
-                    type="button"
-                    class="btn-estado"
-                    (click)="cerrarModalEnvio()">
-
-                    Entendido
-
-                </button>
-
-            }
-
-            @else if (estadoEnvio === 'error') {
-
-                <div class="estado-icono error">
-                    <i class="fa-solid fa-circle-exclamation"></i>
-                </div>
-
-                <h3>
-                    No se pudo enviar
-                </h3>
-
-                <p>
-                    {{ mensajeEnvio }}
-                </p>
-
-                <button
-                    type="button"
-                    class="btn-estado"
-                    (click)="cerrarModalEnvio()">
-
-                    Entendido
-
-                </button>
-
-            }
-
-            @else if (estadoEnvio === 'exitoso') {
-
-                <div class="estado-icono exitoso">
-                    <i class="fa-solid fa-check"></i>
-                </div>
-
-                <h3>
-                    Parte preparado
-                </h3>
-
-                <p>
-                    {{ mensajeEnvio }}
-                </p>
-
-                <button
-                    type="button"
-                    class="btn-estado"
-                    (click)="continuarDespuesDelEnvio()">
-
-                    Continuar
-
-                </button>
-
-            }
+            <div class="spinner"></div>
 
         </div>
 
-    </app-modal>
+        }
+
+        @else if (estadoEnvio === 'sin-conexion') {
+
+        <div class="estado-icono sin-conexion">
+            <i class="fa-solid fa-wifi"></i>
+        </div>
+
+        <h3>
+            Sin conexión
+        </h3>
+
+        <p>
+            {{ mensajeEnvio }}
+        </p>
+
+        <button type="button" class="btn-estado" (click)="cerrarModalEnvio()">
+
+            Entendido
+
+        </button>
+
+        }
+
+        @else if (estadoEnvio === 'error') {
+
+        <div class="estado-icono error">
+            <i class="fa-solid fa-circle-exclamation"></i>
+        </div>
+
+        <h3>
+            No se pudo enviar
+        </h3>
+
+        <p>
+            {{ mensajeEnvio }}
+        </p>
+
+        <button type="button" class="btn-estado" (click)="cerrarModalEnvio()">
+
+            Entendido
+
+        </button>
+
+        }
+
+        @else if (estadoEnvio === 'exitoso') {
+
+        <div class="estado-icono exitoso">
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+        <h3>
+            Parte preparado
+        </h3>
+
+        <p>
+            {{ mensajeEnvio }}
+        </p>
+
+        <button type="button" class="btn-estado" (click)="continuarDespuesDelEnvio()">
+
+            Continuar
+
+        </button>
+
+        }
+
+    </div>
+
+</app-modal>
+
+}
+@if (mostrarModalFirmaOperario) {
+
+<app-modal [visible]="true" titulo="Firma del operario" (cerrar)="cerrarFirmaOperario()">
+
+    <div class="firma-operario-modal">
+
+        <p class="firma-operario-instruccion">
+            Solicite al operario que firme en el espacio indicado.
+        </p>
+
+        <app-firma [(firma)]="reportService.report.firmaOperario" (firmaChange)="guardarBorrador()">
+        </app-firma>
+
+        <button type="button" class="btn btn-primary w-100 mt-4" (click)="cerrarFirmaOperario()">
+
+            Guardar firma
+
+        </button>
+
+    </div>
+
+</app-modal>
 
 }
