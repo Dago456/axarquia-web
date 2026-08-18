@@ -15,6 +15,7 @@ import { ReportPdfService } from '../../services/report-pdf.service';
 import { ReportEmailService } from '../../services/report-email.service';
 
 import { ModalComponent } from '../../../../shared/components/modal/modal';
+import { Operario } from '../../models/operario.model';
 
 @Component({
     selector: 'app-report-without',
@@ -39,9 +40,9 @@ import { ModalComponent } from '../../../../shared/components/modal/modal';
 export class ReportWithoutComponent implements OnInit {
 
     mostrarModalFirmaOperario = false;
-
+    mostrarModalFirmaCliente = false;
     private guardadoTimeout: ReturnType<typeof setTimeout> | null = null;
-
+    operariosSeleccionados: Operario[] = [];
 
     constructor(
         public reportService: ReportService,
@@ -93,6 +94,20 @@ export class ReportWithoutComponent implements OnInit {
 
     }
 
+    abrirFirmaCliente(): void {
+
+        this.mostrarModalFirmaCliente = true;
+      
+      }
+      
+      
+      cerrarFirmaCliente(): void {
+      
+        this.mostrarModalFirmaCliente = false;
+      
+        this.guardarBorrador();
+      
+      }
 
     // =========================================================
     // FIRMA DEL OPERARIO
@@ -197,17 +212,16 @@ export class ReportWithoutComponent implements OnInit {
     // OPERARIOS
     // =========================================================
 
-    actualizarOperarios(
-        operarios: any[]
-    ): void {
+    actualizarOperarios(operarios: Operario[]): void {
 
+        this.operariosSeleccionados = operarios;
+    
         this.reportService.report.operario =
             operarios.map(
                 operario => operario.nom_ope
             );
-
+    
         this.guardarBorrador();
-
     }
 
 
@@ -351,109 +365,90 @@ export class ReportWithoutComponent implements OnInit {
 
     async enviarParte(): Promise<void> {
 
-        const report =
-            this.reportService.report;
-
-
-        // -----------------------------------------------------
-        // VALIDAR COMUNIDAD MANUAL
-        // -----------------------------------------------------
-
+        const report = this.reportService.report;
+    
+    
+        // =====================================================
+        // VALIDAR NOMBRE DE COMUNIDAD
+        // =====================================================
+    
         if (!report.nombreComunidad?.trim()) {
-
+    
             alert(
                 'Ingrese el nombre de la comunidad.'
             );
-
+    
             return;
-
         }
-
-
-        // -----------------------------------------------------
+    
+    
+        // =====================================================
         // VALIDAR UBICACIÓN
-        // -----------------------------------------------------
-
+        // =====================================================
+    
         if (!report.ubicacionComunidad?.trim()) {
-
+    
             alert(
-                'Ingrese la ubicación.'
+                'Ingrese la dirección o ubicación de la comunidad.'
             );
-
+    
             return;
-
         }
-
-
+    
+    
         try {
-
+    
             console.log(
                 '📤 Enviando reporte sin comunidad...'
             );
-
-
-            // -------------------------------------------------
-            // GUARDAR COMO PENDIENTE
-            // -------------------------------------------------
-
+    
+    
             await this.reportService.marcarPendienteEnvio();
-
-
-            // -------------------------------------------------
-            // GENERAR PDF
-            // -------------------------------------------------
-
+    
+    
             const pdf =
                 await this.reportPdfService.generarPdf(
                     report
                 );
-
-
-            // -------------------------------------------------
-            // ENVIAR CORREO
-            // -------------------------------------------------
-
+    
+    
             await this.reportEmailService.prepararEnvio(
                 report,
                 pdf
             );
-
-
-            // -------------------------------------------------
-            // ELIMINAR BORRADOR
-            // -------------------------------------------------
-
+    
+    
             await this.reportService.eliminarBorrador();
-
-
+    
+    
             console.log(
                 '✅ Reporte enviado correctamente'
             );
-
-
+    
+    
             alert(
                 'El reporte fue enviado correctamente.'
             );
-
-
+    
+    
             this.router.navigate([
                 '/dashboard'
             ]);
-
+    
         } catch (error) {
-
+    
             console.error(
                 '❌ Error enviando reporte:',
                 error
             );
-
-
+    
+    
             alert(
                 'No fue posible enviar el reporte. El reporte permanece guardado en el dispositivo.'
             );
-
+    
         }
-
+    
     }
 
 }

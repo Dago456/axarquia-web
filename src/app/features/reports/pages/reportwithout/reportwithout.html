@@ -1,24 +1,105 @@
 <div class="report-container">
 
     <!-- =====================================================
-             ENCABEZADO
-        ====================================================== -->
+         ENCABEZADO
+    ====================================================== -->
 
     <div class="report-header">
 
         <div class="report-header-icon">
-
             <i class="fa-solid fa-file-circle-plus"></i>
-
         </div>
 
-        <div>
-
+        <div class="report-header-content">
             <h2>Nuevo reporte</h2>
 
             <p>
-                Registre un trabajo sin comunidad registrada.
+                Registre un trabajo para una comunidad no registrada.
             </p>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         INFORMACIÓN DE LA COMUNIDAD
+    ====================================================== -->
+
+    <div class="section-card">
+
+        <div class="section-header">
+
+            <div class="section-icon">
+                <i class="fa-solid fa-building"></i>
+            </div>
+
+            <div>
+                <h3>Información de la comunidad</h3>
+
+                <p>
+                    Ingrese los datos de la comunidad donde se realizó el trabajo.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- NOMBRE COMUNIDAD -->
+
+        <div class="form-group">
+
+            <label for="nombreComunidad">
+                Nombre de la comunidad
+            </label>
+
+            <div class="input-wrapper">
+
+                <i class="fa-solid fa-building"></i>
+
+                <input id="nombreComunidad" type="text" placeholder="Ej. Comunidad Residencial El Bosque"
+                    [(ngModel)]="reportService.report.nombreComunidad" (ngModelChange)="guardarBorrador()">
+
+            </div>
+
+        </div>
+
+
+        <!-- DIRECCIÓN -->
+
+        <div class="form-group">
+
+            <label for="ubicacionComunidad">
+                Dirección / ubicación
+            </label>
+
+            <div class="input-wrapper">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <input id="ubicacionComunidad" type="text" placeholder="Ingrese la dirección o ubicación"
+                    [(ngModel)]="reportService.report.ubicacionComunidad" (ngModelChange)="guardarBorrador()">
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTACTO -->
+
+        <div class="form-group">
+
+            <label for="contacto">
+                Contacto
+            </label>
+
+            <div class="input-wrapper">
+
+                <i class="fa-solid fa-user"></i>
+
+                <input id="contacto" type="text" placeholder="Nombre o información de contacto"
+                    [(ngModel)]="reportService.report.contacto" (ngModelChange)="guardarBorrador()">
+
+            </div>
 
         </div>
 
@@ -26,81 +107,8 @@
 
 
     <!-- =====================================================
-             INFORMACIÓN DE LA COMUNIDAD
-        ====================================================== -->
-
-    <div class="section-card">
-
-        <div class="section-title">
-
-            <div class="section-icon">
-                <i class="fa-solid fa-list-check"></i>
-            </div>
-
-            <div>
-
-                <h3>Información del trabajo</h3>
-
-                <p>
-                    Detalle el trabajo realizado.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <app-motivo-visita [(motivo)]="reportService.report.motivoVisita" (motivoChange)="guardarBorrador()">
-            </app-motivo-visita>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>
-                Concepto del trabajo
-            </label>
-
-            <textarea rows="4" class="form-control" placeholder="Describa el trabajo realizado..."
-                [(ngModel)]="reportService.report.conceptoTrabajo" (ngModelChange)="guardarBorrador()">
-                </textarea>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>
-                Contacto
-            </label>
-
-            <input type="text" class="form-control" placeholder="Nombre o información de contacto"
-                [(ngModel)]="reportService.report.contacto" (ngModelChange)="guardarBorrador()">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>
-                Observaciones
-            </label>
-
-            <textarea rows="3" class="form-control" placeholder="Observaciones adicionales..."
-                [(ngModel)]="reportService.report.observaciones" (ngModelChange)="guardarBorrador()">
-                </textarea>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================================================
-         MOTIVO
-    ========================================================== -->
+         MOTIVO DE VISITA
+    ====================================================== -->
 
     <div class="section-card">
 
@@ -110,9 +118,9 @@
     </div>
 
 
-    <!-- =========================================================
+    <!-- =====================================================
          INFORMACIÓN DEL TRABAJO
-    ========================================================== -->
+    ====================================================== -->
 
     <div class="section-card">
 
@@ -123,11 +131,11 @@
             </div>
 
             <div>
+                <h3>Información del trabajo</h3>
 
-                <h3>
-                    Información del trabajo
-                </h3>
-
+                <p>
+                    Describa el trabajo realizado.
+                </p>
             </div>
 
         </div>
@@ -135,11 +143,11 @@
 
         <div class="form-group">
 
-            <label>
+            <label for="conceptoTrabajo">
                 Concepto del trabajo
             </label>
 
-            <textarea rows="4" class="form-control" placeholder="Describa el trabajo realizado..."
+            <textarea id="conceptoTrabajo" rows="4" class="form-control" placeholder="Describa el trabajo realizado..."
                 [(ngModel)]="reportService.report.conceptoTrabajo" (ngModelChange)="guardarBorrador()">
             </textarea>
 
@@ -148,27 +156,22 @@
 
         <div class="form-group">
 
-            <label>
-                Contacto
+            <label for="observaciones">
+                Observaciones
             </label>
 
-            <div class="input-wrapper">
-
-                <i class="fa-solid fa-user"></i>
-
-                <input type="text" placeholder="Nombre o información de contacto"
-                    [(ngModel)]="reportService.report.contacto" (ngModelChange)="guardarBorrador()">
-
-            </div>
+            <textarea id="observaciones" rows="3" class="form-control" placeholder="Observaciones adicionales..."
+                [(ngModel)]="reportService.report.observaciones" (ngModelChange)="guardarBorrador()">
+            </textarea>
 
         </div>
 
     </div>
 
 
-    <!-- =========================================================
-         HORARIOS
-    ========================================================== -->
+    <!-- =====================================================
+         HORARIO
+    ====================================================== -->
 
     <div class="section-card">
 
@@ -179,15 +182,11 @@
             </div>
 
             <div>
-
-                <h3>
-                    Horario del trabajo
-                </h3>
+                <h3>Horario del trabajo</h3>
 
                 <p>
                     La duración se calculará automáticamente.
                 </p>
-
             </div>
 
         </div>
@@ -199,7 +198,7 @@
 
             <div class="hora-field">
 
-                <label>
+                <label for="horaEntrada">
                     Hora de entrada
                 </label>
 
@@ -209,7 +208,8 @@
                         <i class="fa-solid fa-clock"></i>
                     </div>
 
-                    <input type="time" [(ngModel)]="reportService.report.horaEntrada" (change)="calcularDuracion()">
+                    <input id="horaEntrada" type="time" [(ngModel)]="reportService.report.horaEntrada"
+                        (change)="calcularDuracion()">
 
                 </div>
 
@@ -220,7 +220,7 @@
 
             <div class="hora-field">
 
-                <label>
+                <label for="horaFinalizacion">
                     Hora de finalización
                 </label>
 
@@ -230,7 +230,7 @@
                         <i class="fa-solid fa-clock"></i>
                     </div>
 
-                    <input type="time" [(ngModel)]="reportService.report.horaFinalizacion"
+                    <input id="horaFinalizacion" type="time" [(ngModel)]="reportService.report.horaFinalizacion"
                         (change)="calcularDuracion()">
 
                 </div>
@@ -250,11 +250,11 @@
 
             <div class="duracion-info">
 
-                <span>
+                <span class="duracion-label">
                     Duración calculada
                 </span>
 
-                <strong>
+                <strong class="duracion-value">
                     {{ reportService.report.duracion }}
                 </strong>
 
@@ -271,30 +271,9 @@
     </div>
 
 
-    <!-- =========================================================
-         OBSERVACIONES
-    ========================================================== -->
-
-    <div class="section-card">
-
-        <div class="form-group">
-
-            <label>
-                Observaciones
-            </label>
-
-            <textarea rows="4" class="form-control" placeholder="Observaciones adicionales..."
-                [(ngModel)]="reportService.report.observaciones" (ngModelChange)="guardarBorrador()">
-            </textarea>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================================================
+    <!-- =====================================================
          MATERIALES
-    ========================================================== -->
+    ====================================================== -->
 
     <div class="section-card">
 
@@ -307,21 +286,22 @@
     </div>
 
 
-    <!-- =========================================================
+    <!-- =====================================================
          OPERARIOS
-    ========================================================== -->
+    ====================================================== -->
 
     <div class="section-card">
 
-        <app-operario-list (operariosChange)="actualizarOperarios($event)">
+        <app-operario-list [operariosIniciales]="operariosSeleccionados"
+            (operariosChange)="actualizarOperarios($event)">
         </app-operario-list>
 
     </div>
 
 
-    <!-- =========================================================
+    <!-- =====================================================
          FOTOS
-    ========================================================== -->
+    ====================================================== -->
 
     <div class="section-card">
 
@@ -334,38 +314,32 @@
     </div>
 
 
-    <!-- =========================================================
-         FIRMA CLIENTE
-    ========================================================== -->
+    <!-- =====================================================
+         FIRMA DEL CLIENTE
+    ====================================================== -->
 
-    <div class="section-card">
+    <!-- =====================================================
+     FIRMA DEL CLIENTE
+====================================================== -->
 
-        <app-firma [(firma)]="reportService.report.firma" (firmaChange)="guardarBorrador()">
-        </app-firma>
+    <div class="firma-cliente-card">
 
-    </div>
+        <div class="firma-cliente-header">
 
+            <div class="firma-cliente-icon">
 
-    <!-- =========================================================
-         FIRMA OPERARIO
-    ========================================================== -->
-
-    <div class="section-card">
-
-        <div class="section-header">
-
-            <div class="section-icon">
                 <i class="fa-solid fa-signature"></i>
+
             </div>
 
-            <div>
+            <div class="firma-cliente-title">
 
-                <h3>
-                    Firma del operario
-                </h3>
+                <h4>
+                    Firma del cliente
+                </h4>
 
                 <p>
-                    Registre la firma del operario responsable.
+                    Firma del cliente que valida el trabajo realizado.
                 </p>
 
             </div>
@@ -373,19 +347,211 @@
         </div>
 
 
-        <app-firma [(firma)]="reportService.report.firmaOperario" (firmaChange)="guardarBorrador()">
-        </app-firma>
+        <!-- =================================================
+         SIN FIRMA
+    ================================================== -->
+
+        @if (!reportService.report.firma) {
+
+        <div class="firma-cliente-empty">
+
+            <div class="firma-empty-icon">
+
+                <i class="fa-solid fa-pen-nib"></i>
+
+            </div>
+
+            <div class="firma-empty-content">
+
+                <strong>
+                    Firma pendiente
+                </strong>
+
+                <span>
+                    El cliente debe firmar antes de enviar el parte.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button type="button" class="btn-firma-cliente" (click)="abrirFirmaCliente()">
+
+            <i class="fa-solid fa-pen"></i>
+
+            Agregar firma del cliente
+
+        </button>
+
+        }
+
+
+        <!-- =================================================
+         CON FIRMA
+    ================================================== -->
+
+        @else {
+
+        <div class="firma-cliente-guardada">
+
+            <div class="firma-cliente-status">
+
+                <div class="firma-check">
+
+                    <i class="fa-solid fa-check"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Firma registrada
+                    </strong>
+
+                    <span>
+                        La firma del cliente está guardada.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="firma-preview">
+
+                <img [src]="reportService.report.firma" alt="Firma del cliente">
+
+            </div>
+
+
+            <button type="button" class="btn-firma-secundario" (click)="abrirFirmaCliente()">
+
+                <i class="fa-solid fa-pen"></i>
+
+                Cambiar firma
+
+            </button>
+
+        </div>
+
+        }
+
+    </div>
+    <!-- =====================================================
+         FIRMA DEL OPERARIO
+    ====================================================== -->
+
+    <div class="firma-operario-card">
+
+        <div class="firma-operario-header">
+
+            <div class="firma-operario-icon">
+                <i class="fa-solid fa-signature"></i>
+            </div>
+
+            <div class="firma-operario-title">
+
+                <h4>
+                    Firma del operario
+                </h4>
+
+                <p>
+                    Firma del operario responsable del trabajo.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        @if (!reportService.report.firmaOperario) {
+
+        <div class="firma-operario-empty">
+
+            <div class="firma-empty-icon">
+                <i class="fa-solid fa-pen-nib"></i>
+            </div>
+
+            <div class="firma-empty-content">
+
+                <strong>
+                    Firma pendiente
+                </strong>
+
+                <span>
+                    El operario debe firmar antes de finalizar el reporte.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button type="button" class="btn-firma-operario" (click)="abrirFirmaOperario()">
+
+            <i class="fa-solid fa-pen"></i>
+
+            Agregar firma del operario
+
+        </button>
+
+        }
+
+        @else {
+
+        <div class="firma-operario-guardada">
+
+            <div class="firma-operario-status">
+
+                <div class="firma-check">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        Firma registrada
+                    </strong>
+
+                    <span>
+                        La firma del operario está guardada.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="firma-preview">
+
+                <img [src]="reportService.report.firmaOperario" alt="Firma del operario">
+
+            </div>
+
+
+            <button type="button" class="btn-firma-secundario" (click)="abrirFirmaOperario()">
+
+                <i class="fa-solid fa-pen"></i>
+
+                Cambiar firma
+
+            </button>
+
+        </div>
+
+        }
 
     </div>
 
 
-    <!-- =========================================================
-         BOTONES
-    ========================================================== -->
+    <!-- =====================================================
+         ACCIONES
+    ====================================================== -->
 
     <div class="actions">
 
-        <button type="button" class="btn-primary" (click)="guardarBorrador()">
+        <button type="button" class="action-btn action-primary" (click)="guardarAhora()">
 
             <i class="fa-solid fa-floppy-disk"></i>
 
@@ -394,22 +560,18 @@
         </button>
 
 
-        <div class="report-actions">
+        <button type="button" class="action-btn action-pdf" (click)="generarPdf()">
 
-            <button
-                type="button"
-                class="btn btn-primary"
-                (click)="generarPdf()">
-        
-                <i class="fa-solid fa-file-pdf"></i>
-        
-                Generar PDF
-        
-            </button>
-        
-        </div>
+            <i class="fa-solid fa-file-pdf"></i>
 
-        <button type="button" class="btn-secondary" (click)="volverDashboard()">
+            Generar PDF
+
+        </button>
+
+
+        <button type="button" class="action-btn action-secondary" (click)="volverDashboard()">
+
+            <i class="fa-solid fa-arrow-left"></i>
 
             Cancelar
 
@@ -418,30 +580,62 @@
     </div>
 
 </div>
+
+
+<!-- =========================================================
+     MODAL FIRMA OPERARIO
+========================================================== -->
+
 @if (mostrarModalFirmaOperario) {
 
-    <app-modal
-        [visible]="true"
-        titulo="Firma del operario"
-        (cerrar)="cerrarFirmaOperario()">
+<app-modal [visible]="true" titulo="Firma del operario" (cerrar)="cerrarFirmaOperario()">
 
-        <div class="firma-operario-modal">
+    <div class="firma-operario-modal">
 
-            <p class="firma-operario-instruccion">
-                Solicite al operario que firme en el espacio indicado.
-            </p>
-    
-            <app-firma [(firma)]="reportService.report.firmaOperario" (firmaChange)="guardarBorrador()">
-            </app-firma>
-    
-            <button type="button" class="btn btn-primary w-100 mt-4" (click)="cerrarFirmaOperario()">
-    
-                Guardar firma
-    
-            </button>
-    
-        </div>
+        <p class="firma-operario-instruccion">
+            Solicite al operario que firme en el espacio indicado.
+        </p>
 
-    </app-modal>
+        <app-firma [(firma)]="reportService.report.firmaOperario" (firmaChange)="guardarBorrador()">
+        </app-firma>
+
+        <button type="button" class="btn-primary modal-save-btn" (click)="cerrarFirmaOperario()">
+
+            <i class="fa-solid fa-check"></i>
+
+            Guardar firma
+
+        </button>
+
+    </div>
+
+</app-modal>
+
+}
+@if (mostrarModalFirmaCliente) {
+
+<app-modal [visible]="true" titulo="Firma del cliente" (cerrar)="cerrarFirmaCliente()">
+
+    <div class="firma-cliente-modal">
+
+        <p class="firma-cliente-instruccion">
+            Solicite al cliente que firme en el espacio indicado.
+        </p>
+
+        <app-firma [(firma)]="reportService.report.firma" (firmaChange)="guardarBorrador()">
+        </app-firma>
+
+
+        <button type="button" class="modal-save-btn" (click)="cerrarFirmaCliente()">
+
+            <i class="fa-solid fa-check"></i>
+
+            Guardar firma
+
+        </button>
+
+    </div>
+
+</app-modal>
 
 }

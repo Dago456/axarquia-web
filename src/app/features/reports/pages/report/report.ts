@@ -48,6 +48,8 @@ export class ReportComponent implements OnInit {
         'error' = 'inactivo';
 
     mensajeEnvio = '';
+    mostrarModalFirmaCliente = false;
+    operariosSeleccionados: Operario[] = [];
 
     constructor(
         public reportService: ReportService,
@@ -71,31 +73,45 @@ export class ReportComponent implements OnInit {
     abrirFirmaOperario(): void {
 
         this.mostrarModalFirmaOperario = true;
-    
+
     }
-    
-    
+
+    abrirFirmaCliente(): void {
+
+        this.mostrarModalFirmaCliente = true;
+
+    }
+
+
+    cerrarFirmaCliente(): void {
+
+        this.mostrarModalFirmaCliente = false;
+
+        this.guardarBorrador();
+
+    }
+
     async cerrarFirmaOperario(): Promise<void> {
-    
+
         // Guardamos inmediatamente antes de cerrar.
         // Así no dependemos del timeout de guardarBorrador().
         try {
-    
+
             await this.reportService.guardarBorrador();
-    
+
             console.log(
                 '✓ Firma del operario guardada correctamente'
             );
-    
+
         } catch (error) {
-    
+
             console.error(
                 '❌ Error guardando firma del operario:',
                 error
             );
-    
+
         }
-    
+
         this.mostrarModalFirmaOperario = false;
     }
 
@@ -312,6 +328,14 @@ export class ReportComponent implements OnInit {
         this.reportPdfService.descargarPdf(
             report
         );
+
+    }
+
+    volverDashboard(): void {
+
+        this.router.navigate([
+            '/dashboard'
+        ]);
 
     }
 

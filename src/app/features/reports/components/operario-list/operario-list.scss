@@ -1,137 +1,147 @@
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+========================================================= */
+
 .operario-container {
     width: 100%;
-}
-
-.operario-container label {
-    display: block;
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 8px;
+    box-sizing: border-box;
 }
 
 
-/* =========================
-   input
-========================= */
-
-.input-group {
-    display: flex;
-    gap: 10px;
-}
-
-.input-group input {
-    flex: 1;
-    height: 48px;
-
-    padding: 0 15px;
-
-    font-size: 16px;
-
-    border: 1px solid #d8dde3;
-    border-radius: 10px;
-}
-
-.input-group button {
-    height: 48px;
-
-    padding: 0 25px;
-
-    border: none;
-    border-radius: 10px;
-
-    background: #10376A;
-    color: white;
-
-    font-size: 16px;
-    font-weight: 600;
-}
-
-/* =========================
+/* =========================================================
    TÍTULO
-========================= */
+========================================================= */
 
 .titulo-operario {
     display: block;
 
-    font-size: 24px;
-
-    font-weight: 700;
-
-    margin-bottom: 15px;
+    margin: 0 0 16px;
 
     color: #26323d;
+
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 
-/* =========================
+/* =========================================================
    BUSCADOR
-========================= */
+========================================================= */
 
 .operario-input {
     display: flex;
-
-    gap: 12px;
+    align-items: stretch;
 
     width: 100%;
+
+    box-sizing: border-box;
 }
 
 .operario-input input {
     flex: 1;
+    min-width: 0;
 
-    height: 58px;
+    height: 52px;
 
-    padding: 0 20px;
+    padding: 0 16px;
 
     border: 1px solid #d9dee5;
+    border-right: none;
 
-    border-radius: 12px 0 0 12px;
+    border-radius: 10px 0 0 10px;
 
-    font-size: 20px;
+    background: #ffffff;
+
+    color: #26323d;
+
+    font-size: 16px;
 
     outline: none;
 
-    background: white;
+    box-sizing: border-box;
+
+    transition: 0.2s ease;
+}
+
+.operario-input input::placeholder {
+    color: #9299a1;
 }
 
 .operario-input input:focus {
     border-color: #173f75;
 
     box-shadow:
-        0 0 0 4px rgba(23, 63, 117, 0.12);
+        0 0 0 3px rgba(23, 63, 117, 0.10);
 }
 
-.operario-input button {
-    min-width: 150px;
 
-    height: 58px;
+/* =========================================================
+   BOTÓN BUSCAR
+========================================================= */
+
+.operario-input button {
+    width: 130px;
+    min-width: 130px;
+
+    height: 52px;
+
+    padding: 0 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
 
     border: none;
 
-    border-radius: 0 12px 12px 0;
+    border-radius: 0 10px 10px 0;
 
     background: #173f75;
 
-    color: white;
+    color: #ffffff;
 
-    font-size: 20px;
-
+    font-size: 16px;
     font-weight: 600;
 
     cursor: pointer;
 
-    transition: 0.2s;
+    transition:
+        background 0.2s ease,
+        transform 0.1s ease;
 }
 
 .operario-input button:hover {
     background: #102f59;
 }
 
+.operario-input button:active {
+    transform: scale(0.98);
+}
 
-/* =========================
-   RESULTADOS DE BÚSQUEDA
-========================= */
+
+/* =========================================================
+   ESTADOS DE BÚSQUEDA
+========================================================= */
+
+.buscando,
+.sin-resultados {
+    margin-top: 10px;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   RESULTADOS
+========================================================= */
 
 .resultados {
+    width: 100%;
+
     margin-top: 12px;
 
     display: flex;
@@ -141,13 +151,17 @@
 }
 
 .resultado-card {
-    display: flex;
+    width: 100%;
+    min-width: 0;
 
+    display: flex;
     align-items: center;
 
-    padding: 14px 18px;
+    padding: 12px 14px;
 
-    background: white;
+    box-sizing: border-box;
+
+    background: #ffffff;
 
     border: 1px solid #dce2e8;
 
@@ -155,339 +169,434 @@
 
     cursor: pointer;
 
-    transition: 0.2s;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 }
 
 .resultado-card:hover {
     border-color: #173f75;
 
+    background: #fafcff;
+
     box-shadow:
         0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
+
+/* =========================================================
+   ICONO RESULTADO
+========================================================= */
+
 .resultado-icon {
-    width: 50px;
-
-    height: 50px;
-
-    min-width: 50px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-right: 15px;
-
-    border-radius: 12px;
-
-    background: #e8f0fa;
-
-    color: #173f75;
-
-    font-size: 20px;
-}
-
-.resultado-info {
-    flex: 1;
-}
-
-.resultado-info strong {
-    display: block;
-
-    font-size: 17px;
-
-    color: #26323d;
-}
-
-.resultado-info span {
-    display: block;
-
-    margin-top: 4px;
-
-    font-size: 14px;
-
-    color: #777;
-}
-
-.resultado-estado {
-    padding: 6px 12px;
-
-    border-radius: 15px;
-
-    background: #dff5e5;
-
-    color: #198754;
-
-    font-size: 13px;
-}
-
-
-/* =========================
-   CONTENEDOR SELECCIONADOS
-========================= */
-
-.seleccionados-container {
-    margin-top: 22px;
-
-    padding: 20px;
-
-    border: 1px solid #dce2e8;
-
-    border-radius: 18px;
-
-    background: #fafbfc;
-}
-
-
-/* =========================
-   HEADER
-========================= */
-
-.seleccionados-header {
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-    margin-bottom: 15px;
-
-    font-size: 21px;
-
-    font-weight: 700;
-
-    color: #26323d;
-}
-
-.contador {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    width: 34px;
-
-    height: 34px;
-
-    border-radius: 50%;
-
-    background: #173f75;
-
-    color: white;
-
-    font-size: 16px;
-
-    font-weight: 700;
-}
-
-
-/* =========================
-   TARJETAS DE OPERARIOS
-========================= */
-
-.operario-card {
-    min-height: 65px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 10px 15px;
-
-    background: white;
-
-    border: 1px solid #dfe4ea;
-    border-radius: 10px;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-.operario-card:hover {
-    background: #f5f8fb;
-    border-color: #10376A;
-}
-
-.operario-card strong {
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.operario-card div div {
-    color: #777;
-    font-size: 14px;
-    margin-top: 3px;
-}
-
-
-/* =========================
-   ICONO OPERARIO
-========================= */
-
-.operario-icon {
-    width: 56px;
-
-    height: 56px;
-
-    min-width: 56px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-right: 18px;
-
-    border-radius: 14px;
-
-    background: #e8f0fa;
-
-    color: #173f75;
-
-    font-size: 21px;
-}
-
-
-/* =========================
-   INFO
-========================= */
-
-.operario-info {
-    flex: 1;
-}
-
-.operario-info strong {
-    display: block;
-
-    font-size: 19px;
-
-    font-weight: 600;
-
-    color: #26323d;
-}
-
-.operario-info span {
-    display: block;
-
-    margin-top: 5px;
-
-    font-size: 16px;
-
-    color: #777;
-}
-
-
-/* =========================
-   ELIMINAR
-========================= */
-
-.btn-eliminar {
     width: 48px;
-
     height: 48px;
 
     min-width: 48px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
-    margin-left: 15px;
+    margin-right: 13px;
+
+    border-radius: 12px;
+
+    background: #e8f0fa;
+
+    color: #173f75;
+
+    font-size: 19px;
+}
+
+
+/* =========================================================
+   INFORMACIÓN RESULTADO
+========================================================= */
+
+.resultado-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.resultado-info strong {
+    display: block;
+
+    overflow: hidden;
+
+    color: #26323d;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.resultado-info span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   ESTADO
+========================================================= */
+
+.resultado-estado {
+    flex-shrink: 0;
+
+    margin-left: 10px;
+
+    padding: 5px 10px;
+
+    border-radius: 14px;
+
+    background: #dff5e5;
+
+    color: #198754;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   CONTENEDOR DE SELECCIONADOS
+========================================================= */
+
+.seleccionados-container {
+    width: 100%;
+
+    margin-top: 20px;
+
+    padding: 18px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #dce2e8;
+
+    border-radius: 16px;
+
+    background: #fafbfc;
+}
+
+
+/* =========================================================
+   HEADER SELECCIONADOS
+========================================================= */
+
+.seleccionados-header {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 14px;
+
+    color: #26323d;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.contador {
+    width: 30px;
+    height: 30px;
+
+    min-width: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #173f75;
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TARJETA OPERARIO SELECCIONADO
+========================================================= */
+
+.operario-card {
+    width: 100%;
+    min-width: 0;
+
+    min-height: 64px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 10px 12px;
+
+    margin-bottom: 8px;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe4ea;
+
+    border-radius: 12px;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.operario-card:last-child {
+    margin-bottom: 0;
+}
+
+.operario-card:hover {
+    background: #f7f9fb;
+
+    border-color: #c8d4e1;
+}
+
+
+/* =========================================================
+   ICONO OPERARIO
+========================================================= */
+
+.operario-icon {
+    width: 48px;
+    height: 48px;
+
+    min-width: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-right: 13px;
+
+    border-radius: 12px;
+
+    background: #e8f0fa;
+
+    color: #173f75;
+
+    font-size: 19px;
+}
+
+
+/* =========================================================
+   INFORMACIÓN OPERARIO
+========================================================= */
+
+.operario-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.operario-info strong {
+    display: block;
+
+    overflow: hidden;
+
+    color: #26323d;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.operario-info span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   BOTÓN ELIMINAR
+========================================================= */
+
+.btn-eliminar {
+    width: 42px;
+    height: 42px;
+
+    min-width: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-left: 10px;
+
+    padding: 0;
 
     border: 1px solid #f0d0d4;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
-    background: white;
+    background: #ffffff;
 
     color: #dc3545;
 
-    font-size: 18px;
+    font-size: 16px;
 
     cursor: pointer;
 
-    transition: 0.2s;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .btn-eliminar:hover {
     background: #dc3545;
 
-    color: white;
+    color: #ffffff;
 
     border-color: #dc3545;
 }
 
 
-/* =========================
-   ESTADOS
-========================= */
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
 
-.estado {
-    font-size: 12px;
+@media (max-width: 768px) {
 
-    padding: 4px 9px;
-
-    border-radius: 12px;
-
-    background: #eee;
-}
-
-.estado.activo {
-    background: #dff5e5;
-    color: #198754;
-}
-
-.buscando,
-.sin-resultados {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #777;
-}
-
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 600px) {
-
-    .operario-input {
-        flex-direction: column;
-    }
-
-    .operario-input input {
-        border-radius: 12px;
-    }
-
-    .operario-input button {
-        width: 100%;
-
-        border-radius: 12px;
+    .titulo-operario {
+        font-size: 22px;
     }
 
     .seleccionados-container {
         padding: 15px;
     }
+}
+
+
+/* =========================================================
+   RESPONSIVE - MÓVIL
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .titulo-operario {
+        margin-bottom: 12px;
+        font-size: 20px;
+    }
+
+    .operario-input {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .operario-input input {
+        width: 100%;
+        height: 52px;
+        padding: 0 18px;
+        font-size: 16px;
+        border: 1.5px solid #d9dee5;
+        border-radius: 12px;
+        box-sizing: border-box;
+        /* elimina el border-right: none del base */
+        border-right: 1.5px solid #d9dee5;
+    }
+
+    .operario-input input:focus {
+        border-color: #173f75;
+        box-shadow: 0 0 0 3px rgba(23, 63, 117, 0.10);
+    }
+
+    .operario-input button {
+        width: 100%;
+        min-width: 0;
+        height: 52px;
+        font-size: 16px;
+        border-radius: 12px;
+        gap: 8px;
+    }
+
+    .resultado-card {
+        padding: 11px;
+    }
+
+    .resultado-icon {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        margin-right: 10px;
+    }
+
+    .resultado-info strong {
+        font-size: 15px;
+    }
+
+    .resultado-info span {
+        font-size: 12px;
+    }
+
+    .resultado-estado {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+
+    .seleccionados-container {
+        padding: 13px;
+        border-radius: 14px;
+    }
+
+    .seleccionados-header {
+        font-size: 16px;
+    }
+
+    .contador {
+        width: 27px;
+        height: 27px;
+        min-width: 27px;
+        font-size: 13px;
+    }
 
     .operario-card {
-        padding: 12px;
+        padding: 9px;
     }
 
     .operario-icon {
-        width: 48px;
-
-        height: 48px;
-
-        min-width: 48px;
-
-        margin-right: 12px;
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        margin-right: 10px;
+        font-size: 17px;
     }
 
+    .operario-info strong {
+        font-size: 14px;
+    }
+
+    .operario-info span {
+        font-size: 12px;
+    }
+
+    .btn-eliminar {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        margin-left: 8px;
+    }
 }

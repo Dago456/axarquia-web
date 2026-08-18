@@ -1,50 +1,58 @@
 <div class="operario-container">
 
-    <label class="titulo-operario">
-        Operario
-    </label>
+    <label class="titulo-operario">Operario</label>
 
-
-    <!-- BUSCADOR -->
-
-    <div class="operario-input">
+    <div style="display:flex; flex-direction:column; gap:10px; width:100%; margin-bottom:12px;">
 
         <input
             type="text"
             [(ngModel)]="textoBusqueda"
             placeholder="Buscar por nombre o ID"
             (keyup.enter)="buscar()"
+            style="
+                width: 100%;
+                height: 52px;
+                padding: 0 18px;
+                font-size: 16px;
+                border: 1.5px solid #d9dee5;
+                border-radius: 12px;
+                outline: none;
+                box-sizing: border-box;
+                background: #fff;
+                color: #26323d;
+            "
         >
 
         <button
             type="button"
-            (click)="buscar()">
-
+            (click)="buscar()"
+            style="
+                width: 100%;
+                height: 52px;
+                font-size: 16px;
+                font-weight: 600;
+                border: none;
+                border-radius: 12px;
+                background: #173f75;
+                color: #fff;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            "
+        >
             <i class="fa-solid fa-magnifying-glass"></i>
-
             Buscar
-
         </button>
 
     </div>
 
-
-    <!-- CARGANDO -->
-
-    <div
-        class="buscando"
-        *ngIf="buscando">
-
+    <div class="buscando" *ngIf="buscando">
         Buscando operarios...
-
     </div>
 
-
-    <!-- RESULTADOS DE BÚSQUEDA -->
-
-    <div
-        class="resultados"
-        *ngIf="!buscando && operarios.length > 0">
+    <div class="resultados" *ngIf="!buscando && operarios.length > 0">
 
         <div
             class="resultado-card"
@@ -52,109 +60,60 @@
             (click)="seleccionarOperario(operario)">
 
             <div class="resultado-icon">
-
                 <i class="fa-solid fa-user"></i>
-
             </div>
 
             <div class="resultado-info">
-
-                <strong>
-                    {{ operario.nom_ope }}
-                </strong>
-
-                <span>
-                    ID {{ operario.id_Operario }}
-                </span>
-
+                <strong>{{ operario.nom_ope }}</strong>
+                <span>ID {{ operario.id_Operario }}</span>
             </div>
 
             <div class="resultado-estado">
-
                 {{ operario.estado_ope }}
-
             </div>
 
         </div>
 
     </div>
-
-
-    <!-- OPERARIOS SELECCIONADOS -->
 
     <div
         class="seleccionados-container"
         *ngIf="operariosSeleccionados.length > 0">
 
         <div class="seleccionados-header">
-
-            <span>
-                Operarios seleccionados
-            </span>
-
-            <span class="contador">
-                {{ operariosSeleccionados.length }}
-            </span>
-
+            <span>Operarios seleccionados</span>
+            <span class="contador">{{ operariosSeleccionados.length }}</span>
         </div>
-
-
-        <!-- OPERARIO -->
 
         <div
             class="operario-card"
-            *ngFor="
-                let operario of operariosSeleccionados;
-                let i = index
-            ">
+            *ngFor="let operario of operariosSeleccionados; let i = index">
 
             <div class="operario-icon">
-
                 <i class="fa-solid fa-user-check"></i>
-
             </div>
-
 
             <div class="operario-info">
-
-                <strong>
-                    {{ operario.nom_ope }}
-                </strong>
-
-                <span>
-                    ID {{ operario.id_Operario }}
-                </span>
-
+                <strong>{{ operario.nom_ope }}</strong>
+                <span>ID {{ operario.id_Operario }}</span>
             </div>
-
 
             <button
                 type="button"
                 class="btn-eliminar"
                 (click)="eliminarOperario(i)"
                 title="Eliminar operario">
-
                 <i class="fa-solid fa-trash"></i>
-
             </button>
 
         </div>
 
     </div>
 
-
-    <!-- SIN RESULTADOS -->
-
     <div
         class="sin-resultados"
-        *ngIf="
-            !buscando &&
-            textoBusqueda.trim() &&
-            operarios.length === 0
-        ">
-
+        *ngIf="!buscando && textoBusqueda.trim() && operarios.length === 0">
         No se encontraron operarios.
-
     </div>
 
-</div>  
+</div>

@@ -32,6 +32,17 @@ import { inject, Injectable } from "@angular/core";
   
     }
   
+    createCommunity(comunidad: {
+      id_comunidades: number;
+      nom_comu: string;
+      ubi_comu: string;
+    }) {
+      return this.http.post<Community>(
+        `${this.env.ENDPOINT_PRIMARY}/comunidad`,
+        comunidad
+      );
+    }
+    
     getCommunityById(id: number) {
   
       return this.http.get<Community>(

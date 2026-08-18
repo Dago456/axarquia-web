@@ -3,15 +3,19 @@
     width: 100%;
 }
 
+
 /* =========================================================
-   CONTENEDOR PRINCIPAL
+   CONTENEDOR
 ========================================================= */
 
 .report-container {
     width: 100%;
     max-width: 1000px;
+
     margin: 0 auto;
-    padding: 25px 30px 40px;
+
+    padding: 25px 30px 45px;
+
     box-sizing: border-box;
 }
 
@@ -20,87 +24,66 @@
    ENCABEZADO
 ========================================================= */
 
-.community-info {
-    margin-bottom: 30px;
+.report-header {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    margin-bottom: 28px;
 }
 
-.community-info h3 {
+.report-header-icon {
+    width: 56px;
+    height: 56px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: #f0f5ff;
+
+    color: #10376A;
+
     font-size: 24px;
+}
+
+.report-header-content {
+    min-width: 0;
+}
+
+.report-header h2 {
+    margin: 0 0 4px;
+
+    font-size: 25px;
     font-weight: 700;
-    margin-bottom: 5px;
+
     color: #17213a;
 }
 
-.community-info p {
-    font-size: 16px;
-    color: #666;
+.report-header p {
     margin: 0;
+
+    font-size: 14px;
+
+    color: #6b7280;
 }
 
 
 /* =========================================================
-   CAMPOS
+   TARJETAS
 ========================================================= */
 
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group > label {
-    display: block;
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #171717;
-}
-
-.form-control {
-    width: 100%;
-    min-height: 48px;
-    padding: 10px 14px;
-
-    font-size: 16px;
-
-    border-radius: 10px;
-    border: 1px solid #d8dde3;
-
-    background: #ffffff;
-
-    box-sizing: border-box;
-
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease;
-}
-
-.form-control:focus {
-    outline: none;
-
-    border-color: #2d6cdf;
-
-    box-shadow:
-        0 0 0 4px rgba(45, 108, 223, .10);
-}
-
-.form-control::placeholder {
-    color: #9ca3af;
-}
-
-textarea.form-control {
-    min-height: 120px;
-    resize: vertical;
-}
-
-
-/* =========================================================
-   COMUNIDAD MANUAL
-========================================================= */
-
-.comunidad-manual-card {
+.section-card {
     width: 100%;
 
-    margin-bottom: 28px;
-    padding: 22px;
+    margin-bottom: 22px;
+
+    padding: 24px;
 
     box-sizing: border-box;
 
@@ -111,21 +94,26 @@ textarea.form-control {
     border-radius: 16px;
 
     box-shadow:
-        0 4px 15px rgba(0, 0, 0, .04);
+        0 4px 15px rgba(0, 0, 0, .035);
 }
 
-.comunidad-manual-header {
+
+/* =========================================================
+   CABECERA DE SECCIÓN
+========================================================= */
+
+.section-header {
     display: flex;
     align-items: center;
 
-    gap: 15px;
+    gap: 14px;
 
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
-.comunidad-manual-icon {
-    width: 52px;
-    height: 52px;
+.section-icon {
+    width: 50px;
+    height: 50px;
 
     flex-shrink: 0;
 
@@ -139,14 +127,10 @@ textarea.form-control {
 
     color: #10376A;
 
-    font-size: 22px;
+    font-size: 21px;
 }
 
-.comunidad-manual-title {
-    flex: 1;
-}
-
-.comunidad-manual-title h4 {
+.section-header h3 {
     margin: 0 0 4px;
 
     font-size: 18px;
@@ -155,40 +139,126 @@ textarea.form-control {
     color: #17213a;
 }
 
-.comunidad-manual-title p {
+.section-header p {
     margin: 0;
 
     font-size: 14px;
+
+    line-height: 1.45;
 
     color: #6b7280;
 }
 
 
 /* =========================================================
-   BOTONES PRINCIPALES
+   CAMPOS
 ========================================================= */
 
-.btn-primary {
-    background: #10376A;
-    border-color: #10376A;
+.form-group {
+    margin-bottom: 20px;
+}
 
-    min-height: 50px;
+.form-group:last-child {
+    margin-bottom: 0;
+}
 
-    border-radius: 11px;
+.form-group > label {
+    display: block;
+
+    margin-bottom: 8px;
 
     font-size: 15px;
     font-weight: 600;
 
-    transition: .2s ease;
+    color: #171717;
 }
 
-.btn-primary:hover {
-    background: #0B2D56;
-    border-color: #0B2D56;
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.form-control,
+.input-wrapper {
+    width: 100%;
+
+    min-height: 50px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #d8dde3;
+
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
 }
 
-.btn-primary:active {
-    transform: scale(.99);
+.input-wrapper {
+    display: flex;
+    align-items: center;
+
+    padding: 0 14px;
+
+    gap: 11px;
+}
+
+.input-wrapper i {
+    flex-shrink: 0;
+
+    color: #10376A;
+
+    font-size: 16px;
+}
+
+.input-wrapper input {
+    width: 100%;
+    min-width: 0;
+
+    height: 48px;
+
+    padding: 0;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-size: 16px;
+
+    color: #17213a;
+}
+
+.input-wrapper:focus-within,
+.form-control:focus {
+    outline: none;
+
+    border-color: #2d6cdf;
+
+    box-shadow:
+        0 0 0 4px rgba(45, 108, 223, .10);
+}
+
+.form-control {
+    padding: 11px 14px;
+
+    font-size: 16px;
+}
+
+textarea.form-control {
+    min-height: 115px;
+
+    resize: vertical;
+
+    line-height: 1.5;
+}
+
+.form-control::placeholder,
+.input-wrapper input::placeholder {
+    color: #9ca3af;
 }
 
 
@@ -196,18 +266,13 @@ textarea.form-control {
    HORARIO
 ========================================================= */
 
-.horario-section {
-    width: 100%;
-    margin-top: 30px;
-}
-
 .horario-grid {
     display: grid;
 
     grid-template-columns:
         repeat(2, minmax(0, 1fr));
 
-    gap: 28px;
+    gap: 24px;
 }
 
 .hora-field {
@@ -217,61 +282,56 @@ textarea.form-control {
 .hora-field label {
     display: block;
 
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 600;
 
     color: #171717;
 }
 
-
-/* =========================================================
-   INPUT DE HORA
-========================================================= */
-
 .hora-input-wrapper {
     width: 100%;
 
-    min-height: 72px;
+    min-height: 68px;
 
     display: flex;
     align-items: center;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
 
     background: #ffffff;
 
     border: 1.5px solid #cfd7e3;
 
-    border-radius: 16px;
-
-    overflow: hidden;
+    border-radius: 15px;
 
     transition:
         border-color .2s ease,
         box-shadow .2s ease;
-
-    box-sizing: border-box;
 }
 
 .hora-icon {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
 
-    margin-left: 10px;
+    margin-left: 9px;
+
+    flex-shrink: 0;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    flex-shrink: 0;
+    border-radius: 12px;
 
     background: #f0f5ff;
 
-    border-radius: 13px;
-
     color: #1657b8;
 
-    font-size: 23px;
+    font-size: 21px;
 }
 
 .hora-input-wrapper input {
@@ -280,28 +340,26 @@ textarea.form-control {
     width: 100%;
     min-width: 0;
 
-    height: 70px;
+    height: 66px;
 
-    padding: 0 18px;
+    padding: 0 15px;
 
     border: none;
     outline: none;
 
     background: transparent;
 
-    font-size: 22px;
-    font-weight: 500;
-
     color: #17213a;
+
+    font-size: 20px;
+    font-weight: 500;
 
     cursor: pointer;
 }
 
 .hora-input-wrapper input::-webkit-calendar-picker-indicator {
-    width: 24px;
-    height: 24px;
-
-    margin-right: 4px;
+    width: 22px;
+    height: 22px;
 
     cursor: pointer;
 
@@ -323,14 +381,16 @@ textarea.form-control {
 .duracion-card {
     width: 100%;
 
-    min-height: 120px;
+    min-height: 110px;
 
-    margin-top: 28px;
+    margin-top: 24px;
 
-    padding: 20px 24px;
+    padding: 18px 20px;
 
     display: flex;
     align-items: center;
+
+    gap: 16px;
 
     box-sizing: border-box;
 
@@ -343,20 +403,18 @@ textarea.form-control {
 
     border: 1.5px solid #a9c9ff;
 
-    border-radius: 17px;
-
-    gap: 18px;
+    border-radius: 16px;
 }
 
 .duracion-icon {
-    width: 68px;
-    height: 68px;
+    width: 60px;
+    height: 60px;
+
+    flex-shrink: 0;
 
     display: flex;
     align-items: center;
     justify-content: center;
-
-    flex-shrink: 0;
 
     border-radius: 50%;
 
@@ -364,28 +422,28 @@ textarea.form-control {
 
     color: white;
 
-    font-size: 30px;
+    font-size: 26px;
 }
 
 .duracion-info {
-    display: flex;
+    flex: 1;
 
+    display: flex;
     flex-direction: column;
 
-    gap: 4px;
+    gap: 3px;
 
-    flex: 1;
+    min-width: 0;
 }
 
 .duracion-label {
-    font-size: 17px;
+    font-size: 15px;
 
     color: #17213a;
 }
 
 .duracion-value {
-    font-size: 28px;
-
+    font-size: 25px;
     line-height: 1.2;
 
     color: #2b61c5;
@@ -394,7 +452,7 @@ textarea.form-control {
 }
 
 .duracion-badge {
-    padding: 10px 18px;
+    padding: 8px 14px;
 
     border-radius: 999px;
 
@@ -402,8 +460,7 @@ textarea.form-control {
 
     color: #2258ae;
 
-    font-size: 15px;
-
+    font-size: 13px;
     font-weight: 600;
 
     white-space: nowrap;
@@ -417,6 +474,8 @@ textarea.form-control {
 .firma-operario-card {
     width: 100%;
 
+    margin-bottom: 22px;
+
     padding: 22px;
 
     box-sizing: border-box;
@@ -428,27 +487,25 @@ textarea.form-control {
     border-radius: 16px;
 
     box-shadow:
-        0 4px 15px rgba(0, 0, 0, .04);
+        0 4px 15px rgba(0, 0, 0, .035);
 }
 
 .firma-operario-header {
     display: flex;
-
     align-items: center;
 
-    gap: 15px;
+    gap: 14px;
 
     margin-bottom: 18px;
 }
 
 .firma-operario-icon {
-    width: 52px;
-    height: 52px;
+    width: 50px;
+    height: 50px;
 
     flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -458,18 +515,17 @@ textarea.form-control {
 
     color: #10376A;
 
-    font-size: 22px;
+    font-size: 21px;
 }
 
 .firma-operario-title {
-    flex: 1;
+    min-width: 0;
 }
 
 .firma-operario-title h4 {
     margin: 0 0 4px;
 
     font-size: 18px;
-
     font-weight: 700;
 
     color: #17213a;
@@ -490,14 +546,15 @@ textarea.form-control {
 
 .firma-operario-empty {
     display: flex;
-
     align-items: center;
 
-    gap: 14px;
+    gap: 13px;
 
-    padding: 16px;
+    padding: 15px;
 
-    margin-bottom: 15px;
+    margin-bottom: 14px;
+
+    box-sizing: border-box;
 
     border-radius: 12px;
 
@@ -507,8 +564,8 @@ textarea.form-control {
 }
 
 .firma-empty-icon {
-    width: 45px;
-    height: 45px;
+    width: 44px;
+    height: 44px;
 
     flex-shrink: 0;
 
@@ -522,15 +579,16 @@ textarea.form-control {
 
     color: #ea580c;
 
-    font-size: 18px;
+    font-size: 17px;
 }
 
 .firma-empty-content {
     display: flex;
-
     flex-direction: column;
 
     gap: 3px;
+
+    min-width: 0;
 }
 
 .firma-empty-content strong {
@@ -543,49 +601,44 @@ textarea.form-control {
     color: #6b7280;
 
     font-size: 13px;
+
+    line-height: 1.4;
 }
 
 
 /* =========================================================
-   BOTÓN AGREGAR FIRMA
+   BOTÓN FIRMA
 ========================================================= */
 
 .btn-firma-operario {
     width: 100%;
 
-    min-height: 52px;
+    min-height: 50px;
 
     border: none;
 
-    border-radius: 12px;
+    border-radius: 11px;
 
     background: #10376A;
 
     color: white;
 
     font-size: 15px;
-
     font-weight: 600;
 
     cursor: pointer;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
-    gap: 10px;
+    gap: 9px;
 
     transition: .2s ease;
 }
 
 .btn-firma-operario:hover {
     background: #0B2D56;
-}
-
-.btn-firma-operario:active {
-    transform: scale(.99);
 }
 
 
@@ -595,20 +648,18 @@ textarea.form-control {
 
 .firma-operario-guardada {
     display: flex;
-
     flex-direction: column;
 
-    gap: 15px;
+    gap: 14px;
 }
 
 .firma-operario-status {
     display: flex;
-
     align-items: center;
 
-    gap: 12px;
+    gap: 11px;
 
-    padding: 14px;
+    padding: 13px;
 
     border-radius: 12px;
 
@@ -618,8 +669,8 @@ textarea.form-control {
 }
 
 .firma-check {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
 
     flex-shrink: 0;
 
@@ -632,16 +683,15 @@ textarea.form-control {
     background: #16a34a;
 
     color: white;
-
-    font-size: 18px;
 }
 
 .firma-operario-status > div:last-child {
     display: flex;
-
     flex-direction: column;
 
     gap: 3px;
+
+    min-width: 0;
 }
 
 .firma-operario-status strong {
@@ -664,12 +714,11 @@ textarea.form-control {
 .firma-preview {
     width: 100%;
 
-    min-height: 150px;
+    min-height: 140px;
 
     padding: 12px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -685,7 +734,7 @@ textarea.form-control {
 .firma-preview img {
     width: 100%;
 
-    max-height: 160px;
+    max-height: 150px;
 
     object-fit: contain;
 }
@@ -700,33 +749,119 @@ textarea.form-control {
 
     min-height: 46px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
     border-radius: 11px;
 
     border: 1px solid #10376A;
 
-    background: white;
+    background: #ffffff;
 
     color: #10376A;
 
     font-size: 14px;
-
     font-weight: 600;
 
     cursor: pointer;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 8px;
 
     transition: .2s ease;
 }
 
 .btn-firma-secundario:hover {
     background: #f4f7fb;
+}
+
+
+/* =========================================================
+   ACCIONES
+========================================================= */
+
+.actions {
+    display: grid;
+
+    grid-template-columns:
+        1.4fr 1fr 1fr;
+
+    gap: 12px;
+
+    margin-top: 28px;
+}
+
+.action-btn {
+    min-height: 52px;
+
+    padding: 0 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    border-radius: 11px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+}
+
+.action-btn:active {
+    transform: scale(.99);
+}
+
+
+/* GUARDAR */
+
+.action-primary {
+    border: 1px solid #10376A;
+
+    background: #10376A;
+
+    color: white;
+}
+
+.action-primary:hover {
+    background: #0B2D56;
+}
+
+
+/* PDF */
+
+.action-pdf {
+    border: 1px solid #10376A;
+
+    background: white;
+
+    color: #10376A;
+}
+
+.action-pdf:hover {
+    background: #f4f7fb;
+}
+
+
+/* CANCELAR */
+
+.action-secondary {
+    border: 1px solid #d1d5db;
+
+    background: white;
+
+    color: #4b5563;
+}
+
+.action-secondary:hover {
+    background: #f9fafb;
 }
 
 
@@ -750,130 +885,25 @@ textarea.form-control {
     line-height: 1.5;
 }
 
-
-/* =========================================================
-   ESTADO DE ENVÍO
-========================================================= */
-
-.estado-envio {
-    text-align: center;
-
-    padding: 10px 10px 20px;
-}
-
-.estado-icono {
-    width: 70px;
-    height: 70px;
-
-    margin: 5px auto 20px;
-
-    border-radius: 50%;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-size: 28px;
-}
-
-.estado-icono.enviando {
-    background: rgba(18, 48, 74, 0.10);
-    color: #12304A;
-}
-
-.estado-icono.sin-conexion {
-    background: rgba(234, 179, 8, 0.12);
-    color: #b77900;
-}
-
-.estado-icono.exitoso {
-    background: rgba(34, 197, 94, 0.12);
-    color: #16a34a;
-}
-
-.estado-icono.error {
-    background: rgba(239, 68, 68, 0.12);
-    color: #dc2626;
-}
-
-.estado-envio h3 {
-    margin: 0 0 10px;
-
-    color: #12304A;
-
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.estado-envio p {
-    margin: 0 auto 22px;
-
-    max-width: 400px;
-
-    color: #4B5563;
-
-    font-size: 14px;
-
-    line-height: 1.6;
-}
-
-.btn-estado {
+.modal-save-btn {
     width: 100%;
+
+    margin-top: 18px;
+
+    min-height: 50px;
 
     border: none;
 
-    border-radius: 10px;
+    border-radius: 11px;
 
-    padding: 12px 18px;
-
-    background: #12304A;
+    background: #10376A;
 
     color: white;
 
-    font-size: 14px;
-
+    font-size: 15px;
     font-weight: 600;
 
     cursor: pointer;
-
-    transition: .2s ease;
-}
-
-.btn-estado:hover {
-    background: #1D4E6E;
-}
-
-.spinner-container {
-    display: flex;
-
-    justify-content: center;
-
-    margin-top: 15px;
-}
-
-.spinner {
-    width: 30px;
-    height: 30px;
-
-    border: 3px solid #dce5eb;
-
-    border-top-color: #12304A;
-
-    border-radius: 50%;
-
-    animation: girar .8s linear infinite;
-}
-
-@keyframes girar {
-
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 
@@ -887,55 +917,22 @@ textarea.form-control {
         padding: 22px 20px 35px;
     }
 
+    .actions {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .action-secondary {
+        grid-column: 1 / -1;
+    }
+
     .horario-grid {
         grid-template-columns: 1fr;
 
-        gap: 20px;
-    }
-
-    .hora-field label {
-        font-size: 17px;
-    }
-
-    .hora-input-wrapper {
-        min-height: 65px;
-
-        border-radius: 14px;
-    }
-
-    .hora-input-wrapper input {
-        height: 63px;
-
-        font-size: 20px;
+        gap: 18px;
     }
 
     .duracion-card {
-        min-height: 105px;
-
-        padding: 17px;
-
-        gap: 14px;
-    }
-
-    .duracion-icon {
-        width: 58px;
-        height: 58px;
-
-        font-size: 25px;
-    }
-
-    .duracion-label {
-        font-size: 15px;
-    }
-
-    .duracion-value {
-        font-size: 24px;
-    }
-
-    .duracion-badge {
-        padding: 8px 13px;
-
-        font-size: 13px;
+        min-height: 100px;
     }
 }
 
@@ -947,118 +944,459 @@ textarea.form-control {
 @media (max-width: 480px) {
 
     .report-container {
-        padding: 18px 15px 30px;
+        padding: 17px 14px 30px;
     }
 
-    .community-info h3 {
+    .report-header {
+        gap: 12px;
+
+        margin-bottom: 22px;
+    }
+
+    .report-header-icon {
+        width: 48px;
+        height: 48px;
+
+        border-radius: 13px;
+
+        font-size: 20px;
+    }
+
+    .report-header h2 {
         font-size: 21px;
     }
 
-    .community-info p {
-        font-size: 14px;
+    .report-header p {
+        font-size: 13px;
     }
 
-    .comunidad-manual-card {
+
+    /* TARJETAS */
+
+    .section-card,
+    .firma-operario-card {
         padding: 18px;
+
+        margin-bottom: 17px;
 
         border-radius: 14px;
     }
 
-    .comunidad-manual-icon {
-        width: 46px;
-        height: 46px;
 
-        font-size: 19px;
+    /* CABECERAS */
+
+    .section-header {
+        align-items: flex-start;
+
+        gap: 11px;
+
+        margin-bottom: 18px;
     }
 
-    .comunidad-manual-title h4 {
-        font-size: 17px;
-    }
-
-    .comunidad-manual-title p {
-        font-size: 13px;
-    }
-
-    .hora-input-wrapper {
-        min-height: 62px;
-    }
-
-    .hora-icon {
-        width: 46px;
-        height: 46px;
-
-        margin-left: 8px;
+    .section-icon,
+    .firma-operario-icon {
+        width: 44px;
+        height: 44px;
 
         border-radius: 11px;
 
-        font-size: 20px;
+        font-size: 18px;
+    }
+
+    .section-header h3,
+    .firma-operario-title h4 {
+        font-size: 16px;
+    }
+
+    .section-header p,
+    .firma-operario-title p {
+        font-size: 12px;
+    }
+
+
+    /* CAMPOS */
+
+    .form-group {
+        margin-bottom: 17px;
+    }
+
+    .form-group > label {
+        font-size: 14px;
+    }
+
+    .form-control {
+        font-size: 15px;
+    }
+
+    .input-wrapper {
+        min-height: 48px;
+
+        padding: 0 12px;
+    }
+
+    .input-wrapper input {
+        font-size: 15px;
+    }
+
+
+    /* HORARIO */
+
+    .hora-input-wrapper {
+        min-height: 62px;
+
+        border-radius: 13px;
+    }
+
+    .hora-icon {
+        width: 44px;
+        height: 44px;
+
+        margin-left: 7px;
+
+        border-radius: 10px;
+
+        font-size: 19px;
     }
 
     .hora-input-wrapper input {
         height: 60px;
 
-        padding: 0 10px;
+        padding: 0 9px;
 
         font-size: 18px;
     }
 
+
+    /* DURACIÓN */
+
     .duracion-card {
-        padding: 15px;
+        min-height: 90px;
 
-        gap: 12px;
+        padding: 14px;
 
-        min-height: 95px;
+        gap: 11px;
     }
 
     .duracion-icon {
-        width: 52px;
-        height: 52px;
+        width: 48px;
+        height: 48px;
 
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .duracion-label {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .duracion-value {
-        font-size: 21px;
+        font-size: 20px;
     }
 
     .duracion-badge {
         display: none;
     }
 
-    .firma-operario-card {
+
+    /* FIRMA */
+
+    .firma-operario-empty {
+        align-items: flex-start;
+
+        padding: 13px;
+    }
+
+    .firma-empty-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .firma-empty-content span {
+        font-size: 12px;
+    }
+
+    .firma-preview {
+        min-height: 115px;
+    }
+
+    .firma-preview img {
+        max-height: 115px;
+    }
+
+
+    /* BOTONES */
+
+    .actions {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 10px;
+
+        margin-top: 22px;
+    }
+
+    .action-btn {
+        width: 100%;
+
+        min-height: 50px;
+    }
+}
+ /* =========================================================
+    FIRMA DEL CLIENTE
+ ========================================================= */
+
+ .firma-cliente-card {
+    width: 100%;
+
+    margin-bottom: 22px;
+
+    padding: 22px;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border: 1px solid #dce2ea;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, .035);
+}
+
+
+.firma-cliente-header {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+}
+
+
+.firma-cliente-icon {
+    width: 50px;
+    height: 50px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background: #f0f5ff;
+
+    color: #10376A;
+
+    font-size: 21px;
+}
+
+
+.firma-cliente-title {
+    min-width: 0;
+}
+
+
+.firma-cliente-title h4 {
+    margin: 0 0 4px;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    color: #17213a;
+}
+
+
+.firma-cliente-title p {
+    margin: 0;
+
+    font-size: 14px;
+
+    color: #6b7280;
+}
+
+
+/* =========================================================
+   FIRMA PENDIENTE
+========================================================= */
+
+.firma-cliente-empty {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 15px;
+
+    margin-bottom: 14px;
+
+    box-sizing: border-box;
+
+    border-radius: 12px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e5e7eb;
+}
+
+
+/* =========================================================
+   BOTÓN FIRMA CLIENTE
+========================================================= */
+
+.btn-firma-cliente {
+    width: 100%;
+
+    min-height: 50px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background: #10376A;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    transition: .2s ease;
+}
+
+
+.btn-firma-cliente:hover {
+    background: #0B2D56;
+}
+
+
+.btn-firma-cliente:active {
+    transform: scale(.99);
+}
+
+
+/* =========================================================
+   FIRMA GUARDADA
+========================================================= */
+
+.firma-cliente-guardada {
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+.firma-cliente-status {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 13px;
+
+    border-radius: 12px;
+
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+}
+
+
+.firma-cliente-status > div:last-child {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+
+    min-width: 0;
+}
+
+
+.firma-cliente-status strong {
+    color: #166534;
+
+    font-size: 15px;
+}
+
+
+.firma-cliente-status span {
+    color: #4b5563;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   MODAL CLIENTE
+========================================================= */
+
+.firma-cliente-modal {
+    width: 100%;
+}
+
+
+.firma-cliente-instruccion {
+    margin: 0 0 20px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   MÓVIL
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .firma-cliente-card {
         padding: 18px;
 
         border-radius: 14px;
     }
 
-    .firma-operario-icon {
-        width: 46px;
-        height: 46px;
 
-        font-size: 19px;
+    .firma-cliente-icon {
+        width: 44px;
+        height: 44px;
+
+        border-radius: 11px;
+
+        font-size: 18px;
     }
 
-    .firma-operario-title h4 {
-        font-size: 17px;
+
+    .firma-cliente-title h4 {
+        font-size: 16px;
     }
 
-    .firma-operario-title p {
-        font-size: 13px;
+
+    .firma-cliente-title p {
+        font-size: 12px;
     }
 
-    .firma-operario-empty {
+
+    .firma-cliente-empty {
         align-items: flex-start;
+
+        padding: 13px;
     }
 
-    .firma-preview {
-        min-height: 120px;
-    }
-
-    .firma-preview img {
-        max-height: 120px;
-    }
 }

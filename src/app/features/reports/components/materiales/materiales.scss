@@ -1,197 +1,213 @@
+/* =========================================================
+   CONTENEDOR
+========================================================= */
+
 .materiales-container {
     width: 100%;
+    box-sizing: border-box;
 }
 
+
+/* =========================================================
+   TÍTULO
+========================================================= */
 
 .materiales-container h2 {
-    font-size: 32px;
+    margin: 0 0 16px;
+
+    color: #26323d;
+
+    font-size: 24px;
     font-weight: 700;
-    margin-bottom: 20px;
-    color: #111827;
+
+    line-height: 1.2;
 }
 
 
-/* =========================
+/* =========================================================
    INPUT + BOTÓN
-========================= */
-
-.materiales-title {
-    font-size: 30px;
-    font-weight: 700;
-    margin-bottom: 18px;
-}
+========================================================= */
 
 .material-input {
     display: flex;
-    gap: 10px;
+    align-items: stretch;
+
+    width: 100%;
+
     margin-bottom: 18px;
+
+    box-sizing: border-box;
 }
 
 .material-input input {
     flex: 1;
-    height: 48px;
-    padding: 0 15px;
+    min-width: 0;
+
+    height: 52px;
+
+    padding: 0 16px;
+
+    border: 1px solid #d9dee5;
+    border-right: none;
+
+    border-radius: 10px 0 0 10px;
+
+    background: #ffffff;
+
+    color: #26323d;
+
     font-size: 16px;
-    border: 1px solid #d8dde3;
-    border-radius: 10px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+    transition: 0.2s ease;
 }
 
+.material-input input::placeholder {
+    color: #9299a1;
+}
 
 .material-input input:focus {
-    border-color: #1769d1;
+    border-color: #173f75;
 
     box-shadow:
-        0 0 0 4px rgba(23, 105, 209, 0.15);
+        0 0 0 3px rgba(23, 63, 117, 0.10);
 }
 
+
+/* =========================================================
+   BOTÓN AGREGAR
+========================================================= */
+
 .material-input button {
-    height: 48px;
-    padding: 0 25px;
+    width: 130px;
+    min-width: 130px;
+
+    height: 52px;
+
+    padding: 0 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
     border: none;
-    border-radius: 10px;
+
+    border-radius: 0 10px 10px 0;
+
+    background: #173f75;
+
+    color: #ffffff;
+
     font-size: 16px;
     font-weight: 600;
-    background: #173f75;
-    color: white;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.1s ease;
 }
 
 .material-input button:hover {
-    background: #1257b0;
+    background: #102f59;
 }
 
-.materiales-lista {
-    padding: 15px;
-    border: 1px solid #dfe4ea;
-    border-radius: 14px;
-    background: #fafbfc;
+.material-input button:active {
+    transform: scale(0.98);
 }
 
-.materiales-lista h4 {
-    font-size: 20px;
-    margin: 0 0 12px;
-}
 
-.material-item {
-    min-height: 65px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 10px 15px;
-
-    background: white;
-
-    border: 1px solid #dfe4ea;
-    border-radius: 10px;
-
-    margin-bottom: 8px;
-}
-
-.material-item:last-child {
-    margin-bottom: 0;
-}
-
-.material-item span {
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.material-item button {
-    width: 38px;
-    height: 38px;
-
-    border: none;
-    border-radius: 8px;
-
-    font-size: 15px;
-}
-
-/* =========================
-   CONTENEDOR DE ELEMENTOS
-========================= */
+/* =========================================================
+   CONTENEDOR DE MATERIALES
+========================================================= */
 
 .items-container {
-    margin-top: 20px;
-
-    padding: 20px;
-
-    border: 1px solid #dce2e8;
-
-    border-radius: 18px;
-
-    background: #fafbfc;
-}
-
-
-/* =========================
-   HEADER
-========================= */
-
-.items-header {
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-    margin-bottom: 15px;
-
-    font-size: 21px;
-
-    font-weight: 700;
-
-    color: #26323d;
-}
-
-.contador {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    width: 34px;
-
-    height: 34px;
-
-    border-radius: 50%;
-
-    background: #173f75;
-
-    color: white;
-
-    font-size: 16px;
-
-    font-weight: 700;
-}
-
-
-/* =========================
-   TARJETA
-========================= */
-
-.item-card {
-    display: flex;
-
-    align-items: center;
-
     width: 100%;
 
-    min-height: 90px;
+    padding: 18px;
 
-    padding: 15px 18px;
-
-    margin-bottom: 12px;
-
-    background: white;
+    box-sizing: border-box;
 
     border: 1px solid #dce2e8;
 
     border-radius: 16px;
 
+    background: #fafbfc;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.items-header {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 14px;
+
+    color: #26323d;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.contador {
+    width: 30px;
+    height: 30px;
+
+    min-width: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #173f75;
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TARJETA MATERIAL
+========================================================= */
+
+.item-card {
+    width: 100%;
+    min-width: 0;
+
+    min-height: 64px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 10px 12px;
+
+    margin-bottom: 8px;
+
     box-sizing: border-box;
 
-    transition: 0.2s;
+    background: #ffffff;
+
+    border: 1px solid #dfe4ea;
+
+    border-radius: 12px;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .item-card:last-child {
@@ -199,134 +215,148 @@
 }
 
 .item-card:hover {
-    border-color: #b9c8da;
+    background: #f7f9fb;
 
-    box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.05);
+    border-color: #c8d4e1;
 }
 
 
-/* =========================
+/* =========================================================
    ICONO
-========================= */
+========================================================= */
 
 .item-icon {
-    width: 56px;
-
-    height: 56px;
-
-    min-width: 56px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-right: 18px;
-
-    border-radius: 14px;
-
-    background: #e8f0fa;
-
-    color: #173f75;
-
-    font-size: 23px;
-}
-
-
-/* =========================
-   INFORMACIÓN
-========================= */
-
-.item-info {
-    flex: 1;
-}
-
-.item-info strong {
-    display: block;
-
-    font-size: 19px;
-
-    font-weight: 600;
-
-    color: #26323d;
-
-    word-break: break-word;
-}
-
-
-/* =========================
-   BOTÓN ELIMINAR
-========================= */
-
-.btn-eliminar {
     width: 48px;
-
     height: 48px;
 
     min-width: 48px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
-    margin-left: 15px;
+    margin-right: 13px;
+
+    border-radius: 12px;
+
+    background: #e8f0fa;
+
+    color: #173f75;
+
+    font-size: 19px;
+}
+
+
+/* =========================================================
+   INFORMACIÓN
+========================================================= */
+
+.item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.item-info strong {
+    display: block;
+
+    color: #26323d;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    line-height: 1.35;
+
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   BOTÓN ELIMINAR
+========================================================= */
+
+.btn-eliminar {
+    width: 42px;
+    height: 42px;
+
+    min-width: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-left: 10px;
+
+    padding: 0;
 
     border: 1px solid #f0d0d4;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
-    background: white;
+    background: #ffffff;
 
     color: #dc3545;
 
-    font-size: 18px;
+    font-size: 16px;
 
     cursor: pointer;
 
-    transition: 0.2s;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .btn-eliminar:hover {
     background: #dc3545;
 
-    color: white;
+    color: #ffffff;
 
     border-color: #dc3545;
 }
 
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 
-    .material-input {
-        flex-direction: column;
-    }
-
-    .material-input button {
-        width: 100%;
+    .materiales-container h2 {
+        font-size: 22px;
     }
 
     .items-container {
         padding: 15px;
     }
+}
 
-    .item-card {
-        padding: 12px;
+
+/* =========================================================
+   RESPONSIVE - MÓVIL
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .material-input {
+        flex-direction: column !important;
+        gap: 12px !important;
     }
 
-    .item-icon {
-        width: 48px;
-        height: 48px;
-        min-width: 48px;
-
-        margin-right: 12px;
+    .material-input input {
+        width: 100% !important;
+        height: 52px !important;
+        padding: 0 18px !important;
+        font-size: 16px !important;
+        border: 1.5px solid #d9dee5 !important;
+        border-right: 1.5px solid #d9dee5 !important;
+        border-radius: 12px !important;
+        box-sizing: border-box !important;
     }
 
+    .material-input button {
+        width: 100% !important;
+        height: 52px !important;
+        font-size: 16px !important;
+        border-radius: 12px !important;
+    }
 }

@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/pages/login/login';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout';
 import { DashboardComponent } from './features/auth/pages/dashboard/dashboard';
+import { QrReaderComponent } from './features/scanner/components/qr-reader/qr-reader';
 
 export const routes: Routes = [
 
@@ -43,10 +44,10 @@ export const routes: Routes = [
             .then(c => c.ReportWithoutComponent)
       },
       {
-        path: 'report',
+        path: 'listqr',
         loadComponent: () =>
-          import('./features/reports/pages/report/report')
-            .then(c => c.ReportComponent)
+          import('./features/reports/pages/listasqr/listas-qr.component')
+            .then(c => c.ListasQrComponent)
       },
 
       {

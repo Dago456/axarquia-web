@@ -1,0 +1,421 @@
+<div class="listas-qr-container">
+
+    <!-- =====================================================
+         ENCABEZADO
+    ====================================================== -->
+
+    <div class="page-header">
+
+        <div class="page-header-icon">
+            <i class="fa-solid fa-qrcode"></i>
+        </div>
+
+        <div class="page-header-content">
+
+            <h2>
+                Listas QR
+            </h2>
+
+            <p>
+                Consulta las comunidades y genera sus códigos QR.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ACCIONES
+    ====================================================== -->
+
+    <div class="top-actions">
+
+        <div class="search-wrapper">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                [(ngModel)]="textoBusqueda"
+                placeholder="Buscar comunidad por nombre..."
+                (input)="buscarComunidades()"
+            >
+
+            <button
+                *ngIf="textoBusqueda"
+                type="button"
+                class="btn-clear"
+                (click)="limpiarBusqueda()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="btn-crear"
+            (click)="crearComunidad()">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Crear comunidad
+
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         CARGANDO
+    ====================================================== -->
+
+    <div
+        class="loading-container"
+        *ngIf="cargando">
+
+        <div class="spinner"></div>
+
+        <span>
+            Cargando comunidades...
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         RESULTADO BÚSQUEDA
+    ====================================================== -->
+
+    <div
+        class="resultado-busqueda"
+        *ngIf="!cargando && textoBusqueda">
+
+        <span>
+            Resultados para:
+        </span>
+
+        <strong>
+            "{{ textoBusqueda }}"
+        </strong>
+
+        <span>
+            ({{ comunidadesFiltradas.length }})
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         LISTA
+    ====================================================== -->
+
+    <div
+        class="comunidades-container"
+        *ngIf="!cargando && comunidadesFiltradas.length > 0">
+
+        <div
+            class="comunidad-card"
+            *ngFor="let comunidad of comunidadesFiltradas">
+
+            <div class="comunidad-icon">
+
+                <i class="fa-solid fa-building"></i>
+
+            </div>
+
+
+            <div class="comunidad-info">
+
+                <div class="comunidad-id">
+
+                    ID {{ comunidad.id_comunidades }}
+
+                </div>
+
+                <h3>
+
+                    {{ comunidad.nom_comu }}
+
+                </h3>
+
+                <div class="comunidad-ubicacion">
+
+                    <i class="fa-solid fa-location-dot"></i>
+
+                    <span>
+                        {{ comunidad.ubi_comu }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn-pdf"
+                (click)="generarPDF(comunidad)">
+
+                <i class="fa-solid fa-file-pdf"></i>
+
+                <span>
+                    Generar PDF
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SIN RESULTADOS
+    ====================================================== -->
+
+    <div
+        class="empty-state"
+        *ngIf="!cargando && comunidadesFiltradas.length === 0">
+
+        <div class="empty-icon">
+
+            <i class="fa-solid fa-building-circle-xmark"></i>
+
+        </div>
+
+        <h3>
+            No se encontraron comunidades
+        </h3>
+
+        <p *ngIf="textoBusqueda">
+
+            No encontramos comunidades que coincidan
+            con "{{ textoBusqueda }}".
+
+        </p>
+
+        <p *ngIf="!textoBusqueda">
+
+            Todavía no hay comunidades registradas.
+
+        </p>
+
+        <button
+            type="button"
+            class="btn-crear-empty"
+            (click)="crearComunidad()">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Crear comunidad
+
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         MODAL CREAR COMUNIDAD
+    ====================================================== -->
+
+    <div
+        class="modal-overlay"
+        *ngIf="modalCrearComunidad"
+        (click)="cerrarModalCrear()">
+
+
+        <div
+            class="modal-crear-comunidad"
+            (click)="$event.stopPropagation()">
+
+
+            <!-- HEADER -->
+
+            <div class="modal-header">
+
+                <div class="modal-header-icon">
+
+                    <i class="fa-solid fa-building"></i>
+
+                </div>
+
+                <div>
+
+                    <h3>
+                        Crear comunidad
+                    </h3>
+
+                    <p>
+                        Registra una nueva comunidad en Axarquia.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="btn-cerrar-modal"
+                    (click)="cerrarModalCrear()">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+            <!-- FORMULARIO -->
+
+            <div class="modal-body">
+
+
+                <!-- ID -->
+
+                <div class="form-group">
+
+                    <label for="idComunidad">
+
+                        ID de la comunidad
+
+                    </label>
+
+                    <div class="modal-input">
+
+                        <i class="fa-solid fa-hashtag"></i>
+
+                        <input
+                            id="idComunidad"
+                            type="number"
+                            [(ngModel)]="nuevaComunidad.id_comunidades"
+                            placeholder="Ej. 101">
+
+                    </div>
+
+                    <span class="input-help">
+
+                        Este será el ID que contendrá el código QR.
+
+                    </span>
+
+                </div>
+
+
+                <!-- NOMBRE -->
+
+                <div class="form-group">
+
+                    <label for="nombreComunidad">
+
+                        Nombre de la comunidad
+
+                    </label>
+
+                    <div class="modal-input">
+
+                        <i class="fa-solid fa-building"></i>
+
+                        <input
+                            id="nombreComunidad"
+                            type="text"
+                            [(ngModel)]="nuevaComunidad.nom_comu"
+                            placeholder="Ej. Comunidad Los Olivos">
+
+                    </div>
+
+                </div>
+
+
+                <!-- UBICACIÓN -->
+
+                <div class="form-group">
+
+                    <label for="ubicacionComunidad">
+
+                        Ubicación
+
+                    </label>
+
+                    <div class="modal-input">
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        <input
+                            id="ubicacionComunidad"
+                            type="text"
+                            [(ngModel)]="nuevaComunidad.ubi_comu"
+                            placeholder="Ej. Calle Principal 25">
+
+                    </div>
+
+                </div>
+
+
+                <!-- ERROR -->
+
+                <div
+                    class="modal-error"
+                    *ngIf="errorCrearComunidad">
+
+                    <i class="fa-solid fa-circle-exclamation"></i>
+
+                    <span>
+                        {{ errorCrearComunidad }}
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-modal-cancelar"
+                    (click)="cerrarModalCrear()"
+                    [disabled]="creandoComunidad">
+
+                    Cancelar
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn-modal-crear"
+                    (click)="guardarComunidad()"
+                    [disabled]="creandoComunidad">
+
+                    <i
+                        class="fa-solid"
+                        [ngClass]="creandoComunidad
+                            ? 'fa-spinner fa-spin'
+                            : 'fa-plus'">
+                    </i>
+
+                    <span>
+
+                        {{
+                            creandoComunidad
+                                ? 'Creando...'
+                                : 'Crear comunidad'
+                        }}
+
+                    </span>
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>

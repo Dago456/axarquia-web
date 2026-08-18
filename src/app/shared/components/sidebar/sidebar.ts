@@ -44,7 +44,7 @@ export class SidebarComponent {
     {
       titulo:'Listas QR',
       icono:'fa-solid fa-list-check',
-      ruta:'/listas-qr'
+      ruta:'/listqr'
     },
 
     {

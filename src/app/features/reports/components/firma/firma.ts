@@ -49,7 +49,13 @@ export class FirmaComponent implements AfterViewInit {
 
     console.log('Canvas de firma listo');
 
+    // Si existe una firma guardada,
+    // reconstruirla dentro del canvas.
+    if (this.firma) {
+      this.cargarFirma(this.firma);
+    }
   }
+
 
   empezar(event: PointerEvent): void {
 
@@ -69,8 +75,8 @@ export class FirmaComponent implements AfterViewInit {
       posicion.x,
       posicion.y
     );
-
   }
+
 
   dibujar(event: PointerEvent): void {
 
@@ -88,8 +94,8 @@ export class FirmaComponent implements AfterViewInit {
     );
 
     this.ctx.stroke();
-
   }
+
 
   terminar(event: PointerEvent): void {
 
@@ -104,8 +110,8 @@ export class FirmaComponent implements AfterViewInit {
     this.ctx.closePath();
 
     this.guardarFirma();
-
   }
+
 
   limpiarFirma(): void {
 
@@ -119,8 +125,8 @@ export class FirmaComponent implements AfterViewInit {
     );
 
     this.firmaChange.emit(null);
-
   }
+
 
   private obtenerPosicion(
     event: PointerEvent
@@ -147,8 +153,8 @@ export class FirmaComponent implements AfterViewInit {
         * escalaY
 
     };
-
   }
+
 
   private guardarFirma(): void {
 
@@ -158,7 +164,43 @@ export class FirmaComponent implements AfterViewInit {
       canvas.toDataURL('image/png');
 
     this.firmaChange.emit(imagen);
+  }
 
+
+  private cargarFirma(firma: string): void {
+
+    const imagen = new Image();
+
+    imagen.onload = () => {
+
+      const canvas = this.canvas.nativeElement;
+
+      this.ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      this.ctx.drawImage(
+        imagen,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+    };
+
+    imagen.onerror = () => {
+
+      console.error(
+        'No se pudo cargar la firma almacenada'
+      );
+
+    };
+
+    imagen.src = firma;
   }
 
 }
