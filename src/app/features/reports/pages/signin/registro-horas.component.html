@@ -1,0 +1,365 @@
+<div class="registro-container">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <div class="page-header">
+
+        <div class="page-header-icon">
+
+            <i class="fa-solid fa-clock"></i>
+
+        </div>
+
+        <div>
+
+            <h2>
+                Registro de horas
+            </h2>
+
+            <p>
+                Controla el tiempo de tus tareas.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ERROR
+    ====================================================== -->
+
+    <div
+        class="error-message"
+        *ngIf="error">
+
+        <i class="fa-solid fa-circle-exclamation"></i>
+
+        <span>
+            {{ error }}
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         SIN TAREA ACTIVA
+    ====================================================== -->
+
+    <section
+        class="task-card start-card"
+        *ngIf="!tareaActiva">
+
+        <div class="card-icon">
+
+            <i class="fa-solid fa-play"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h3>
+                Iniciar una tarea
+            </h3>
+
+            <p>
+                Registra el momento exacto en que comienzas a trabajar.
+            </p>
+
+
+            <div class="form-group">
+
+                <label for="nombreTarea">
+                    Nombre de la tarea
+                </label>
+
+                <div class="input-wrapper">
+
+                    <i class="fa-solid fa-list-check"></i>
+
+                    <input
+                        id="nombreTarea"
+                        type="text"
+                        [(ngModel)]="nombreTarea"
+                        placeholder="Ej. Mantenimiento de bomba"
+                        [disabled]="cargando"
+                        (keyup.enter)="iniciarTarea()"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn-primary"
+                (click)="iniciarTarea()"
+                [disabled]="cargando">
+
+                <i
+                    class="fa-solid"
+                    [class.fa-play]="!cargando"
+                    [class.fa-spinner]="cargando"
+                    [class.fa-spin]="cargando">
+                </i>
+
+                <span>
+                    {{ cargando ? 'Iniciando...' : 'Iniciar tarea' }}
+                </span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         TAREA ACTIVA
+    ====================================================== -->
+
+    <section
+        class="task-card active-card"
+        *ngIf="tareaActiva?.estado === 'ACTIVA'">
+
+        <div class="active-header">
+
+            <div class="active-status">
+
+                <span class="status-dot"></span>
+
+                TAREA ACTIVA
+
+            </div>
+
+        </div>
+
+
+        <div class="active-task-content">
+
+            <div class="task-main-icon">
+
+                <i class="fa-solid fa-person-running"></i>
+
+            </div>
+
+
+            <div class="task-info">
+
+                <span class="task-label">
+                    Tarea actual
+                </span>
+
+                <h3>
+                    {{ tareaActiva?.nombre_tarea }}
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <!-- TIEMPO -->
+
+        <div class="timer">
+
+            <span class="timer-label">
+                Tiempo transcurrido
+            </span>
+
+            <strong>
+                {{ formatearTiempo(tiempoTranscurrido) }}
+            </strong>
+
+        </div>
+
+
+        <!-- INICIO -->
+
+        <div class="time-info">
+
+            <div>
+
+                <span>
+                    Inicio
+                </span>
+
+                <strong>
+                    {{ formatearFecha(tareaActiva!.fecha_inicio) }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- FINALIZAR -->
+
+        <button
+            type="button"
+            class="btn-finalizar"
+            (click)="finalizarTarea()"
+            [disabled]="finalizando">
+
+            <i
+                class="fa-solid"
+                [class.fa-stop]="!finalizando"
+                [class.fa-spinner]="finalizando"
+                [class.fa-spin]="finalizando">
+            </i>
+
+            <span>
+                {{
+                    finalizando
+                        ? 'Finalizando...'
+                        : 'Finalizar tarea'
+                }}
+            </span>
+
+        </button>
+
+    </section>
+
+
+    <!-- =====================================================
+         TAREA FINALIZADA
+    ====================================================== -->
+
+    <section
+        class="task-card finished-card"
+        *ngIf="tareaActiva?.estado === 'FINALIZADA'">
+
+        <div class="finished-icon">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+        <div class="finished-content">
+
+            <span class="finished-label">
+                Tarea finalizada
+            </span>
+
+            <h3>
+                {{ tareaActiva?.nombre_tarea }}
+            </h3>
+
+            <div class="finished-data">
+
+                <div>
+
+                    <span>
+                        Inicio
+                    </span>
+
+                    <strong>
+                        {{ formatearFecha(tareaActiva!.fecha_inicio) }}
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        Finalización
+                    </span>
+
+                    <strong>
+                        {{ formatearFecha(tareaActiva!.fecha_fin!) }}
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        Duración
+                    </span>
+
+                    <strong class="duration">
+                        {{ formatearDuracion(tareaActiva!.duracion_minutos) }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         HISTORIAL
+    ====================================================== -->
+
+    <section
+        class="history-card"
+        *ngIf="historial.length > 0">
+
+        <div class="section-header">
+
+            <div class="section-icon">
+
+                <i class="fa-solid fa-clock-rotate-left"></i>
+
+            </div>
+
+            <div>
+
+                <h3>
+                    Historial de tareas
+                </h3>
+
+                <p>
+                    Registro de las tareas realizadas.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="history-list">
+
+            <div
+                class="history-item"
+                *ngFor="let tarea of historial">
+
+                <div class="history-icon">
+
+                    <i class="fa-solid fa-check"></i>
+
+                </div>
+
+
+                <div class="history-info">
+
+                    <strong>
+                        {{ tarea.nombre_tarea }}
+                    </strong>
+
+                    <span>
+                        {{ formatearFecha(tarea.fecha_inicio) }}
+                    </span>
+
+                </div>
+
+
+                <div class="history-duration">
+
+                    {{ formatearDuracion(tarea.duracion_minutos) }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

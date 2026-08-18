@@ -1,0 +1,496 @@
+<div class="historial-container">
+
+    <!-- =====================================================
+         ENCABEZADO
+    ====================================================== -->
+
+    <div class="page-header">
+
+        <div class="page-header-icon">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+        </div>
+
+        <div class="page-header-content">
+
+            <h2>
+                Historial de partes
+            </h2>
+
+            <p>
+                Busca una comunidad para consultar sus partes registrados.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         BUSCADOR
+    ====================================================== -->
+
+    <div class="search-card">
+
+        <div class="search-header">
+
+            <div class="search-icon">
+                <i class="fa-solid fa-building"></i>
+            </div>
+
+            <div>
+
+                <h3>
+                    Buscar comunidad
+                </h3>
+
+                <p>
+                    Busca por nombre, ubicación o ID de comunidad.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="search-wrapper">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                [(ngModel)]="textoBusqueda"
+                (input)="buscarComunidades()"
+                placeholder="Buscar comunidad..."
+            >
+
+            <button
+                *ngIf="textoBusqueda"
+                type="button"
+                class="btn-clear"
+                (click)="limpiarBusqueda()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             CARGANDO
+        ================================================== -->
+
+        <div
+            class="loading"
+            *ngIf="cargandoComunidades">
+
+            <div class="spinner"></div>
+
+            <span>
+                Buscando comunidades...
+            </span>
+
+        </div>
+
+
+        <!-- =================================================
+             RESULTADOS
+        ================================================== -->
+
+        <div
+            class="resultados-comunidades"
+            *ngIf="
+                !cargandoComunidades &&
+                textoBusqueda &&
+                comunidadesFiltradas.length > 0
+            ">
+
+            <button
+                type="button"
+                class="comunidad-result"
+                *ngFor="let comunidad of comunidadesFiltradas"
+                (click)="seleccionarComunidad(comunidad)">
+
+                <div class="comunidad-result-icon">
+
+                    <i class="fa-solid fa-building"></i>
+
+                </div>
+
+
+                <div class="comunidad-result-info">
+
+                    <strong>
+                        {{ comunidad.nom_comu }}
+                    </strong>
+
+                    <span>
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        {{ comunidad.ubi_comu }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="comunidad-result-id">
+
+                    ID {{ comunidad.id_comunidades }}
+
+                </div>
+
+
+                <i class="fa-solid fa-chevron-right comunidad-arrow"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             SIN RESULTADOS
+        ================================================== -->
+
+        <div
+            class="sin-resultados"
+            *ngIf="
+                !cargandoComunidades &&
+                textoBusqueda &&
+                comunidadesFiltradas.length === 0
+            ">
+
+            <i class="fa-solid fa-building-circle-xmark"></i>
+
+            <strong>
+                No encontramos comunidades
+            </strong>
+
+            <span>
+                Intenta buscar utilizando otro nombre, ubicación o ID.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         COMUNIDAD SELECCIONADA
+    ====================================================== -->
+
+    <div
+        class="comunidad-seleccionada"
+        *ngIf="comunidadSeleccionada">
+
+        <div class="seleccionada-info">
+
+            <div class="seleccionada-icon">
+
+                <i class="fa-solid fa-building"></i>
+
+            </div>
+
+            <div>
+
+                <span>
+                    Comunidad seleccionada
+                </span>
+
+                <strong>
+                    {{ comunidadSeleccionada.nom_comu }}
+                </strong>
+
+                <small>
+                    {{ comunidadSeleccionada.ubi_comu }}
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="btn-ver-historial"
+            (click)="abrirHistorial()">
+
+            <i class="fa-solid fa-clock-rotate-left"></i>
+
+            Ver historial
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     MODAL HISTORIAL
+========================================================== -->
+
+<div
+    class="modal-overlay"
+    *ngIf="mostrarModal"
+    (click)="cerrarHistorial()">
+
+
+    <div
+        class="historial-modal"
+        (click)="$event.stopPropagation()">
+
+
+        <!-- =================================================
+             HEADER MODAL
+        ================================================== -->
+
+        <div class="modal-header">
+
+            <div class="modal-title">
+
+                <div class="modal-icon">
+
+                    <i class="fa-solid fa-file-lines"></i>
+
+                </div>
+
+                <div>
+
+                    <h3>
+                        Historial de partes
+                    </h3>
+
+                    <p>
+                        {{ comunidadSeleccionada?.nom_comu }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn-close"
+                (click)="cerrarHistorial()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             INFORMACIÓN COMUNIDAD
+        ================================================== -->
+
+        <div class="modal-community">
+
+            <div>
+
+                <span>
+                    Comunidad
+                </span>
+
+                <strong>
+                    {{ comunidadSeleccionada?.nom_comu }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Ubicación
+                </span>
+
+                <strong>
+                    {{ comunidadSeleccionada?.ubi_comu }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    ID
+                </span>
+
+                <strong>
+                    {{ comunidadSeleccionada?.id_comunidades }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CARGANDO PARTES
+        ================================================== -->
+
+        <div
+            class="modal-loading"
+            *ngIf="cargandoPartes">
+
+            <div class="spinner"></div>
+
+            <span>
+                Cargando partes...
+            </span>
+
+        </div>
+
+
+        <!-- =================================================
+             LISTA DE PARTES
+        ================================================== -->
+
+        <div
+            class="partes-list"
+            *ngIf="
+                !cargandoPartes &&
+                partes.length > 0
+            ">
+
+
+            <div
+                class="partes-header">
+
+                <span>
+                    Partes registrados
+                </span>
+
+                <strong>
+                    {{ partes.length }}
+                </strong>
+
+            </div>
+
+
+            <div
+                class="parte-row"
+                *ngFor="let parte of partes">
+
+
+                <!-- ID -->
+
+                <div class="parte-id">
+
+                    <span>
+                        ID reporte
+                    </span>
+
+                    <strong>
+                        #{{ parte.id_parte }}
+                    </strong>
+
+                </div>
+
+
+                <!-- COMUNIDAD -->
+
+                <div class="parte-comunidad">
+
+                    <span>
+                        Comunidad
+                    </span>
+
+                    <strong>
+                        {{ parte.nom_comunidad }}
+                    </strong>
+
+                </div>
+
+
+                <!-- FECHA -->
+
+                <div class="parte-fecha">
+
+                    <span>
+                        Fecha
+                    </span>
+
+                    <strong>
+                        {{ parte.fecha_actual }}
+                    </strong>
+
+                </div>
+
+
+                <!-- PDF -->
+
+                <button
+                    type="button"
+                    class="btn-descargar"
+                    (click)="descargarPDF(parte)">
+
+                    <i class="fa-solid fa-file-pdf"></i>
+
+                    <span>
+                        Descargar PDF
+                    </span>
+
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SIN PARTES
+        ================================================== -->
+
+        <div
+            class="modal-empty"
+            *ngIf="
+                !cargandoPartes &&
+                partes.length === 0
+            ">
+
+            <div class="empty-icon">
+
+                <i class="fa-solid fa-file-circle-xmark"></i>
+
+            </div>
+
+            <h4>
+                No hay partes registrados
+            </h4>
+
+            <p>
+                Esta comunidad todavía no tiene partes registrados.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <div class="modal-footer">
+
+            <button
+                type="button"
+                class="btn-cerrar"
+                (click)="cerrarHistorial()">
+
+                Cerrar
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>

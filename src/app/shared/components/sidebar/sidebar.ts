@@ -50,13 +50,7 @@ export class SidebarComponent {
     {
       titulo:'Registro Horas',
       icono:'fa-solid fa-clock',
-      ruta:'/registro-horas'
-    },
-
-    {
-      titulo:'Crear Reporte',
-      icono:'fa-solid fa-file-lines',
-      ruta:'/reportes'
+      ruta:'/registrohoras'
     },
 
     {

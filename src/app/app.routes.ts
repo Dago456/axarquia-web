@@ -51,10 +51,16 @@ export const routes: Routes = [
       },
 
       {
-        path: 'report/:id',
+        path: 'registrohoras',
         loadComponent: () =>
-          import('./features/reports/pages/create-report/create-report')
-            .then(c => c.CreateReportComponent)
+          import('./features/reports/pages/signin/registro-horas.component')
+            .then(c => c.RegistroHorasComponent)
+      },
+      {
+        path: 'historial',
+        loadComponent: () =>
+          import('./features/reports/pages/historial-partes/historial-partes.component')
+            .then(c => c.HistorialPartesComponent)
       },
       {
         path: 'usuarios',
