@@ -71,23 +71,6 @@ export class LoginComponent {
           respuesta.operario
         );
 
-        /*
-         * Por ahora solamente guardamos
-         * los datos básicos del operario.
-         *
-         * Después crearemos un servicio de sesión
-         * para manejar esto correctamente.
-         */
-
-        // localStorage.setItem(
-        //   'operario',
-        //   JSON.stringify(respuesta.operario)
-        // );
-        console.log(
-          '✅ Login correcto:',
-          respuesta.operario
-        );
-
         this.authService.guardarSesion(
           respuesta.operario
         );

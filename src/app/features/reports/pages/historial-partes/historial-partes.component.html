@@ -418,7 +418,37 @@
                     </span>
 
                     <strong>
-                        {{ parte.fecha_actual }}
+                        {{ parte.fecha_actual }} · {{ parte.hora_automatica }}
+                    </strong>
+
+                </div>
+
+
+                <!-- MOTIVO -->
+
+                <div class="parte-motivo" *ngIf="parte.motivo_visita">
+
+                    <span>
+                        Motivo de visita
+                    </span>
+
+                    <strong>
+                        {{ parte.motivo_visita }}
+                    </strong>
+
+                </div>
+
+
+                <!-- OPERARIO -->
+
+                <div class="parte-operario" *ngIf="parte.operario">
+
+                    <span>
+                        Operario(s)
+                    </span>
+
+                    <strong>
+                        {{ parte.operario }}
                     </strong>
 
                 </div>
@@ -429,12 +459,14 @@
                 <button
                     type="button"
                     class="btn-descargar"
+                    [disabled]="!parte.pdf_path"
+                    [title]="parte.pdf_path ? 'Descargar el PDF del parte' : 'Este parte no tiene un PDF guardado'"
                     (click)="descargarPDF(parte)">
 
                     <i class="fa-solid fa-file-pdf"></i>
 
                     <span>
-                        Descargar PDF
+                        {{ parte.pdf_path ? 'Descargar PDF' : 'Sin PDF' }}
                     </span>
 
                 </button>

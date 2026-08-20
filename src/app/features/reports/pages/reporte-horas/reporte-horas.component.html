@@ -1,0 +1,237 @@
+<div class="reporte-container">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <div class="page-header">
+
+        <div class="page-header-icon">
+            <i class="fa-solid fa-chart-column"></i>
+        </div>
+
+        <div>
+
+            <h2>
+                Reporte de horas
+            </h2>
+
+            <p>
+                Consulta cuánto trabajó cada operario, día a día.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FILTROS
+    ====================================================== -->
+
+    <section class="filtros-card">
+
+        <div class="modo-toggle">
+
+            <button
+                type="button"
+                class="modo-btn"
+                [class.activo]="modo === 'individual'"
+                (click)="cambiarModo('individual')">
+
+                <i class="fa-solid fa-user"></i>
+                Individual
+
+            </button>
+
+            <button
+                type="button"
+                class="modo-btn"
+                [class.activo]="modo === 'grupal'"
+                (click)="cambiarModo('grupal')">
+
+                <i class="fa-solid fa-users"></i>
+                Grupal (todos)
+
+            </button>
+
+        </div>
+
+
+        <div class="filtros-grid">
+
+            <div class="form-group" *ngIf="modo === 'individual'">
+
+                <label for="operario">Operario</label>
+
+                <select
+                    id="operario"
+                    [(ngModel)]="idOperarioSeleccionado">
+
+                    <option [ngValue]="null">Selecciona un operario</option>
+
+                    <option
+                        *ngFor="let operario of operarios"
+                        [ngValue]="operario.id_Operario">
+
+                        {{ operario.nom_ope }}
+
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="fechaInicio">Desde</label>
+
+                <input
+                    id="fechaInicio"
+                    type="date"
+                    [(ngModel)]="fechaInicio">
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="fechaFin">Hasta</label>
+
+                <input
+                    id="fechaFin"
+                    type="date"
+                    [(ngModel)]="fechaFin">
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="error-message"
+            *ngIf="error">
+
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>{{ error }}</span>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="btn-generar"
+            [disabled]="cargando"
+            (click)="generarReporte()">
+
+            <i
+                class="fa-solid"
+                [class.fa-magnifying-glass-chart]="!cargando"
+                [class.fa-spinner]="cargando"
+                [class.fa-spin]="cargando">
+            </i>
+
+            <span>{{ cargando ? 'Generando...' : 'Generar reporte' }}</span>
+
+        </button>
+
+    </section>
+
+
+    <!-- =====================================================
+         RESULTADOS
+    ====================================================== -->
+
+    <ng-container *ngIf="resultado">
+
+        <div class="resultados-header">
+
+            <div>
+
+                <h3>Resultado</h3>
+
+                <p>
+                    {{ resultado.fecha_inicio }} — {{ resultado.fecha_fin }}
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                class="btn-pdf"
+                (click)="descargarPdf()">
+
+                <i class="fa-solid fa-file-pdf"></i>
+                Descargar PDF
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="sin-resultados"
+            *ngIf="resultado.operarios.length === 0">
+
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <p>No hay tareas finalizadas en ese rango de fechas.</p>
+
+        </div>
+
+
+        <section
+            class="operario-card"
+            *ngFor="let operario of resultado.operarios">
+
+            <div class="operario-header">
+
+                <div class="operario-nombre">
+                    <i class="fa-solid fa-user"></i>
+                    <strong>{{ operario.nombre_operario }}</strong>
+                </div>
+
+                <div class="operario-total">
+                    Total: {{ formatearDuracion(operario.total_operario_segundos) }}
+                </div>
+
+            </div>
+
+
+            <div
+                class="dia-row"
+                *ngFor="let dia of operario.dias">
+
+                <div class="dia-fecha">
+                    {{ formatearFecha(dia.fecha) }}
+                </div>
+
+                <div class="dia-tareas">
+
+                    <div
+                        class="tarea-item"
+                        *ngFor="let tarea of dia.tareas">
+
+                        <span class="tarea-nombre">{{ tarea.nombre_tarea }}</span>
+
+                        <span class="tarea-horas">
+                            {{ formatearHora(tarea.hora_inicio) }} — {{ formatearHora(tarea.hora_fin) }}
+                        </span>
+
+                        <span class="tarea-duracion">
+                            {{ formatearDuracion(tarea.duracion_segundos) }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="dia-total">
+                    {{ formatearDuracion(dia.total_dia_segundos) }}
+                </div>
+
+            </div>
+
+        </section>
+
+    </ng-container>
+
+</div>

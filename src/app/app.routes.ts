@@ -3,14 +3,16 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/pages/login/login';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout';
 import { DashboardComponent } from './features/auth/pages/dashboard/dashboard';
-import { QrReaderComponent } from './features/scanner/components/qr-reader/qr-reader';
+import { authGuard } from './features/auth/guards/auth.guard';
+import { guestGuard } from './features/auth/guards/guest.guard';
 
 export const routes: Routes = [
 
   // Login
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [guestGuard]
   },
 
   // Al ingresar a la aplicación
@@ -24,6 +26,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
+    canActivate: [authGuard],
     children: [
 
       {
@@ -37,11 +40,25 @@ export const routes: Routes = [
           import('./features/scanner/pages/scanner/scanner')
             .then(c => c.ScannerComponent)
       },
+      
       {
-        path: 'reportwithout',
+        path: 'report',
         loadComponent: () =>
-          import('./features/reports/pages/reportwithout/reportwithout')
-            .then(c => c.ReportWithoutComponent)
+          import('./features/reports/pages/report/report')
+            .then(c => c.ReportComponent)
+      },
+
+      {
+        path: 'report/:id',
+        loadComponent: () =>
+          import('./features/reports/pages/create-report/create-report')
+            .then(c => c.CreateReportComponent)
+      },
+      {
+        path: 'usuarios',
+        loadComponent: () =>
+          import('./features/users/pages/users/users')
+            .then(c => c.UsersComponent)
       },
       {
         path: 'listqr',
@@ -49,7 +66,12 @@ export const routes: Routes = [
           import('./features/reports/pages/listasqr/listas-qr.component')
             .then(c => c.ListasQrComponent)
       },
-
+      {
+        path: 'reportwithout',
+        loadComponent: () =>
+          import('./features/reports/pages/reportwithout/reportwithout')
+            .then(c => c.ReportWithoutComponent)
+      },
       {
         path: 'registrohoras',
         loadComponent: () =>
@@ -63,10 +85,10 @@ export const routes: Routes = [
             .then(c => c.HistorialPartesComponent)
       },
       {
-        path: 'usuarios',
+        path: 'reportehoras',
         loadComponent: () =>
-          import('./features/users/pages/users/users')
-            .then(c => c.UsersComponent)
+          import('./features/reports/pages/reporte-horas/reporte-horas.component')
+            .then(c => c.ReporteHorasComponent)
       },
 
     ]

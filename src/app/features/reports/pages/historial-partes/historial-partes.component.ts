@@ -2,7 +2,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { jsPDF } from 'jspdf';
 import { CommunityService } from '../../../../core/services/comunidadservice/comunidad.service';
 import { EnvService } from '../../../../core/services/env.service';
 import { Community } from '../../../scanner/models/community.model';
@@ -230,16 +229,8 @@ export class HistorialPartesComponent implements OnInit {
         this.partes = [];
 
 
-        /*
-         * Endpoint que ya tenemos planteado
-         * para obtener los partes de una comunidad.
-         *
-         * Si tu route quedó con otra estructura,
-         * solamente cambiamos esta URL.
-         */
-
         const url =
-            `${this.env.ENDPOINT_PRIMARY}/parte/comunidad/${idComunidad}`;
+            `${this.env.ENDPOINT_PRIMARY}/partes/comunidad/${idComunidad}`;
 
 
         this.http
@@ -286,573 +277,61 @@ export class HistorialPartesComponent implements OnInit {
 
 
     /* =====================================================
-       DESCARGAR PDF
+       DESCARGAR PDF (el que quedó guardado al crear el parte)
     ====================================================== */
 
     descargarPDF(parte: any): void {
 
-        const pdf = new jsPDF(
-            'p',
-            'mm',
-            'a4'
-        );
+        if (!parte.pdf_path) {
 
-
-        const pageWidth =
-            pdf.internal.pageSize.getWidth();
-
-
-        const pageHeight =
-            pdf.internal.pageSize.getHeight();
-
-
-        /* =================================================
-           COLORES
-        ================================================== */
-
-        const azul = '#10376A';
-
-        const gris = '#6B7280';
-
-        const grisClaro = '#F5F7FA';
-
-
-        /* =================================================
-           HEADER
-        ================================================== */
-
-        pdf.setFillColor(16, 55, 106);
-
-        pdf.rect(
-            0,
-            0,
-            pageWidth,
-            30,
-            'F'
-        );
-
-
-        pdf.setTextColor(255, 255, 255);
-
-        pdf.setFontSize(20);
-
-        pdf.setFont('helvetica', 'bold');
-
-        pdf.text(
-            'AXARQUIA',
-            18,
-            14
-        );
-
-
-        pdf.setFontSize(9);
-
-        pdf.setFont('helvetica', 'normal');
-
-        pdf.text(
-            'Reporte de servicio',
-            18,
-            21
-        );
-
-
-        /* =================================================
-           INFORMACIÓN PRINCIPAL
-        ================================================== */
-
-        let y = 43;
-
-
-        pdf.setTextColor(23, 33, 58);
-
-        pdf.setFontSize(18);
-
-        pdf.setFont('helvetica', 'bold');
-
-        pdf.text(
-            'Información del reporte',
-            18,
-            y
-        );
-
-
-        y += 12;
-
-
-        /* =================================================
-           TARJETA INFORMACIÓN
-        ================================================== */
-
-        pdf.setFillColor(248, 250, 252);
-
-        pdf.setDrawColor(220, 226, 234);
-
-        pdf.roundedRect(
-            18,
-            y,
-            pageWidth - 36,
-            48,
-            4,
-            4,
-            'FD'
-        );
-
-
-        const left = 24;
-
-        const right = pageWidth / 2 + 5;
-
-
-        let infoY = y + 10;
-
-
-        pdf.setFontSize(8);
-
-        pdf.setTextColor(107, 114, 128);
-
-        pdf.setFont(
-            'helvetica',
-            'normal'
-        );
-
-        pdf.text(
-            'ID REPORTE',
-            left,
-            infoY
-        );
-
-
-        pdf.text(
-            'COMUNIDAD',
-            right,
-            infoY
-        );
-
-
-        infoY += 6;
-
-
-        pdf.setFontSize(11);
-
-        pdf.setTextColor(23, 33, 58);
-
-        pdf.setFont(
-            'helvetica',
-            'bold'
-        );
-
-
-        pdf.text(
-            `${parte.id_parte ?? '-'}`,
-            left,
-            infoY
-        );
-
-
-        pdf.text(
-            `${parte.nom_comunidad ?? this.comunidadSeleccionada?.nom_comu ?? '-'}`,
-            right,
-            infoY,
-            {
-                maxWidth: 75
-            }
-        );
-
-
-        infoY += 13;
-
-
-        pdf.setFontSize(8);
-
-        pdf.setTextColor(107, 114, 128);
-
-        pdf.setFont(
-            'helvetica',
-            'normal'
-        );
-
-
-        pdf.text(
-            'FECHA',
-            left,
-            infoY
-        );
-
-
-        pdf.text(
-            'UBICACIÓN',
-            right,
-            infoY
-        );
-
-
-        infoY += 6;
-
-
-        pdf.setFontSize(10);
-
-        pdf.setTextColor(23, 33, 58);
-
-        pdf.setFont(
-            'helvetica',
-            'bold'
-        );
-
-
-        pdf.text(
-            `${parte.fecha_actual ?? '-'}`,
-            left,
-            infoY
-        );
-
-
-        pdf.text(
-            `${parte.ubi_comunidad ?? this.comunidadSeleccionada?.ubi_comu ?? '-'}`,
-            right,
-            infoY,
-            {
-                maxWidth: 75
-            }
-        );
-
-
-        y += 62;
-
-
-        /* =================================================
-           MOTIVO
-        ================================================== */
-
-        y = this.agregarSeccionPDF(
-            pdf,
-            'Motivo de visita',
-            parte.motivo_visita,
-            y
-        );
-
-
-        /* =================================================
-           CONCEPTO
-        ================================================== */
-
-        y = this.agregarSeccionPDF(
-            pdf,
-            'Concepto de trabajo',
-            parte.concepto_trabajo,
-            y
-        );
-
-
-        /* =================================================
-           CONTACTO
-        ================================================== */
-
-        y = this.agregarSeccionPDF(
-            pdf,
-            'Contacto',
-            parte.contacto,
-            y
-        );
-
-
-        /* =================================================
-           OBSERVACIONES
-        ================================================== */
-
-        y = this.agregarSeccionPDF(
-            pdf,
-            'Observaciones',
-            parte.observaciones,
-            y
-        );
-
-
-        /* =================================================
-           OPERARIOS
-        ================================================== */
-
-        if (
-            parte.operario &&
-            Array.isArray(parte.operario)
-        ) {
-
-            y = this.agregarSeccionPDF(
-                pdf,
-                'Operarios',
-                parte.operario.join(', '),
-                y
+            alert(
+                'Este parte no tiene un PDF guardado.'
             );
+
+            return;
 
         }
 
+        const url =
+            `${this.env.ENDPOINT_PRIMARY}/partes/${parte.id_parte}/pdf`;
 
-        /* =================================================
-           MATERIALES
-        ================================================== */
+        this.http
+            .get(url, { responseType: 'blob' })
+            .subscribe({
 
-        if (
-            parte.materiales &&
-            Array.isArray(parte.materiales)
-        ) {
+                next: (blob) => {
 
-            y = this.agregarSeccionPDF(
-                pdf,
-                'Materiales',
-                parte.materiales.join(', '),
-                y
-            );
+                    const objectUrl =
+                        URL.createObjectURL(blob);
 
-        }
+                    const enlace =
+                        document.createElement('a');
 
+                    enlace.href = objectUrl;
 
-        /* =================================================
-           HORARIO
-        ================================================== */
+                    enlace.download =
+                        `parte-${parte.id_parte}.pdf`;
 
-        if (
-            parte.hora_entrada ||
-            parte.duracion
-        ) {
+                    enlace.click();
 
-            if (y > pageHeight - 45) {
+                    URL.revokeObjectURL(objectUrl);
 
-                pdf.addPage();
+                },
 
-                y = 25;
+                error: (error) => {
 
-            }
+                    console.error(
+                        'Error descargando el PDF:',
+                        error
+                    );
 
+                    alert(
+                        'No fue posible descargar el PDF de este parte.'
+                    );
 
-            pdf.setFontSize(13);
+                }
 
-            pdf.setTextColor(23, 33, 58);
-
-            pdf.setFont(
-                'helvetica',
-                'bold'
-            );
-
-            pdf.text(
-                'Horario',
-                18,
-                y
-            );
-
-
-            y += 8;
-
-
-            pdf.setFontSize(10);
-
-            pdf.setFont(
-                'helvetica',
-                'normal'
-            );
-
-
-            if (parte.hora_entrada) {
-
-                pdf.text(
-                    `Hora de entrada: ${parte.hora_entrada}`,
-                    18,
-                    y
-                );
-
-                y += 6;
-
-            }
-
-
-            if (parte.duracion) {
-
-                pdf.text(
-                    `Duración: ${parte.duracion}`,
-                    18,
-                    y
-                );
-
-                y += 10;
-
-            }
-
-        }
-
-
-        /* =================================================
-           FOOTER
-        ================================================== */
-
-        pdf.setDrawColor(220, 226, 234);
-
-        pdf.line(
-            18,
-            pageHeight - 20,
-            pageWidth - 18,
-            pageHeight - 20
-        );
-
-
-        pdf.setFontSize(8);
-
-        pdf.setTextColor(107, 114, 128);
-
-        pdf.setFont(
-            'helvetica',
-            'normal'
-        );
-
-
-        pdf.text(
-            'Axarquia Mantenimientos',
-            18,
-            pageHeight - 13
-        );
-
-
-        pdf.text(
-            `Reporte #${parte.id_parte ?? ''}`,
-            pageWidth - 18,
-            pageHeight - 13,
-            {
-                align: 'right'
-            }
-        );
-
-
-        /* =================================================
-           DESCARGAR
-        ================================================== */
-
-        pdf.save(
-            `reporte-${parte.id_parte ?? 'sin-id'}.pdf`
-        );
+            });
 
     }
-
-
-    /* =====================================================
-       SECCIÓN PDF
-    ====================================================== */
-
-    private agregarSeccionPDF(
-        pdf: jsPDF,
-        titulo: string,
-        contenido: any,
-        y: number
-    ): number {
-
-        const pageWidth =
-            pdf.internal.pageSize.getWidth();
-
-        const pageHeight =
-            pdf.internal.pageSize.getHeight();
-
-
-        if (
-            contenido === null ||
-            contenido === undefined ||
-            contenido === ''
-        ) {
-
-            return y;
-
-        }
-
-
-        if (y > pageHeight - 55) {
-
-            pdf.addPage();
-
-            y = 25;
-
-        }
-
-
-        pdf.setFontSize(13);
-
-        pdf.setTextColor(23, 33, 58);
-
-        pdf.setFont(
-            'helvetica',
-            'bold'
-        );
-
-
-        pdf.text(
-            titulo,
-            18,
-            y
-        );
-
-
-        y += 7;
-
-
-        pdf.setFillColor(
-            248,
-            250,
-            252
-        );
-
-
-        pdf.setDrawColor(
-            225,
-            230,
-            237
-        );
-
-
-        const texto =
-            String(contenido);
-
-
-        pdf.setFontSize(10);
-
-        pdf.setFont(
-            'helvetica',
-            'normal'
-        );
-
-
-        const lineas =
-            pdf.splitTextToSize(
-                texto,
-                pageWidth - 48
-            );
-
-
-        const altura =
-            Math.max(
-                15,
-                lineas.length * 5 + 8
-            );
-
-
-        pdf.roundedRect(
-            18,
-            y,
-            pageWidth - 36,
-            altura,
-            3,
-            3,
-            'FD'
-        );
-
-
-        pdf.setTextColor(
-            55,
-            65,
-            81
-        );
-
-        pdf.text(
-            lineas,
-            24,
-            y + 8
-        );
-
-        return y + altura + 10;
-
-    }
-
 }

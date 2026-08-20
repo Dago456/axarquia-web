@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MenuItem } from '../../interfaces/menu-item';
 import { SidebarService } from '../../../core/services/sidebar.service';
+import { AuthService } from '../../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,9 +18,11 @@ import { SidebarService } from '../../../core/services/sidebar.service';
 })
 export class SidebarComponent {
   
-  sidebar = inject(SidebarService); 
+  sidebar = inject(SidebarService);
 
-  constructor(private router: Router) {} 
+  private authService = inject(AuthService);
+
+  constructor(private router: Router) {}
 
   menu:MenuItem[]=[
 
@@ -60,6 +63,12 @@ export class SidebarComponent {
     },
 
     {
+      titulo:'Reporte Horas',
+      icono:'fa-solid fa-chart-column',
+      ruta:'/reportehoras'
+    },
+
+    {
       titulo: 'Usuarios',
       ruta: '/usuarios',
       icono: 'fa-solid fa-users'
@@ -69,9 +78,9 @@ export class SidebarComponent {
 
   cerrarSesion(): void {
 
-    // Más adelante aquí eliminaremos el token
-  
+    this.authService.cerrarSesion();
+
     this.router.navigate(['/login']);
-  
+
   }
 }

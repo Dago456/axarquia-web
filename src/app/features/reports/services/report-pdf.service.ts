@@ -18,7 +18,7 @@ export class ReportPdfService {
   private readonly MARGEN_X = 15;
   private readonly ANCHO_CONTENIDO = 180;
 
-  async generarPdf(report: Report): Promise<Blob> {
+  async generarPdf(report: Report, idParte?: number | null): Promise<Blob> {
 
       const pdf = new jsPDF({
           orientation: 'portrait',
@@ -26,12 +26,15 @@ export class ReportPdfService {
           format: 'a4'
       });
 
+      const fecha =
+          new Date().toLocaleDateString('es-ES');
+
       /*
        * HEADER
        */
-      await this.dibujarEncabezado(pdf, report);
+      await this.dibujarEncabezado(pdf, fecha);
 
-      let y = 58;
+      let y = 40;
 
       /*
        * INFORMACIÓN
@@ -42,31 +45,20 @@ export class ReportPdfService {
           y
       );
 
-      y = this.dibujarInformacionServicio(
+      y = this.dibujarInformacionParte(
           pdf,
           report,
+          fecha,
           y
       );
 
-      y = this.dibujarConceptoTrabajo(
-          pdf,
-          report,
-          y
-      );
-
-      y = this.dibujarObservaciones(
+      y = this.dibujarOperarios(
           pdf,
           report,
           y
       );
 
       y = this.dibujarMateriales(
-          pdf,
-          report,
-          y
-      );
-
-      y = this.dibujarOperarios(
           pdf,
           report,
           y
@@ -80,7 +72,7 @@ export class ReportPdfService {
           y = this.verificarEspacio(
               pdf,
               y,
-              90
+              62
           );
 
           y = await this.dibujarFotos(
@@ -91,17 +83,17 @@ export class ReportPdfService {
       }
 
       /*
-       * FIRMA
+       * FIRMAS
        */
-      if (report.firma) {
+      if (report.firma || report.firmaOperario) {
 
           y = this.verificarEspacio(
               pdf,
               y,
-              65
+              45
           );
 
-          y = this.dibujarFirma(
+          y = this.dibujarFirmas(
               pdf,
               report,
               y
@@ -116,9 +108,9 @@ export class ReportPdfService {
       return pdf.output('blob');
   }
 
-  descargarPdf(report: Report): void {
+  descargarPdf(report: Report, idParte?: number | null): void {
 
-      this.generarPdf(report)
+      this.generarPdf(report, idParte)
           .then(blob => {
 
               const url =
@@ -130,7 +122,9 @@ export class ReportPdfService {
               enlace.href = url;
 
               enlace.download =
-                  `parte-${report.idComunidad}.pdf`;
+                  idParte
+                      ? `parte-${idParte}.pdf`
+                      : `parte-${report.idComunidad}.pdf`;
 
               enlace.click();
 
@@ -153,7 +147,7 @@ export class ReportPdfService {
 
   private async dibujarEncabezado(
       pdf: jsPDF,
-      report: Report
+      fecha: string
   ): Promise<void> {
 
       const ancho =
@@ -171,7 +165,7 @@ export class ReportPdfService {
           0,
           0,
           ancho,
-          42,
+          32,
           'F'
       );
 
@@ -190,9 +184,9 @@ export class ReportPdfService {
               logo,
               'PNG',
               15,
-              7,
-              30,
-              24
+              5,
+              22,
+              22
           );
 
       } catch (error) {
@@ -217,22 +211,22 @@ export class ReportPdfService {
           'bold'
       );
 
-      pdf.setFontSize(13);
+      pdf.setFontSize(12);
 
       pdf.text(
           'MANTENIMIENTOS INTEGRALES',
-          50,
-          13
+          43,
+          11
       );
 
       pdf.text(
           'LA AXARQUIA S.L.',
-          50,
-          20
+          43,
+          17
       );
 
       /*
-       * Información empresa
+       * Información de contacto de la empresa
        */
 
       pdf.setFont(
@@ -240,63 +234,44 @@ export class ReportPdfService {
           'normal'
       );
 
-      pdf.setFontSize(7);
+      pdf.setFontSize(6.5);
 
       pdf.text(
-          'Servicios integrales de mantenimiento',
-          50,
-          27
+          'Tel: 951 13 76 28 · 684 20 00 22',
+          43,
+          23
       );
 
       pdf.text(
-          'Málaga · España',
-          50,
-          33
+          'Correo: axarquiamantenimientos@gmail.com',
+          43,
+          28
       );
 
       /*
-       * Información del parte
+       * Etiqueta del reporte
        */
 
       pdf.setFont(
           'helvetica',
-          'bold'
+          'normal'
       );
 
       pdf.setFontSize(8);
 
-      // pdf.text(
-      //     `PARTE #${report.idComunidad}`,
-      //     ancho - 15,
-      //     13,
-      //     {
-      //         align: 'right'
-      //     }
-      // );
-
-      pdf.setFont(
-          'helvetica',
-          'normal'
-      );
-
       pdf.text(
-          'REPORTE DE SERVICIO',
+          'PARTE DE TRABAJO',
           ancho - 15,
-          20,
+          15,
           {
               align: 'right'
           }
       );
 
-      const fecha =
-          new Date().toLocaleDateString(
-              'es-ES'
-          );
-
       pdf.text(
           fecha,
           ancho - 15,
-          27,
+          21,
           {
               align: 'right'
           }
@@ -319,6 +294,8 @@ export class ReportPdfService {
           y
       );
 
+      const altoBox = 21;
+
       pdf.setFillColor(
           this.AZUL_CLARO
       );
@@ -327,7 +304,7 @@ export class ReportPdfService {
           15,
           y - 3,
           180,
-          25,
+          altoBox,
           2,
           2,
           'F'
@@ -338,17 +315,16 @@ export class ReportPdfService {
           'bold'
       );
 
-      pdf.setFontSize(11);
+      pdf.setFontSize(10.5);
 
       pdf.setTextColor(
           this.AZUL_OSCURO
       );
 
       pdf.text(
-          report.nombreComunidad ||
-          'Sin nombre',
+          `${report.nombreComunidad || 'Sin nombre'}  ·  ID: ${report.idComunidad || '-'}`,
           20,
-          y + 6
+          y + 4
       );
 
       pdf.setFont(
@@ -356,50 +332,56 @@ export class ReportPdfService {
           'normal'
       );
 
-      pdf.setFontSize(9);
+      pdf.setFontSize(8)
 
       pdf.setTextColor(
           this.GRIS_TEXTO
       );
 
       pdf.text(
-          report.ubicacionComunidad ||
-          'Sin ubicación',
+          `Ubicación: ${report.ubicacionComunidad || 'Sin ubicación'}`,
           20,
-          y + 14
+          y + 10
       );
 
-      return y + 32;
+      pdf.text(
+          `Contacto: ${report.contacto || 'No registrado'}`,
+          20,
+          y + 15.5
+      );
+
+      return y + altoBox + 5;
   }
 
   // =========================================================
-  // INFORMACIÓN SERVICIO
+  // INFORMACIÓN DEL PARTE
   // =========================================================
 
-  private dibujarInformacionServicio(
+  private dibujarInformacionParte(
       pdf: jsPDF,
       report: Report,
+      fecha: string,
       y: number
   ): number {
 
       y = this.tituloSeccion(
           pdf,
-          'INFORMACIÓN DEL SERVICIO',
+          'INFORMACIÓN DEL PARTE',
           y
       );
 
-      const columnas = [
+      const campos = [
           {
-              titulo: 'Motivo de visita',
-              valor: report.motivoVisita
-          },
-          {
-              titulo: 'Contacto',
-              valor: report.contacto
+              titulo: 'Fecha',
+              valor: fecha
           },
           {
               titulo: 'Hora de entrada',
               valor: report.horaEntrada
+          },
+          {
+              titulo: 'Hora de salida',
+              valor: report.horaFinalizacion
           },
           {
               titulo: 'Duración',
@@ -407,14 +389,68 @@ export class ReportPdfService {
           }
       ];
 
-      const anchoColumna = 45;
+      y = this.dibujarFichaCampos(
+          pdf,
+          campos,
+          y
+      );
 
-      columnas.forEach(
-          (columna, index) => {
+      y = this.dibujarCampoTexto(
+          pdf,
+          'Motivo de visita',
+          report.motivoVisita,
+          y
+      );
+
+      y = this.dibujarCampoTexto(
+          pdf,
+          'Concepto del trabajo',
+          report.conceptoTrabajo,
+          y
+      );
+
+      y = this.dibujarCampoTexto(
+          pdf,
+          'Observaciones',
+          report.observaciones,
+          y
+      );
+
+      return y;
+  }
+
+  // =========================================================
+  // FICHA DE CAMPOS CORTOS (grilla de hasta 4 por fila)
+  // =========================================================
+
+  private dibujarFichaCampos(
+      pdf: jsPDF,
+      campos: { titulo: string; valor: string | null }[],
+      y: number
+  ): number {
+
+      const columnasPorFila = 4;
+
+      const anchoColumna =
+          this.ANCHO_CONTENIDO / columnasPorFila;
+
+      const altoFila = 17;
+
+      campos.forEach(
+          (campo, index) => {
+
+              const columna = index % columnasPorFila;
+
+              const fila = Math.floor(index / columnasPorFila);
+
+              if (columna === 0 && fila > 0) {
+
+                  y += altoFila + 3;
+              }
 
               const x =
-                  15 +
-                  index * anchoColumna;
+                  this.MARGEN_X +
+                  columna * anchoColumna;
 
               pdf.setFillColor(
                   this.GRIS_CLARO
@@ -427,8 +463,8 @@ export class ReportPdfService {
               pdf.roundedRect(
                   x,
                   y,
-                  42,
-                  25,
+                  anchoColumna - 3,
+                  altoFila,
                   2,
                   2,
                   'FD'
@@ -446,9 +482,9 @@ export class ReportPdfService {
               );
 
               pdf.text(
-                  columna.titulo,
-                  x + 3,
-                  y + 7
+                  campo.titulo,
+                  x + 2.5,
+                  y + 6
               );
 
               pdf.setFont(
@@ -456,79 +492,66 @@ export class ReportPdfService {
                   'normal'
               );
 
-              pdf.setFontSize(8);
+              pdf.setFontSize(7.8);
 
               pdf.setTextColor(
                   this.AZUL_OSCURO
               );
 
               const valor =
-                  columna.valor ||
+                  campo.valor ||
                   'No registrado';
 
               const lineas =
                   pdf.splitTextToSize(
                       valor,
-                      35
+                      anchoColumna - 6
                   );
 
               pdf.text(
                   lineas,
-                  x + 3,
-                  y + 15
+                  x + 2.5,
+                  y + 12
               );
           }
       );
 
-      return y + 34;
+      return y + altoFila + 5;
   }
 
   // =========================================================
-  // CONCEPTO
+  // CAMPO DE TEXTO LARGO (etiqueta + caja)
   // =========================================================
 
-  private dibujarConceptoTrabajo(
+  private dibujarCampoTexto(
       pdf: jsPDF,
-      report: Report,
+      etiqueta: string,
+      valor: string,
       y: number
   ): number {
 
-      y = this.tituloSeccion(
-          pdf,
-          'CONCEPTO DEL TRABAJO',
+      pdf.setFont(
+          'helvetica',
+          'bold'
+      );
+
+      pdf.setFontSize(8);
+
+      pdf.setTextColor(
+          this.AZUL_SECUNDARIO
+      );
+
+      pdf.text(
+          etiqueta,
+          this.MARGEN_X,
           y
       );
 
+      y += 4;
+
       const texto =
-          report.conceptoTrabajo ||
+          valor ||
           'Sin información registrada.';
-
-      return this.dibujarTextoEnCaja(
-          pdf,
-          texto,
-          y
-      );
-  }
-
-  // =========================================================
-  // OBSERVACIONES
-  // =========================================================
-
-  private dibujarObservaciones(
-      pdf: jsPDF,
-      report: Report,
-      y: number
-  ): number {
-
-      y = this.tituloSeccion(
-          pdf,
-          'OBSERVACIONES',
-          y
-      );
-
-      const texto =
-          report.observaciones ||
-          'Sin observaciones.';
 
       return this.dibujarTextoEnCaja(
           pdf,
@@ -549,7 +572,7 @@ export class ReportPdfService {
 
       y = this.tituloSeccion(
           pdf,
-          'MATERIALES',
+          'MATERIALES UTILIZADOS',
           y
       );
 
@@ -575,7 +598,7 @@ export class ReportPdfService {
               y
           );
 
-          return y + 10;
+          return y + 7;
       }
 
       report.materiales.forEach(
@@ -587,8 +610,8 @@ export class ReportPdfService {
 
               pdf.circle(
                   18,
-                  y - 1.5,
-                  1,
+                  y - 1.2,
+                  0.9,
                   'F'
               );
 
@@ -597,7 +620,7 @@ export class ReportPdfService {
                   'normal'
               );
 
-              pdf.setFontSize(9);
+              pdf.setFontSize(8.3);
 
               pdf.setTextColor(
                   this.GRIS_TEXTO
@@ -609,11 +632,11 @@ export class ReportPdfService {
                   y
               );
 
-              y += 6;
+              y += 4.8;
           }
       );
 
-      return y + 5;
+      return y + 3;
   }
 
   // =========================================================
@@ -654,7 +677,7 @@ export class ReportPdfService {
               y
           );
 
-          return y + 10;
+          return y + 7;
       }
 
       report.operario.forEach(
@@ -666,8 +689,8 @@ export class ReportPdfService {
 
               pdf.circle(
                   18,
-                  y - 1.5,
-                  1,
+                  y - 1.2,
+                  0.9,
                   'F'
               );
 
@@ -676,7 +699,7 @@ export class ReportPdfService {
                   'normal'
               );
 
-              pdf.setFontSize(9);
+              pdf.setFontSize(8.3);
 
               pdf.setTextColor(
                   this.GRIS_TEXTO
@@ -688,11 +711,11 @@ export class ReportPdfService {
                   y
               );
 
-              y += 6;
+              y += 4.8;
           }
       );
 
-      return y + 5;
+      return y + 3;
   }
 
   // =========================================================
@@ -707,13 +730,13 @@ export class ReportPdfService {
 
       y = this.tituloSeccion(
           pdf,
-          'REGISTRO FOTOGRÁFICO',
+          'FOTOGRAFÍAS DEL TRABAJO',
           y
       );
 
       const anchoFoto = 82;
-      const altoFoto = 60;
-      const espacio = 10;
+      const altoFoto = 46;
+      const espacio = 8;
 
       let columna = 0;
 
@@ -726,7 +749,7 @@ export class ReportPdfService {
               y = this.verificarEspacio(
                   pdf,
                   y,
-                  altoFoto + 10
+                  altoFoto + 6
               );
           }
 
@@ -785,7 +808,7 @@ export class ReportPdfService {
 
               y +=
                   altoFoto +
-                  10;
+                  6;
           }
       }
 
@@ -793,17 +816,17 @@ export class ReportPdfService {
 
           y +=
               altoFoto +
-              10;
+              6;
       }
 
       return y;
   }
 
   // =========================================================
-  // FIRMA
+  // FIRMAS (operario + cliente, lado a lado)
   // =========================================================
 
-  private dibujarFirma(
+  private dibujarFirmas(
       pdf: jsPDF,
       report: Report,
       y: number
@@ -811,30 +834,49 @@ export class ReportPdfService {
 
       y = this.tituloSeccion(
           pdf,
-          'FIRMA DE CONFORMIDAD',
+          'FIRMAS',
           y
       );
 
-      pdf.setFont(
-          'helvetica',
-          'normal'
+      const anchoFirma = 82;
+      const altoFirma = 30;
+      const espacio = 10;
+
+      const xOperario = this.MARGEN_X;
+      const xCliente = this.MARGEN_X + anchoFirma + espacio;
+
+      this.dibujarCajaFirma(
+          pdf,
+          xOperario,
+          y,
+          anchoFirma,
+          altoFirma,
+          report.firmaOperario,
+          'Firma del operario'
       );
 
-      pdf.setFontSize(8);
-
-      pdf.setTextColor(
-          this.GRIS_TEXTO
+      this.dibujarCajaFirma(
+          pdf,
+          xCliente,
+          y,
+          anchoFirma,
+          altoFirma,
+          report.firma,
+          'Firma del cliente'
       );
 
-      pdf.text(
-          'Firma del responsable',
-          15,
-          y
-      );
+      return y + altoFirma + 8;
+  }
 
-      const x = 15;
-      const ancho = 80;
-      const alto = 45;
+  private dibujarCajaFirma(
+      pdf: jsPDF,
+      x: number,
+      y: number,
+      ancho: number,
+      alto: number,
+      firma: string | null,
+      etiqueta: string
+  ): void {
 
       pdf.setDrawColor(
           this.GRIS_BORDE
@@ -842,22 +884,22 @@ export class ReportPdfService {
 
       pdf.rect(
           x,
-          y + 4,
+          y,
           ancho,
           alto
       );
 
-      if (report.firma) {
+      if (firma) {
 
           try {
 
               pdf.addImage(
-                  report.firma,
+                  firma,
                   'PNG',
                   x + 3,
-                  y + 7,
+                  y + 3,
                   ancho - 6,
-                  alto - 10,
+                  alto - 6,
                   undefined,
                   'MEDIUM'
               );
@@ -871,7 +913,25 @@ export class ReportPdfService {
           }
       }
 
-      return y + 58;
+      pdf.setFont(
+          'helvetica',
+          'normal'
+      );
+
+      pdf.setFontSize(8);
+
+      pdf.setTextColor(
+          this.GRIS_TEXTO
+      );
+
+      pdf.text(
+          etiqueta,
+          x + ancho / 2,
+          y + alto + 6,
+          {
+              align: 'center'
+          }
+      );
   }
 
   // =========================================================
@@ -889,7 +949,7 @@ export class ReportPdfService {
           'bold'
       );
 
-      pdf.setFontSize(10);
+      pdf.setFontSize(9.5);
 
       pdf.setTextColor(
           this.AZUL_OSCURO
@@ -911,12 +971,12 @@ export class ReportPdfService {
 
       pdf.line(
           15,
-          y + 3,
+          y + 2,
           195,
-          y + 3
+          y + 2
       );
 
-      return y + 10;
+      return y + 7;
   }
 
   // =========================================================
@@ -934,7 +994,7 @@ export class ReportPdfService {
           'normal'
       );
 
-      pdf.setFontSize(9);
+      pdf.setFontSize(8.3);
 
       pdf.setTextColor(
           this.GRIS_TEXTO
@@ -948,8 +1008,8 @@ export class ReportPdfService {
 
       const alto =
           Math.max(
-              15,
-              lineas.length * 5 + 8
+              9,
+              lineas.length * 4 + 5
           );
 
       pdf.setFillColor(
@@ -958,7 +1018,7 @@ export class ReportPdfService {
 
       pdf.roundedRect(
           15,
-          y - 4,
+          y - 3,
           180,
           alto,
           2,
@@ -969,10 +1029,10 @@ export class ReportPdfService {
       pdf.text(
           lineas,
           20,
-          y + 3
+          y + 2
       );
 
-      return y + alto + 5;
+      return y + alto + 3;
   }
 
   // =========================================================

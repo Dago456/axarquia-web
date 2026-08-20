@@ -22,14 +22,13 @@ import { inject, Injectable } from "@angular/core";
     }
   
     searchCommunity(nombre: string) {
-  
+
       return this.http.get<Community[]>(
-  
-        //`${this.env.ENDPOINT_PRIMARY}/comunidad/buscar?nombre=${nombre}`
-        `https://dago.axarquiamalaga.com/comunidad/buscar?nombre=${nombre}`
-  
+
+        `${this.env.ENDPOINT_PRIMARY}/comunidad/buscar?nombre=${encodeURIComponent(nombre)}`
+
       );
-  
+
     }
   
     createCommunity(comunidad: {

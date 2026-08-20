@@ -13,9 +13,11 @@ import { FirmaComponent } from '../../components/firma/firma';
 import { ReportService } from '../../services/report.service';
 import { ReportPdfService } from '../../services/report-pdf.service';
 import { ReportEmailService } from '../../services/report-email.service';
+import { ReportApiService } from '../../services/report-api.service';
 
 import { ModalComponent } from '../../../../shared/components/modal/modal';
 import { Operario } from '../../models/operario.model';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
     selector: 'app-report-without',
@@ -48,7 +50,8 @@ export class ReportWithoutComponent implements OnInit {
         public reportService: ReportService,
         private router: Router,
         private reportPdfService: ReportPdfService,
-        private reportEmailService: ReportEmailService
+        private reportEmailService: ReportEmailService,
+        private reportApiService: ReportApiService
     ) {}
 
 
@@ -404,20 +407,44 @@ export class ReportWithoutComponent implements OnInit {
     
     
             await this.reportService.marcarPendienteEnvio();
-    
-    
+
+
+            const respuestaParte =
+                await firstValueFrom(
+                    this.reportApiService.crearParte(report)
+                );
+
+            const idParte: number | null =
+                respuestaParte?.id_parte ?? null;
+
+
             const pdf =
                 await this.reportPdfService.generarPdf(
-                    report
+                    report,
+                    idParte
                 );
-    
-    
+
+
+            if (idParte) {
+
+                const pdfBase64 =
+                    await this.blobToBase64(pdf);
+
+                await firstValueFrom(
+                    this.reportApiService.guardarPdfParte(
+                        idParte,
+                        pdfBase64
+                    )
+                );
+            }
+
+
             await this.reportEmailService.prepararEnvio(
                 report,
                 pdf
             );
-    
-    
+
+
             await this.reportService.eliminarBorrador();
     
     
@@ -446,9 +473,33 @@ export class ReportWithoutComponent implements OnInit {
             alert(
                 'No fue posible enviar el reporte. El reporte permanece guardado en el dispositivo.'
             );
-    
+
         }
-    
+
+    }
+
+    private blobToBase64(blob: Blob): Promise<string> {
+
+        return new Promise((resolve, reject) => {
+
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+
+                const resultado = reader.result as string;
+
+                resolve(resultado.split(',')[1]);
+            };
+
+            reader.onerror = () => {
+
+                reject(
+                    new Error('No fue posible convertir el PDF a Base64.')
+                );
+            };
+
+            reader.readAsDataURL(blob);
+        });
     }
 
 }

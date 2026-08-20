@@ -21,6 +21,12 @@ export class OperarioService {
     );
   }
 
+  listarOperarios() {
+    return this.http.get<Operario[]>(
+      `${this.env.ENDPOINT_PRIMARY}/operario`
+    );
+  }
+
   getOperarioById(id: number): Observable<Operario> {
 
     return this.http.get<Operario>(

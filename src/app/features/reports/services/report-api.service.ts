@@ -38,6 +38,8 @@ export class ReportApiService {
             conceptos_trabajo: report.conceptoTrabajo,
             observaciones: report.observaciones,
             hora_entrada: report.horaEntrada,
+            hora_finalizacion: report.horaFinalizacion,
+            duracion: report.duracion,
             operario: report.operario.join(', '),
             contacto: report.contacto,
             materiales: report.materiales.join(", "),
@@ -49,6 +51,14 @@ export class ReportApiService {
         return this.http.post<any>(
             `${this.env.ENDPOINT_PRIMARY}/partes`,
             datosParte
+        );
+    }
+
+    guardarPdfParte(idParte: number, pdfBase64: string): Observable<any> {
+
+        return this.http.put<any>(
+            `${this.env.ENDPOINT_PRIMARY}/partes/${idParte}/pdf`,
+            { pdfBase64 }
         );
     }
 }

@@ -14,6 +14,7 @@ import {
     RegistroHora,
     RegistroHorasService
 } from './registro-horas.service';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
     selector: 'app-registro-horas',
@@ -32,7 +33,10 @@ export class RegistroHorasComponent
     private registroService =
         inject(RegistroHorasService);
 
-    idOperario = 1;
+    private authService =
+        inject(AuthService);
+
+    idOperario: number | null = null;
     nombreTarea = '';
     tareaActiva: RegistroHora | null = null;
     historial: RegistroHora[] = [];
@@ -43,11 +47,22 @@ export class RegistroHorasComponent
     private intervalo: any = null;
 
     ngOnInit(): void {
+        const operario = this.authService.obtenerOperario();
+
+        if (!operario) {
+            this.error = 'Debes iniciar sesión para registrar tareas.';
+            return;
+        }
+
+        this.idOperario = operario.id_Operario;
         this.cargarTareaActiva();
         this.cargarHistorial();
     }
 
     cargarTareaActiva(): void {
+        if (!this.idOperario) {
+            return;
+        }
         this.registroService
             .obtenerTareaActiva(this.idOperario)
             .subscribe({
@@ -69,6 +84,12 @@ export class RegistroHorasComponent
 
     iniciarTarea(): void {
         this.error = '';
+
+        if (!this.idOperario) {
+            this.error = 'Debes iniciar sesión para registrar tareas.';
+            return;
+        }
+
         const nombre =
             this.nombreTarea.trim();
         if (!nombre) {
@@ -177,6 +198,9 @@ export class RegistroHorasComponent
 
 
     cargarHistorial(): void {
+        if (!this.idOperario) {
+            return;
+        }
         this.registroService
             .obtenerHistorial(this.idOperario)
             .subscribe({

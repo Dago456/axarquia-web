@@ -15,7 +15,9 @@ import { Router } from '@angular/router';
 import { ReportPdfService } from '../../services/report-pdf.service';
 import { ModalComponent } from '../../../../shared/components/modal/modal';
 import { ReportEmailService } from '../../services/report-email.service';
+import { ReportApiService } from '../../services/report-api.service';
 import { EmailService } from '../../../../core/services/reporteservice/email.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
     selector: 'app-report',
@@ -56,6 +58,7 @@ export class ReportComponent implements OnInit {
         private router: Router,
         private reportPdfService: ReportPdfService,
         private reportEmailService: ReportEmailService,
+        private reportApiService: ReportApiService,
         private EmailService: EmailService
 
     ) { }
@@ -430,7 +433,32 @@ export class ReportComponent implements OnInit {
 
 
             // -----------------------------------------
-            // 5. Generar PDF
+            // 5. Crear el parte en el backend
+            //    (para obtener el id_parte real antes
+            //    de generar el PDF)
+            // -----------------------------------------
+
+            this.mensajeEnvio =
+                'Registrando el parte...';
+
+            console.log('🗂️ Creando el parte...');
+
+            const respuestaParte =
+                await firstValueFrom(
+                    this.reportApiService.crearParte(report)
+                );
+
+            const idParte: number | null =
+                respuestaParte?.id_parte ?? null;
+
+            console.log(
+                '✅ Parte creado con id:',
+                idParte
+            );
+
+
+            // -----------------------------------------
+            // 6. Generar PDF
             // -----------------------------------------
 
             this.mensajeEnvio =
@@ -439,7 +467,7 @@ export class ReportComponent implements OnInit {
             console.log('📄 Generando PDF...');
 
             const pdf =
-                await this.reportPdfService.generarPdf(report);
+                await this.reportPdfService.generarPdf(report, idParte);
 
             console.log(
                 '✅ PDF generado correctamente.'
@@ -447,7 +475,33 @@ export class ReportComponent implements OnInit {
 
 
             // -----------------------------------------
-            // 6. Preparar / enviar correo
+            // 7. Guardar el PDF en el servidor
+            // -----------------------------------------
+
+            if (idParte) {
+
+                this.mensajeEnvio =
+                    'Guardando el PDF del parte...';
+
+                const pdfBase64 =
+                    await this.blobToBase64(pdf);
+
+                await firstValueFrom(
+                    this.reportApiService.guardarPdfParte(
+                        idParte,
+                        pdfBase64
+                    )
+                );
+
+                console.log(
+                    '✅ PDF guardado en el servidor.'
+                );
+
+            }
+
+
+            // -----------------------------------------
+            // 8. Preparar / enviar correo
             // -----------------------------------------
 
             this.mensajeEnvio =
@@ -468,7 +522,7 @@ export class ReportComponent implements OnInit {
 
 
             // -----------------------------------------
-            // 7. ÉXITO
+            // 9. ÉXITO
             // -----------------------------------------
 
             await this.reportService.eliminarBorrador();
@@ -488,7 +542,7 @@ export class ReportComponent implements OnInit {
 
 
             // -----------------------------------------
-            // 8. ERROR
+            // 10. ERROR
             // -----------------------------------------
 
             this.estadoEnvio = 'error';
@@ -498,6 +552,30 @@ export class ReportComponent implements OnInit {
 
         }
 
+    }
+
+    private blobToBase64(blob: Blob): Promise<string> {
+
+        return new Promise((resolve, reject) => {
+
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+
+                const resultado = reader.result as string;
+
+                resolve(resultado.split(',')[1]);
+            };
+
+            reader.onerror = () => {
+
+                reject(
+                    new Error('No fue posible convertir el PDF a Base64.')
+                );
+            };
+
+            reader.readAsDataURL(blob);
+        });
     }
 
 }
