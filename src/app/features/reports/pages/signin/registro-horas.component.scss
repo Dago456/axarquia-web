@@ -17,56 +17,6 @@
 
 
 /* =========================================================
-   HEADER
-========================================================= */
-
-.page-header {
-    display: flex;
-    align-items: center;
-
-    gap: 16px;
-
-    margin-bottom: 28px;
-}
-
-.page-header-icon {
-    width: 56px;
-    height: 56px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 15px;
-
-    background: #f0f5ff;
-
-    color: #10376A;
-
-    font-size: 24px;
-}
-
-.page-header h2 {
-    margin: 0 0 4px;
-
-    color: #17213a;
-
-    font-size: 25px;
-    font-weight: 700;
-}
-
-.page-header p {
-    margin: 0;
-
-    color: #6b7280;
-
-    font-size: 14px;
-}
-
-
-/* =========================================================
    ERROR
 ========================================================= */
 
@@ -218,13 +168,6 @@
         0 0 0 4px rgba(45, 108, 223, .10);
 }
 
-.input-wrapper i {
-    flex-shrink: 0;
-
-    color: #10376A;
-
-    font-size: 16px;
-}
 
 .input-wrapper input {
     width: 100%;

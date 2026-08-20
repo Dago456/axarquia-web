@@ -23,37 +23,6 @@
    ENCABEZADO
 ========================================================= */
 
-.page-header {
-    display: flex;
-    align-items: center;
-
-    gap: 16px;
-
-    margin-bottom: 28px;
-}
-
-.page-header-icon {
-    width: 56px;
-    height: 56px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 15px;
-
-    background: #f0f5ff;
-
-    color: #10376A;
-
-    font-size: 24px;
-}
-
-.page-header-content {
-    min-width: 0;
-}
 
 .page-header-content h2 {
     margin: 0 0 4px;
@@ -157,10 +126,6 @@
     color: #17213a;
 
     font-size: 16px;
-}
-
-.search-wrapper input::placeholder {
-    color: #9ca3af;
 }
 
 
@@ -501,18 +466,6 @@
     border-radius: 50%;
 
     animation: girar .8s linear infinite;
-}
-
-@keyframes girar {
-
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-
 }
 
 
@@ -986,16 +939,6 @@
 
 .modal-body {
     padding: 22px;
-}
-
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-
-.form-group:last-child {
-    margin-bottom: 0;
 }
 
 

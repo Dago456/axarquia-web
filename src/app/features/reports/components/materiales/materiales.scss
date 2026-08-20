@@ -159,26 +159,6 @@
     font-weight: 700;
 }
 
-.contador {
-    width: 30px;
-    height: 30px;
-
-    min-width: 30px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #173f75;
-
-    color: #ffffff;
-
-    font-size: 14px;
-    font-weight: 700;
-}
-
 
 /* =========================================================
    TARJETA MATERIAL
@@ -267,51 +247,6 @@
     line-height: 1.35;
 
     word-break: break-word;
-}
-
-
-/* =========================================================
-   BOTÓN ELIMINAR
-========================================================= */
-
-.btn-eliminar {
-    width: 42px;
-    height: 42px;
-
-    min-width: 42px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-left: 10px;
-
-    padding: 0;
-
-    border: 1px solid #f0d0d4;
-
-    border-radius: 9px;
-
-    background: #ffffff;
-
-    color: #dc3545;
-
-    font-size: 16px;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
-}
-
-.btn-eliminar:hover {
-    background: #dc3545;
-
-    color: #ffffff;
-
-    border-color: #dc3545;
 }
 
 

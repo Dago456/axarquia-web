@@ -1,7 +1,42 @@
-<h1>¿Qué deseas hacer hoy?</h1>
+<div class="dashboard-container">
 
-<p class="text-secondary">
+    <div class="dashboard-header">
 
-Selecciona una opción del menú lateral para comenzar.
+        <h1>
+            {{ operario ? '¡Hola, ' + operario.nom_ope + '!' : '¡Hola!' }}
+        </h1>
 
-</p>
+        <p>
+            ¿Qué deseas hacer hoy? Elige una opción para empezar.
+        </p>
+
+    </div>
+
+
+    <div class="accesos-grid">
+
+        <a
+            class="acceso-card"
+            [class]="'color-' + acceso.color"
+            *ngFor="let acceso of accesos"
+            [routerLink]="acceso.ruta">
+
+            <div class="acceso-icono">
+                <i [class]="acceso.icono"></i>
+            </div>
+
+            <div class="acceso-info">
+
+                <h3>{{ acceso.titulo }}</h3>
+
+                <p>{{ acceso.descripcion }}</p>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right acceso-flecha"></i>
+
+        </a>
+
+    </div>
+
+</div>
