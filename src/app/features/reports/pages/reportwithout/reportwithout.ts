@@ -18,6 +18,7 @@ import { ReportApiService } from '../../services/report-api.service';
 import { ModalComponent } from '../../../../shared/components/modal/modal';
 import { Operario } from '../../models/operario.model';
 import { firstValueFrom } from 'rxjs';
+import { IndexedDbService, ReportDraft } from '../../../../services/indexed-db.service';
 
 @Component({
     selector: 'app-report-without',
@@ -46,12 +47,16 @@ export class ReportWithoutComponent implements OnInit {
     private guardadoTimeout: ReturnType<typeof setTimeout> | null = null;
     operariosSeleccionados: Operario[] = [];
 
+    parteEnProceso?: ReportDraft;
+    mostrarModalParte = false;
+
     constructor(
         public reportService: ReportService,
         private router: Router,
         private reportPdfService: ReportPdfService,
         private reportEmailService: ReportEmailService,
-        private reportApiService: ReportApiService
+        private reportApiService: ReportApiService,
+        private indexedDbService: IndexedDbService
     ) {}
 
 
@@ -63,26 +68,101 @@ export class ReportWithoutComponent implements OnInit {
 
         const partes =
             await this.reportService.obtenerPartesSinComunidad();
-    
+
         if (partes.length > 0) {
-    
+
+            partes.sort(
+                (a, b) =>
+                    new Date(b.actualizadoEn).getTime() -
+                    new Date(a.actualizadoEn).getTime()
+            );
+
+            this.parteEnProceso = partes[0];
+
+            this.mostrarModalParte = true;
+
             console.log(
-                '📄 Reporte sin comunidad encontrado:',
-                partes[0]
+                '📄 Reporte sin comunidad en proceso:',
+                this.parteEnProceso
             );
-    
-            await this.reportService.cargarBorrador(
-                partes[0].id
-            );
-    
+
             return;
         }
-    
+
         this.reportService.nuevoParteSinComunidad();
-    
+
         console.log(
             '📝 Nuevo reporte sin comunidad iniciado'
         );
+    }
+
+
+    // =========================================================
+    // PARTE EN PROCESO (sin comunidad)
+    // =========================================================
+
+    async continuarParte(): Promise<void> {
+
+        if (!this.parteEnProceso) {
+            return;
+        }
+
+        const cargado =
+            await this.reportService.cargarBorrador(
+                this.parteEnProceso.id
+            );
+
+        if (!cargado) {
+
+            console.error(
+                'No se pudo cargar el reporte sin comunidad'
+            );
+
+            this.reportService.nuevoParteSinComunidad();
+
+        }
+
+        this.mostrarModalParte = false;
+
+    }
+
+    async descartarParte(): Promise<void> {
+
+        if (!this.parteEnProceso) {
+            return;
+        }
+
+        try {
+
+            await this.indexedDbService.eliminarParte(
+                this.parteEnProceso.id
+            );
+
+            console.log(
+                '🗑️ Reporte sin comunidad descartado'
+            );
+
+        } catch (error) {
+
+            console.error(
+                'Error descartando el reporte sin comunidad:',
+                error
+            );
+
+        }
+
+        this.parteEnProceso = undefined;
+
+        this.mostrarModalParte = false;
+
+        this.reportService.nuevoParteSinComunidad();
+
+    }
+
+    cerrarModalParte(): void {
+
+        this.mostrarModalParte = false;
+
     }
 
     // =========================================================

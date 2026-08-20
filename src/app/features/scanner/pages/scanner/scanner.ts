@@ -47,7 +47,7 @@ export class ScannerComponent implements OnInit {
   async buscarParteEnProceso(): Promise<void> {
     try {
       const partes =
-        await this.indexedDbService.obtenerPartesEnProceso();
+        await this.reportService.obtenerPartesEnProceso();
       console.log(
         '📦 Partes encontrados:',
         partes
