@@ -18,7 +18,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent {
 
-  usuario = '';
+  idOperario = '';
   password = '';
 
   ocultarPassword = true;
@@ -36,10 +36,18 @@ export class LoginComponent {
 
     this.error = '';
 
-    if (!this.usuario.trim() || !this.password.trim()) {
+    if (!this.idOperario.trim() || !this.password.trim()) {
 
       this.error =
-        'Ingrese el usuario y la contraseña.';
+        'Ingrese el ID de operario y la contraseña.';
+
+      return;
+    }
+
+    if (!/^\d+$/.test(this.idOperario.trim())) {
+
+      this.error =
+        'El ID de operario debe ser numérico.';
 
       return;
     }
@@ -49,7 +57,7 @@ export class LoginComponent {
     console.log('🔐 Intentando iniciar sesión...');
 
     this.loginService.login(
-      this.usuario.trim(),
+      this.idOperario.trim(),
       this.password
     ).subscribe({
 

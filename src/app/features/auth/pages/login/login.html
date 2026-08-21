@@ -16,15 +16,18 @@
 
         <div class="mb-3">
 
-            <label>Usuario</label>
+            <label>ID de operario</label>
             <div class="input-group">
                 <span class="input-group-text">
                     <i class="fa-solid fa-user"></i>
                 </span>
                 <input
                     class="form-control"
-                    [(ngModel)]="usuario"
-                    placeholder="Ingrese su usuario">
+                    type="text"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    [(ngModel)]="idOperario"
+                    placeholder="Ingrese su ID de operario">
             </div>
         </div>
 

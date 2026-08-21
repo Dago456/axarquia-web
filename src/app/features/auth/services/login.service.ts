@@ -24,14 +24,14 @@ export class LoginService {
   private env = inject(EnvService);
 
   login(
-    nom_ope: string,
+    id_Operario: string,
     password: string
   ): Observable<LoginResponse> {
 
     return this.http.post<LoginResponse>(
       `${this.env.ENDPOINT_PRIMARY}/operario/login`,
       {
-        nom_ope,
+        id_Operario,
         password
       }
     );

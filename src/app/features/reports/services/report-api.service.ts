@@ -31,6 +31,9 @@ export class ReportApiService {
         const añoActual = ahora.getFullYear().toString();
 
         const datosParte = {
+            // idComunidad === 0 es el centinela interno del frontend
+            // para "sin comunidad" (ver ReportService.nuevoParteSinComunidad),
+            // y corresponde a la comunidad id 0 reservada para ese caso.
             id_comunidades: report.idComunidad,
             nom_comunidad: report.nombreComunidad,
             ubi_comunidad: report.ubicacionComunidad,
