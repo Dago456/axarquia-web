@@ -204,6 +204,7 @@ export class ListasQrComponent implements OnInit {
     }
 
     async generarPDF(comunidad: Community): Promise<void> {
+        this.generandoPdf = true;
         try {
             const pdf = new jsPDF({
                 orientation: 'portrait',
@@ -505,8 +506,6 @@ export class ListasQrComponent implements OnInit {
                 }
             );
 
-            const QRCode =
-                await import('qrcode');
             const qrData =
                 String(comunidad.id_comunidades);
             const qrDataUrl =
@@ -613,6 +612,13 @@ export class ListasQrComponent implements OnInit {
                 'Error generando PDF:',
                 error
             );
+
+            alert(
+                'No fue posible generar el PDF de esta comunidad.'
+            );
+
+        } finally {
+            this.generandoPdf = false;
         }
     }
     private cargarImagen(
