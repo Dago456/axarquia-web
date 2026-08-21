@@ -26,6 +26,12 @@
 
 
     <!-- =====================================================
+         BUSCADORES
+    ====================================================== -->
+
+    <div class="buscadores-grid">
+
+    <!-- =====================================================
          BUSCADOR
     ====================================================== -->
 
@@ -172,6 +178,168 @@
             </span>
 
         </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         BUSCADOR POR ID DE PARTE
+    ====================================================== -->
+
+    <div class="search-card parte-id-card">
+
+        <div class="search-header">
+
+            <div class="search-icon">
+                <i class="fa-solid fa-hashtag"></i>
+            </div>
+
+            <div>
+
+                <h3>
+                    Buscar parte por ID
+                </h3>
+
+                <p>
+                    Busca un parte directamente por su número, sin pasar por la comunidad.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="search-wrapper">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="number"
+                min="1"
+                [(ngModel)]="idParteBusqueda"
+                (keyup.enter)="buscarPartePorId()"
+                placeholder="Ej. 269"
+            >
+
+            <button
+                *ngIf="idParteBusqueda"
+                type="button"
+                class="btn-clear"
+                (click)="limpiarBusquedaParte()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="btn-buscar-parte-id"
+            [disabled]="!idParteBusqueda || buscandoParte"
+            (click)="buscarPartePorId()">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            Buscar parte
+
+        </button>
+
+
+        <!-- =================================================
+             CARGANDO
+        ================================================== -->
+
+        <div
+            class="loading"
+            *ngIf="buscandoParte">
+
+            <div class="spinner"></div>
+
+            <span>
+                Buscando parte...
+            </span>
+
+        </div>
+
+
+        <!-- =================================================
+             SIN RESULTADOS
+        ================================================== -->
+
+        <div
+            class="sin-resultados"
+            *ngIf="!buscandoParte && errorBusquedaParte">
+
+            <i class="fa-solid fa-file-circle-xmark"></i>
+
+            <strong>
+                No encontramos ese parte
+            </strong>
+
+            <span>
+                {{ errorBusquedaParte }}
+            </span>
+
+        </div>
+
+
+        <!-- =================================================
+             RESULTADO
+        ================================================== -->
+
+        <div
+            class="resultado-parte-id"
+            *ngIf="!buscandoParte && parteEncontrado">
+
+            <div class="parte-row">
+
+                <div class="parte-id">
+                    <span>ID reporte</span>
+                    <strong>#{{ parteEncontrado.id_parte }}</strong>
+                </div>
+
+                <div class="parte-comunidad">
+                    <span>Comunidad</span>
+                    <strong>{{ parteEncontrado.nom_comunidad }}</strong>
+                </div>
+
+                <div class="parte-fecha">
+                    <span>Fecha</span>
+                    <strong>{{ parteEncontrado.fecha_actual }} · {{ parteEncontrado.hora_automatica }}</strong>
+                </div>
+
+                <div class="parte-motivo" *ngIf="parteEncontrado.motivo_visita">
+                    <span>Motivo de visita</span>
+                    <strong>{{ parteEncontrado.motivo_visita }}</strong>
+                </div>
+
+                <div class="parte-operario" *ngIf="parteEncontrado.operario">
+                    <span>Operario(s)</span>
+                    <strong>{{ parteEncontrado.operario }}</strong>
+                </div>
+
+                <button
+                    type="button"
+                    class="btn-descargar"
+                    [disabled]="!parteEncontrado.pdf_path"
+                    [title]="parteEncontrado.pdf_path ? 'Descargar el PDF del parte' : 'Este parte no tiene un PDF guardado'"
+                    (click)="descargarPDF(parteEncontrado)">
+
+                    <i class="fa-solid fa-file-pdf"></i>
+
+                    <span>
+                        {{ parteEncontrado.pdf_path ? 'Descargar PDF' : 'Sin PDF' }}
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
 
     </div>
 

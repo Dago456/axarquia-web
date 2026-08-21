@@ -27,14 +27,16 @@ export class ReportPdfService {
       });
 
       const fecha =
-          new Date().toLocaleDateString('es-ES');
+          report.fecha
+              ? this.formatearFecha(report.fecha)
+              : new Date().toLocaleDateString('es-ES');
 
       /*
        * HEADER
        */
-      await this.dibujarEncabezado(pdf, fecha);
+      await this.dibujarEncabezado(pdf, fecha, idParte ?? null);
 
-      let y = 40;
+      let y = 43;
 
       /*
        * INFORMACIÓN
@@ -45,16 +47,16 @@ export class ReportPdfService {
           y
       );
 
+      y = this.dibujarOperarios(
+          pdf,
+          report,
+          y
+      );
+
       y = this.dibujarInformacionParte(
           pdf,
           report,
           fecha,
-          y
-      );
-
-      y = this.dibujarOperarios(
-          pdf,
-          report,
           y
       );
 
@@ -147,11 +149,14 @@ export class ReportPdfService {
 
   private async dibujarEncabezado(
       pdf: jsPDF,
-      fecha: string
+      fecha: string,
+      idParte: number | null
   ): Promise<void> {
 
       const ancho =
           pdf.internal.pageSize.getWidth();
+
+      const altoEncabezado = 38;
 
       /*
        * Fondo del encabezado
@@ -165,7 +170,7 @@ export class ReportPdfService {
           0,
           0,
           ancho,
-          32,
+          altoEncabezado,
           'F'
       );
 
@@ -180,13 +185,24 @@ export class ReportPdfService {
                   '/images/logoredondo.png'
               );
 
+          const cajaLogo = 22;
+
+          const escala =
+              Math.min(
+                  cajaLogo / logo.ancho,
+                  cajaLogo / logo.alto
+              );
+
+          const anchoLogo = logo.ancho * escala;
+          const altoLogo = logo.alto * escala;
+
           pdf.addImage(
-              logo,
+              logo.dataUrl,
               'PNG',
-              15,
-              5,
-              22,
-              22
+              15 + (cajaLogo - anchoLogo) / 2,
+              5 + (cajaLogo - altoLogo) / 2,
+              anchoLogo,
+              altoLogo
           );
 
       } catch (error) {
@@ -248,6 +264,12 @@ export class ReportPdfService {
           28
       );
 
+      pdf.text(
+          'Plaza Monseñor Bocanegra 23, Málaga',
+          43,
+          33
+      );
+
       /*
        * Etiqueta del reporte
        */
@@ -262,20 +284,57 @@ export class ReportPdfService {
       pdf.text(
           'PARTE DE TRABAJO',
           ancho - 15,
-          15,
+          12,
           {
               align: 'right'
           }
       );
 
+      pdf.setFont(
+          'helvetica',
+          'bold'
+      );
+
+      pdf.setFontSize(11);
+
       pdf.text(
-          fecha,
+          idParte
+              ? `Nº ${idParte}`
+              : 'Nº pendiente',
           ancho - 15,
-          21,
+          19,
           {
               align: 'right'
           }
       );
+
+      pdf.setFont(
+          'helvetica',
+          'normal'
+      );
+
+      pdf.setFontSize(8);
+
+      pdf.text(
+          fecha,
+          ancho - 15,
+          26,
+          {
+              align: 'right'
+          }
+      );
+  }
+
+  // =========================================================
+  // FECHA
+  // =========================================================
+
+  private formatearFecha(
+      fechaIso: string
+  ): string {
+
+      return new Date(`${fechaIso}T00:00:00`)
+          .toLocaleDateString('es-ES');
   }
 
   // =========================================================
@@ -1182,7 +1241,7 @@ export class ReportPdfService {
 
   private cargarImagen(
       url: string
-  ): Promise<string> {
+  ): Promise<{ dataUrl: string; ancho: number; alto: number }> {
 
       return new Promise(
           (resolve, reject) => {
@@ -1223,11 +1282,64 @@ export class ReportPdfService {
                       0
                   );
 
-                  resolve(
-                      canvas.toDataURL(
-                          'image/png'
-                      )
+                  /*
+                   * La imagen puede traer relleno transparente
+                   * alrededor del logo real (ej. un PNG ancho con
+                   * el círculo centrado). Recortamos ese relleno
+                   * para que el logo se dibuje al tamaño real que
+                   * ocupa, no al tamaño del lienzo completo.
+                   */
+
+                  const recorte =
+                      this.recortarTransparencia(
+                          contexto,
+                          canvas.width,
+                          canvas.height
+                      );
+
+                  if (!recorte) {
+
+                      resolve({
+                          dataUrl: canvas.toDataURL(
+                              'image/png'
+                          ),
+                          ancho: imagen.width,
+                          alto: imagen.height
+                      });
+
+                      return;
+                  }
+
+                  const canvasRecortado =
+                      document.createElement(
+                          'canvas'
+                      );
+
+                  canvasRecortado.width = recorte.ancho;
+                  canvasRecortado.height = recorte.alto;
+
+                  const contextoRecortado =
+                      canvasRecortado.getContext('2d');
+
+                  contextoRecortado?.drawImage(
+                      canvas,
+                      recorte.x,
+                      recorte.y,
+                      recorte.ancho,
+                      recorte.alto,
+                      0,
+                      0,
+                      recorte.ancho,
+                      recorte.alto
                   );
+
+                  resolve({
+                      dataUrl: canvasRecortado.toDataURL(
+                          'image/png'
+                      ),
+                      ancho: recorte.ancho,
+                      alto: recorte.alto
+                  });
               };
 
               imagen.onerror =
@@ -1236,6 +1348,86 @@ export class ReportPdfService {
               imagen.src = url;
           }
       );
+  }
+
+  /*
+   * Busca el rectángulo que realmente ocupa el contenido
+   * no transparente de un canvas. Devuelve null si no hay
+   * relleno transparente que recortar (o si la imagen no
+   * tiene canal alfa aprovechable).
+   */
+  private recortarTransparencia(
+      contexto: CanvasRenderingContext2D,
+      ancho: number,
+      alto: number
+  ): { x: number; y: number; ancho: number; alto: number } | null {
+
+      let datos;
+
+      try {
+
+          datos = contexto.getImageData(
+              0,
+              0,
+              ancho,
+              alto
+          ).data;
+
+      } catch (error) {
+
+          return null;
+      }
+
+      let minX = ancho;
+      let minY = alto;
+      let maxX = -1;
+      let maxY = -1;
+
+      const UMBRAL_ALFA = 10;
+
+      for (let y = 0; y < alto; y++) {
+
+          for (let x = 0; x < ancho; x++) {
+
+              const alfa =
+                  datos[(y * ancho + x) * 4 + 3];
+
+              if (alfa > UMBRAL_ALFA) {
+
+                  if (x < minX) minX = x;
+                  if (x > maxX) maxX = x;
+                  if (y < minY) minY = y;
+                  if (y > maxY) maxY = y;
+
+              }
+
+          }
+
+      }
+
+      if (maxX < minX || maxY < minY) {
+          return null;
+      }
+
+      const anchoRecorte = maxX - minX + 1;
+      const altoRecorte = maxY - minY + 1;
+
+      // Si el contenido ya ocupa (casi) todo el lienzo,
+      // no vale la pena recortar.
+      if (
+          anchoRecorte >= ancho * 0.98 &&
+          altoRecorte >= alto * 0.98
+      ) {
+          return null;
+      }
+
+      return {
+          x: minX,
+          y: minY,
+          ancho: anchoRecorte,
+          alto: altoRecorte
+      };
+
   }
 
   private fileToDataUrl(

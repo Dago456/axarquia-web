@@ -46,6 +46,21 @@
 
 
 /* =========================================================
+   GRID DE BUSCADORES (comunidad + parte por ID)
+========================================================= */
+
+.buscadores-grid {
+    display: grid;
+
+    grid-template-columns: 1.3fr 1fr;
+
+    align-items: start;
+
+    gap: 20px;
+}
+
+
+/* =========================================================
    CARD BUSCADOR
 ========================================================= */
 
@@ -199,6 +214,67 @@
     color: #6b7280;
 
     cursor: pointer;
+}
+
+
+/* =========================================================
+   BUSCADOR POR ID DE PARTE
+========================================================= */
+
+.parte-id-card {
+    margin-top: 0;
+}
+
+
+.btn-buscar-parte-id {
+    width: 100%;
+
+    min-height: 46px;
+
+    margin-top: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #10376a;
+
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+
+.btn-buscar-parte-id:hover:not(:disabled) {
+    background: #0b2d56;
+}
+
+
+.btn-buscar-parte-id:disabled {
+    background: #cbd5e1;
+
+    cursor: not-allowed;
+}
+
+
+.resultado-parte-id {
+    margin-top: 16px;
+}
+
+
+.resultado-parte-id .parte-row {
+    margin-bottom: 0;
 }
 
 
@@ -595,6 +671,8 @@
 ========================================================= */
 
 .modal-header {
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -693,6 +771,8 @@
 ========================================================= */
 
 .modal-community {
+    flex-shrink: 0;
+
     display: grid;
 
     grid-template-columns:
@@ -954,6 +1034,8 @@
 ========================================================= */
 
 .modal-footer {
+    flex-shrink: 0;
+
     display: flex;
     justify-content: flex-end;
 
@@ -993,6 +1075,11 @@
 
     .historial-container {
         padding: 20px 18px 35px;
+    }
+
+
+    .buscadores-grid {
+        grid-template-columns: 1fr;
     }
 
 

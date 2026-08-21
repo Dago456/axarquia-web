@@ -52,6 +52,19 @@ export class HistorialPartesComponent implements OnInit {
 
 
     /* =====================================================
+       BUSCADOR DE PARTE POR ID
+    ====================================================== */
+
+    idParteBusqueda: string | number = '';
+
+    parteEncontrado: any | null = null;
+
+    buscandoParte = false;
+
+    errorBusquedaParte: string | null = null;
+
+
+    /* =====================================================
        MODAL
     ====================================================== */
 
@@ -259,6 +272,76 @@ export class HistorialPartesComponent implements OnInit {
                 }
 
             });
+
+    }
+
+
+    /* =====================================================
+       BUSCAR PARTE POR ID
+    ====================================================== */
+
+    buscarPartePorId(): void {
+
+        const id = String(this.idParteBusqueda ?? '').trim();
+
+        if (!id) {
+            return;
+        }
+
+        this.buscandoParte = true;
+
+        this.parteEncontrado = null;
+
+        this.errorBusquedaParte = null;
+
+
+        const url =
+            `${this.env.ENDPOINT_PRIMARY}/partes/${id}`;
+
+        this.http
+            .get<any>(url)
+            .subscribe({
+
+                next: (parte) => {
+
+                    this.parteEncontrado = parte;
+
+                    this.buscandoParte = false;
+
+                },
+
+                error: (error) => {
+
+                    console.error(
+                        'Error buscando el parte por ID:',
+                        error
+                    );
+
+                    this.errorBusquedaParte =
+                        error?.status === 404
+                            ? `No existe ningún parte con el ID ${id}.`
+                            : 'No fue posible buscar el parte. Intenta de nuevo.';
+
+                    this.buscandoParte = false;
+
+                }
+
+            });
+
+    }
+
+
+    /* =====================================================
+       LIMPIAR BUSQUEDA DE PARTE POR ID
+    ====================================================== */
+
+    limpiarBusquedaParte(): void {
+
+        this.idParteBusqueda = '';
+
+        this.parteEncontrado = null;
+
+        this.errorBusquedaParte = null;
 
     }
 

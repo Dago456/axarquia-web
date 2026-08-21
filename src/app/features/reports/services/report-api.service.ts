@@ -26,9 +26,13 @@ export class ReportApiService {
             hour12: false
         });
 
-        const fechaActual = ahora.toLocaleDateString('es-ES');
+        const fechaActual = report.fecha
+            ? this.formatearFecha(report.fecha)
+            : ahora.toLocaleDateString('es-ES');
 
-        const añoActual = ahora.getFullYear().toString();
+        const añoActual = report.fecha
+            ? report.fecha.slice(0, 4)
+            : ahora.getFullYear().toString();
 
         const datosParte = {
             // idComunidad === 0 es el centinela interno del frontend
@@ -55,6 +59,12 @@ export class ReportApiService {
             `${this.env.ENDPOINT_PRIMARY}/partes`,
             datosParte
         );
+    }
+
+    private formatearFecha(fechaIso: string): string {
+
+        return new Date(`${fechaIso}T00:00:00`)
+            .toLocaleDateString('es-ES');
     }
 
     guardarPdfParte(idParte: number, pdfBase64: string): Observable<any> {

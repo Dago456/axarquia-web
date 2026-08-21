@@ -28,9 +28,13 @@ export class MaterialesComponent {
 
   nuevoMaterial = '';
 
+  private readonly LONGITUD_MAXIMA = 100;
+
   agregarMaterial(): void {
 
-    const material = this.nuevoMaterial.trim();
+    const material = this.nuevoMaterial
+      .trim()
+      .slice(0, this.LONGITUD_MAXIMA);
 
     if (!material) {
       return;

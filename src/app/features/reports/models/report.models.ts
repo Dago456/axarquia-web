@@ -27,6 +27,8 @@ export interface Report {
     conceptoTrabajo: string;
     observaciones: string;
 
+    fecha: string;
+
     horaEntrada: string;
     horaFinalizacion: string;
     duracion: string;

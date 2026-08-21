@@ -20,6 +20,8 @@ export class ReportService {
     conceptoTrabajo: '',
     observaciones: '',
 
+    fecha: this.fechaHoy(),
+
     horaEntrada: '',
     horaFinalizacion: '',
     duracion: '',
@@ -43,6 +45,15 @@ export class ReportService {
   ) { }
 
 
+  private fechaHoy(): string {
+
+    return new Date()
+      .toISOString()
+      .slice(0, 10);
+
+  }
+
+
   getReport(): Report {
     return this.report;
   }
@@ -54,6 +65,7 @@ export class ReportService {
       ...report,
 
       // Compatibilidad con borradores antiguos
+      fecha: report.fecha ?? this.fechaHoy(),
       firma: report.firma ?? null,
       firmaOperario: report.firmaOperario ?? null
     };
@@ -110,6 +122,7 @@ export class ReportService {
       // Importante:
       // permite recuperar firmas de borradores nuevos
       // y evita undefined en borradores antiguos.
+      fecha: borrador.report.fecha ?? this.fechaHoy(),
       firma: borrador.report.firma ?? null,
       firmaOperario: borrador.report.firmaOperario ?? null
     };
@@ -144,6 +157,7 @@ export class ReportService {
     this.report = {
       ...borrador.report,
 
+      fecha: borrador.report.fecha ?? this.fechaHoy(),
       firma: borrador.report.firma ?? null,
       firmaOperario: borrador.report.firmaOperario ?? null
     };
@@ -193,6 +207,8 @@ export class ReportService {
 
       conceptoTrabajo: '',
       observaciones: '',
+
+      fecha: this.fechaHoy(),
 
       horaEntrada: '',
       horaFinalizacion: '',
@@ -254,6 +270,8 @@ export class ReportService {
       conceptoTrabajo: '',
       observaciones: '',
 
+      fecha: this.fechaHoy(),
+
       horaEntrada: '',
       horaFinalizacion: '',
       duracion: '',
@@ -288,6 +306,8 @@ export class ReportService {
 
       conceptoTrabajo: '',
       observaciones: '',
+
+      fecha: this.fechaHoy(),
 
       horaEntrada: '',
       horaFinalizacion: '',

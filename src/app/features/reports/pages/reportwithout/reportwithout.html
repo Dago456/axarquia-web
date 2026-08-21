@@ -56,7 +56,7 @@
 
                 <i class="fa-solid fa-building"></i>
 
-                <input id="nombreComunidad" type="text" placeholder="Ej. Comunidad Residencial El Bosque"
+                <input id="nombreComunidad" type="text" placeholder="Ej. Comunidad Residencial El Bosque" maxlength="255"
                     [(ngModel)]="reportService.report.nombreComunidad" (ngModelChange)="guardarBorrador()">
 
             </div>
@@ -76,7 +76,7 @@
 
                 <i class="fa-solid fa-location-dot"></i>
 
-                <input id="ubicacionComunidad" type="text" placeholder="Ingrese la dirección o ubicación"
+                <input id="ubicacionComunidad" type="text" placeholder="Ingrese la dirección o ubicación" maxlength="255"
                     [(ngModel)]="reportService.report.ubicacionComunidad" (ngModelChange)="guardarBorrador()">
 
             </div>
@@ -96,7 +96,7 @@
 
                 <i class="fa-solid fa-user"></i>
 
-                <input id="contacto" type="text" placeholder="Nombre o información de contacto"
+                <input id="contacto" type="text" placeholder="Nombre o información de contacto" maxlength="255"
                     [(ngModel)]="reportService.report.contacto" (ngModelChange)="guardarBorrador()">
 
             </div>
@@ -148,8 +148,13 @@
             </label>
 
             <textarea id="conceptoTrabajo" rows="4" class="form-control" placeholder="Describa el trabajo realizado..."
+                maxlength="2000"
                 [(ngModel)]="reportService.report.conceptoTrabajo" (ngModelChange)="guardarBorrador()">
             </textarea>
+
+            <span class="char-counter">
+                {{ reportService.report.conceptoTrabajo.length || 0 }}/2000
+            </span>
 
         </div>
 
@@ -161,8 +166,13 @@
             </label>
 
             <textarea id="observaciones" rows="3" class="form-control" placeholder="Observaciones adicionales..."
+                maxlength="2000"
                 [(ngModel)]="reportService.report.observaciones" (ngModelChange)="guardarBorrador()">
             </textarea>
+
+            <span class="char-counter">
+                {{ reportService.report.observaciones.length || 0 }}/2000
+            </span>
 
         </div>
 
@@ -187,6 +197,28 @@
                 <p>
                     La duración se calculará automáticamente.
                 </p>
+            </div>
+
+        </div>
+
+
+        <!-- FECHA DEL PARTE -->
+
+        <div class="hora-field fecha-field">
+
+            <label for="fechaParte">
+                Fecha del parte
+            </label>
+
+            <div class="hora-input-wrapper">
+
+                <div class="hora-icon">
+                    <i class="fa-solid fa-calendar-day"></i>
+                </div>
+
+                <input id="fechaParte" type="date" [(ngModel)]="reportService.report.fecha"
+                    (change)="guardarBorrador()">
+
             </div>
 
         </div>
